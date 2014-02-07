@@ -5,6 +5,8 @@
 #include <QWidget>
 #include "visitorlistview.h"
 #include "visitorchatview.h"
+#include "core.h"
+#include "visitor.h"
 
 namespace Ui {
 class MainTab;
@@ -18,10 +20,15 @@ public:
     explicit MainTab(QWidget *parent = 0);
     ~MainTab();
 
+private slots:
+    VisitorChatView* openChat(QString id, bool activate);
+    void tabCloseRequested(int index);
+    void messageReceived(QXmppMessage);
+
 private:
     Ui::MainTab *ui;
     VisitorListView *visitorListView;
-    QMap<QString, VisitorChatView> *chats;
+    QMap<QString, VisitorChatView*> *chats;
 };
 
 #endif // MAINTAB_H

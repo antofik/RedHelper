@@ -2,6 +2,9 @@
 #define LOGINCONTROL_H
 
 #include <QWidget>
+#include <Qt>
+#include <QtCore>
+#include "QXmppClient.h"
 
 namespace Ui {
 class LoginControl;
@@ -18,6 +21,8 @@ public:
 private slots:
     void login();
     void networkStateChanged();
+    void xmppError(QXmppStanza::Error::Condition error);
+    void socketError(QAbstractSocket::SocketError error);
 
 signals:
     void hideWindow();

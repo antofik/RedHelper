@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,7 +19,11 @@ SOURCES += main.cpp\
     visitorlistview.cpp \
     visitorchatview.cpp \
     logincontrol.cpp \
-    loginwindow.cpp
+    loginwindow.cpp \
+    messageeditor.cpp \
+    visitordetailsview.cpp \
+    cobrowseview.cpp \
+    cobrowseobject.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -27,7 +31,11 @@ HEADERS  += mainwindow.h \
     visitorlistview.h \
     visitorchatview.h \
     logincontrol.h \
-    loginwindow.h
+    loginwindow.h \
+    messageeditor.h \
+    visitordetailsview.h \
+    cobrowseview.h \
+    cobrowseobject.h
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \
@@ -35,7 +43,9 @@ FORMS    += mainwindow.ui \
     visitorlistview.ui \
     visitorchatview.ui \
     logincontrol.ui \
-    loginwindow.ui
+    loginwindow.ui \
+    visitordetailsview.ui \
+    cobrowseview.ui
 
 CONFIG += mobility
 MOBILITY = 
@@ -88,8 +98,8 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Network/libNetwork.a
 RESOURCES += \
     Images.qrc
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/release/ -lqxmpp_d
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/debug/ -lqxmpp_d
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d0
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d0
 else:unix: LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d
 
 INCLUDEPATH += $$PWD/../qxmpp/src

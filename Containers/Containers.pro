@@ -10,9 +10,11 @@ TARGET = Containers
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += containers.cpp
+SOURCES += containers.cpp \
+    visitor.cpp
 
-HEADERS += containers.h
+HEADERS += containers.h \
+    visitor.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

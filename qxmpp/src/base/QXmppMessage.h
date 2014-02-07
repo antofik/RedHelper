@@ -70,6 +70,11 @@ public:
     QString body() const;
     void setBody(const QString&);
 
+    QStringList attributeNames() const;
+
+    QString attribute(const QString &name) const;
+    void setAttribute(const QString &name, const QString &value);
+
     bool isAttentionRequested() const;
     void setAttentionRequested(bool requested);
 

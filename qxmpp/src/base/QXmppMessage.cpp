@@ -68,6 +68,8 @@ public:
     QString subject;
     QString thread;
 
+    QMap<QString, QString> attributes;
+
     // XEP-0071: XHTML-IM
     QString xhtml;
 
@@ -356,6 +358,12 @@ void QXmppMessage::parse(const QDomElement &element)
         }
     }
 
+    for(int i=0;i<element.attributes().count();i++)
+    {
+        QDomNode node = element.attributes().item(i);
+        d->attributes[node.nodeName()] = node.nodeValue();
+    }
+
     d->body = element.firstChildElement("body").text();
     d->subject = element.firstChildElement("subject").text();
     d->thread = element.firstChildElement("thread").text();
@@ -437,6 +445,24 @@ void QXmppMessage::parse(const QDomElement &element)
     setExtensions(extensions);
 }
 
+QStringList QXmppMessage::attributeNames() const
+{
+    return d->attributes.keys();
+}
+
+QString QXmppMessage::attribute(const QString &name) const
+{
+    if (d->attributes.contains(name))
+        return d->attributes.value(name);
+    return "";
+}
+
+void QXmppMessage::setAttribute(const QString &name, const QString &value)
+{
+    d->attributes.insert(name, value);
+}
+
+
 void QXmppMessage::toXml(QXmlStreamWriter *xmlWriter) const
 {
     xmlWriter->writeStartElement("message");
@@ -444,13 +470,28 @@ void QXmppMessage::toXml(QXmlStreamWriter *xmlWriter) const
     helperToXmlAddAttribute(xmlWriter, "id", id());
     helperToXmlAddAttribute(xmlWriter, "to", to());
     helperToXmlAddAttribute(xmlWriter, "from", from());
-    helperToXmlAddAttribute(xmlWriter, "type", message_types[d->type]);
+
+    if (!d->attributes.contains("type"))
+        helperToXmlAddAttribute(xmlWriter, "type", message_types[d->type]);
+
+    foreach (const QString &attr, d->attributes.keys())
+        if (attr != "xmlns")
+            helperToXmlAddAttribute(xmlWriter, attr, d->attributes.value(attr));
+
     if (!d->subject.isEmpty())
         helperToXmlAddTextElement(xmlWriter, "subject", d->subject);
     if (!d->body.isEmpty())
-        helperToXmlAddTextElement(xmlWriter, "body", d->body);
+    {
+        xmlWriter->writeStartElement("body");
+        xmlWriter->writeAttribute("mid", id());
+        xmlWriter->writeCharacters("");
+        xmlWriter->device()->write(d->body.toUtf8());
+        xmlWriter->writeEndElement();
+        //helperToXmlAddTextElement(xmlWriter, "body", d->body);
+    }
     if (!d->thread.isEmpty())
         helperToXmlAddTextElement(xmlWriter, "thread", d->thread);
+
     error().toXml(xmlWriter);
 
     // chat states
