@@ -13,6 +13,7 @@ CobrowseObject::CobrowseObject(Visitor *parent) : QObject(0)
 
 void CobrowseObject::sendMessage(QString type, QString body, QString store)
 {
+    return;
     QXmppMessage message;
     message.setId(QUuid::createUuid().toString().replace("{","").replace("}",""));
     message.setTo(_visitor->Jid);

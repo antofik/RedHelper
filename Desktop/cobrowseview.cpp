@@ -26,8 +26,6 @@ void CobrowseView::setVisitor(Visitor *visitor)
 {
     _visitor = visitor;
 
-    rhDesktop = new CobrowseObject(visitor);
-
     if (!_visitor->CurrentUrl.isNull() && _visitor->CurrentUrl.startsWith("https"))
     {
         ui->web->setUrl(safe_url);
@@ -40,8 +38,12 @@ void CobrowseView::setVisitor(Visitor *visitor)
 void CobrowseView::loadFinished(bool ok)
 {
     if (!ok) return;
+    if (rhDesktop) return;
+
+    rhDesktop = new CobrowseObject(_visitor);
 
     ui->web->page()->mainFrame()->addToJavaScriptWindowObject("rhDesktop", rhDesktop);
+
     execute("rhDesktop.WTF = 'Qt';");
     execute("rhDesktop.vid = '" + _visitor->vid() + "';");
     execute("rhDesktop.language = 'en';");
