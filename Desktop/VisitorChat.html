@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<head>
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='baron.js'></script>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css" media="all" />
+    <script type='text/javascript' src='chat.js'></script>
+
+    <script type='text/javascript'>
+        $(function(){
+            //$('.scroller').baron();
+        });
+    </script>
+
+</head>
+<body>
+    <div class='debug-panel'>
+        <span class='title'>Debug panel</span>
+        <input type='button' onclick='javascript:core.test()' value='add message' />
+    </div>
+
+    <div class='templates' style='display:none'>
+        <div id='message_block_template'>
+            <div class="msgBlock from{{source}}"> <!-- fromOperator/fromVisitor -->
+                <div class="msgHeader from{{source}}">
+                    <span class="sender">{{sender}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div id='message_template'>
+            <div class="msg" id="{{message_id}}">
+                <span class="time">{{time}}</span>
+                <div class="textWrapper">
+                    <div class="text">{{message}}</div>
+                </div>
+            </div>
+       </div>
+    </div>
+
+    <div class='chat-container'>
+        <div id='chat' class='chat'>
+        </div>
+    </div>
+</body>
+</html>

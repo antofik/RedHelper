@@ -11,7 +11,7 @@ VisitorChatView::VisitorChatView(Visitor *visitor) : QWidget(0), ui(new Ui::Visi
     model = new QStandardItemModel();
     proxy = new QSortFilterProxyModel();
     proxy->setSourceModel(model);
-    ui->list->setModel(proxy);
+    //ui->list->setModel(proxy);
 
     connect(ui->cmdSend, SIGNAL(pressed()), SLOT(sendMessage()));
     connect(ui->txtMessage, SIGNAL(sendMessage()), SLOT(sendMessage()));
@@ -44,7 +44,7 @@ void VisitorChatView::messageReceived(QXmppMessage message)
     {
         QStandardItem *item = new QStandardItem(message.body());
         model->appendRow(item);
-        ui->list->scrollToBottom();
+       //undone ui->list->scrollToBottom();
     }
     //ui->list->setIndexWidget(item->index(), new QPushButton("test button"));
 }
@@ -55,7 +55,7 @@ void VisitorChatView::sendMessage()
     ui->txtMessage->clear();
     QStandardItem *item = new QStandardItem(text);
     model->appendRow(item);
-    ui->list->scrollToBottom();
+    //undoneui->list->scrollToBottom();
 
     Core::network()->client->sendMessage(_visitor->Jid, text);
 }

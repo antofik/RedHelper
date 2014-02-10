@@ -118,7 +118,7 @@ void Network::sendIqInit()
 void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
 {
    // if (message.startsWith("<message"))
-    if (!message.contains("visitordiff"))
+    if (!message.contains("visitorlistdiff"))
         qDebug() << message;
 }
 

@@ -5,17 +5,19 @@
 #include "core.h"
 #include "QXmppStanza.h"
 #include "QXmppElement.h"
+#include "visitor.h"
 
-CobrowseObject::CobrowseObject(Visitor *parent) : QObject(0)
+CobrowseObject::CobrowseObject(Visitor *visitor) : QObject(0)
 {
-    _visitor = parent;
+    _visitor = visitor;
 }
 
 void CobrowseObject::sendMessage(QString type, QString body, QString store)
 {
-    return;
     QXmppMessage message;
     message.setId(QUuid::createUuid().toString().replace("{","").replace("}",""));
+    Visitor* v = _visitor;
+    QString s = _visitor->Jid;
     message.setTo(_visitor->Jid);
     message.setBody(body);
     message.setAttribute("content", type.toLower());

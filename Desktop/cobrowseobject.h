@@ -9,7 +9,7 @@ class CobrowseObject : public QObject
 {
     Q_OBJECT
 public:
-    CobrowseObject(Visitor *parent);
+    CobrowseObject(Visitor *visitor);
     Q_INVOKABLE void sendMessage(QString type, QString body, QString store);
     Q_INVOKABLE void pushInformation(QString message);
     Q_INVOKABLE void confirmRedirect();

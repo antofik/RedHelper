@@ -11,6 +11,7 @@ CobrowseView::CobrowseView(QWidget *parent) :
     ui(new Ui::CobrowseView)
 {
     ui->setupUi(this);
+    rhDesktop = 0;
     ui->web->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
     ui->web->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
 
@@ -25,7 +26,6 @@ CobrowseView::~CobrowseView()
 void CobrowseView::setVisitor(Visitor *visitor)
 {
     _visitor = visitor;
-
     if (!_visitor->CurrentUrl.isNull() && _visitor->CurrentUrl.startsWith("https"))
     {
         ui->web->setUrl(safe_url);
@@ -38,10 +38,9 @@ void CobrowseView::setVisitor(Visitor *visitor)
 void CobrowseView::loadFinished(bool ok)
 {
     if (!ok) return;
-    if (rhDesktop) return;
+    if (rhDesktop != 0) return;
 
     rhDesktop = new CobrowseObject(_visitor);
-
     ui->web->page()->mainFrame()->addToJavaScriptWindowObject("rhDesktop", rhDesktop);
 
     execute("rhDesktop.WTF = 'Qt';");
@@ -64,7 +63,7 @@ QVariant CobrowseView::execute(QString script)
 void CobrowseView::cobrowseReceived(QXmppMessage message)
 {
     QByteArray base64data;
-    base64data.append(message.body());
+    base64data.append(message.body().toUtf8());
     //base64data.append(message.body());
     execute("rhDesktop.messageReceived('" + base64data.toBase64() + "')");
 }

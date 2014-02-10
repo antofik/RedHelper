@@ -27,6 +27,9 @@
 
 #include <QString>
 
+#define QXMPP_STATIC
+#define QXMPP_EXPORT
+
 #if defined(QXMPP_STATIC)
 #  define QXMPP_EXPORT
 #else
@@ -36,6 +39,10 @@
 #    define QXMPP_EXPORT Q_DECL_IMPORT
 #  endif
 #endif
+
+#define QXMPP_STATIC
+#define QXMPP_EXPORT
+
 
 #if defined(QXMPP_AUTOTEST_INTERNAL)
 #    define QXMPP_AUTOTEST_EXPORT QXMPP_EXPORT

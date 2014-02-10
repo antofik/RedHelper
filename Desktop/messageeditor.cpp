@@ -6,8 +6,7 @@ MessageEditor::MessageEditor(QWidget *parent) : QPlainTextEdit(parent)
 
 QSize MessageEditor::sizeHint() const
 {
-    QSize size;
-    size.setHeight(80);
+    QSize size(-1,40);
     return size;
 }
 

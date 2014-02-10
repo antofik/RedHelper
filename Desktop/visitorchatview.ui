@@ -23,17 +23,9 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QListView" name="list">
-       <property name="verticalScrollMode">
-        <enum>QAbstractItemView::ScrollPerPixel</enum>
-       </property>
-       <property name="horizontalScrollMode">
-        <enum>QAbstractItemView::ScrollPerPixel</enum>
-       </property>
-      </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="1">
+        <item row="1" column="1">
          <widget class="QPushButton" name="cmdSend">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -55,7 +47,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
+        <item row="1" column="0">
          <widget class="MessageEditor" name="txtMessage">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -85,6 +77,9 @@
            <number>10</number>
           </property>
          </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="ChatControl" name="widget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -137,10 +132,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>widget312</zorder>
-  <zorder>splitter_2</zorder>
-  <zorder>txtMessage</zorder>
-  <zorder>list</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -158,6 +149,12 @@
    <class>VisitorDetailsView</class>
    <extends>QWidget</extends>
    <header>visitordetailsview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ChatControl</class>
+   <extends>QWidget</extends>
+   <header>chatcontrol.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
