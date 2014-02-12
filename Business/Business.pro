@@ -9,7 +9,7 @@ QT -= gui
 
 TARGET = Business
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib c++11
 
 SOURCES += business.cpp \
     core.cpp \

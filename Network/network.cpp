@@ -12,6 +12,7 @@ Network::Network(QObject *parent) :
     this->port = 443;
     this->User = "antofik";
     this->Password = "@test";
+    this->MyJid = this->User + "@xmpp.redhelper.ru";
 
     //XMPP client
     client = new QXmppClient();
@@ -32,7 +33,7 @@ void Network::Login()
     config.setHost(this->Host);
     config.setUser(this->User);
     config.setPassword(this->Password);
-    config.setResource("Qt");
+    config.setResource("RedHelper");
     client->connectToServer(config);
 }
 
@@ -86,12 +87,18 @@ void Network::xmppIqReceived(QXmppIq iq)
             if (ns == "consultant:visitorlistdiff")
             {
                 QXmppElement *e = new QXmppElement(element);
-                emit visitorListReceived(e);
+                emit visitorListReceived(e);                
             }
             else if (ns == "consultant:init")
             {
-                QXmppElement *e = new QXmppElement(element);
+                QXmppElement *e = new QXmppElement(element);               
                 //todo
+                this->MyName = "todo";
+            }
+            else if (ns == "consultant:history")
+            {
+                QXmppIq *e = new QXmppIq(iq);
+                emit historyLoaded(iq.id(), parser.parse(e));
             }
         }
     }
@@ -117,17 +124,51 @@ void Network::sendIqInit()
 
 void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
 {
-   // if (message.startsWith("<message"))
+   // return;
+    if (message.startsWith("<message"))
     if (!message.contains("visitorlistdiff"))
         qDebug() << message;
 }
 
 void Network::xmppMessageReceived(const QXmppMessage &message)
 {
-    emit messageReceived(message);
+    auto notification = this->parser.MessageToNotification(message);
+    if (auto item = dynamic_cast<TextNotification*>(notification))
+    {
+        emit messageReceived(item);
+    }
+    else if (auto item = dynamic_cast<TypingNotification*>(notification))
+    {
+        emit typingReceived(item);
+    }
+    else if (auto item = dynamic_cast<MouseNotification*>(notification))
+    {
+        emit mouseReceived(item);
+    }
+    else if (auto item = dynamic_cast<CobrowseNotification*>(notification))
+    {
+        emit cobrowseReceived(item);
+    }
+    else
+    {
+        //todo
+        qDebug() << "unknown message";
+    }
 }
+
 
 void Network::xmppPresenceReceived(QXmppPresence presence)
 {
     emit PresenceReceived(presence);
+}
+
+void Network::loadHistory(QString visitorId){
+    QXmppIq iq;
+    QXmppElement query;
+    query.setTagName("query");
+    query.setAttribute("xmlns", "consultant:history");
+    query.setAttribute("jid", visitorId);    
+    iq.setExtensions(QXmppElementList() << query);
+    iq.setId(visitorId);
+    client->sendPacket(iq);
 }

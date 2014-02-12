@@ -24,11 +24,12 @@ public:
 
 private slots:
     void loadFinished(bool ok);
+    void javaScriptWindowObjectCleared();
 
 private:
     Ui::CobrowseView *ui;
-    Visitor *_visitor;
-    CobrowseObject *rhDesktop;
+    Visitor *_visitor = 0;
+    CobrowseObject *rhDesktop = 0;
 
     QVariant execute(QString script);
 };

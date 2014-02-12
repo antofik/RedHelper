@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "QXmppClient.h"
+#include "containers.h"
+#include "notificationparser.h"
 
 class Network : public QObject
 {
@@ -17,11 +19,16 @@ public:
     bool isConnected();
     bool isConnecting();
     void sendIqInit();
+    void loadHistory(QString visitorId);
 
     QString User;
     QString Password;
     QString Host;
+    QString MyJid;
+    QString MyName;
     int port;
+
+    NotificationParser parser;
 
 signals:
     void StateChanged();
@@ -30,10 +37,16 @@ signals:
     void StartWorkers();
 
     void iqReceived(QXmppIq iq);
-    void messageReceived(const QXmppMessage &message);
+
+    void messageReceived(TextNotification *message);
+    void typingReceived(TypingNotification *message);
+    void mouseReceived(MouseNotification *message);
+    void cobrowseReceived(CobrowseNotification *message);
+
     void PresenceReceived(QXmppPresence presence);
 
     void visitorListReceived(QXmppElement *);
+    void historyLoaded(QString visitorId, QVector<BaseNotification*>* notifications);
 
 private slots:
     void xmppStateChanged(QXmppClient::State state);

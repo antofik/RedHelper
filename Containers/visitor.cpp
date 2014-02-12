@@ -43,7 +43,7 @@ void Visitor::copyFrom(Visitor *v)
 QString Visitor::DisplayName()
 {
     //if (!CustomName.isEmpty()) return CustomName;
-    return Id;
+    return "Visitor #" + Id;
 }
 
 QString Visitor::vid()

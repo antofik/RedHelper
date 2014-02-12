@@ -13,6 +13,12 @@ body{
     margin: 4px;
 }
 
+.typing{
+    margin: 0 4px;
+    font-size: 12px;
+    color: #888;
+}
+
 .debug-panel{
     position: fixed;
     top: 0px;
@@ -55,15 +61,16 @@ body{
 .msgBlock .msgHeader{
     margin: 0.833em 0 0.417em 0;
     font-size: 12px;
+    font-weight: bold;
     padding: 2px 0px 2px 4px;
 }
 
-.msgBlock .msgHeader.fromVisitor{
+.msgBlock.fromVisitor .msgHeader{
     background: #f0f5f9;
     color: #579;
 }
 
-.msgBlock .msgHeader.fromOperator{
+.msgBlock.fromOperator .msgHeader{
     background: #f9f5f0;
     color: #5a5;
 }
@@ -77,18 +84,42 @@ body{
 .msgBlock .msg .time{
     -webkit-user-select: none;
     color: #aaa;
-    font-size: 0.917em;
+    font-size: 11px;
     float: right;
     margin: 0.417em 0.25em 0 -8.33em;
 }
 
 .msgBlock .msg .textWrapper{
-    margin: 0px 36px 0px 0px;
+    margin: 0px 40px 0px 4px;
 }
 
 .msgBlock .msg .textWrapper .text{
+    font-size: 14px;
 }
 
+.typing .one {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.0s;
+}
+
+.typing .two {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.2s;
+}
+
+.typing .three {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.3s;
+}
+
+@-webkit-keyframes dot {
+      0% { opacity: 0; }
+     50% { opacity: 0; }
+    100% { opacity: 1; }
+}
 
 
 

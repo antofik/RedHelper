@@ -1,13 +1,27 @@
 function Core()
 {
-    function initialize()
+    Core.prototype.initialize = function()
     {
-        alert(rhChat);
+        rhChat.addTextMessage.connect(addTextMessage);
+        rhChat.addInfoMessage.connect(addInfoMessage);
+        rhChat.addTypingMessage.connect(addTypingMessage);
     }
 
-    function initTemplates()
+    function addTextMessage(source, sender, message_id, time, text)
     {
+        core.addMessage(source, sender, message_id, time, text);
+    }
 
+    function addInfoMessage(time, text)
+    {
+        console.log("adding information " + text);
+    }
+
+    function addTypingMessage(text)
+    {
+        $('#typing .text').html(text);
+        $('#typing').show();
+        $(window).scrollTop($(document).height());
     }
 
     Core.prototype.useTemplate = function(template_name, vars)
@@ -24,12 +38,8 @@ function Core()
     Core.prototype.getBlock = function(source, sender, time)
     {
         var block = $('#chat .msgBlock:last');
-        console.log(source);
         if (block.length>0 && block.hasClass('from'+source))
-        {
-            console.log('found');
             return block;
-        }
         template = this.useTemplate('message_block_template', {source:source, sender: sender});
         $('#chat').append(template);
         return $('#chat .msgBlock:last');
@@ -37,9 +47,12 @@ function Core()
 
     Core.prototype.addMessage = function(source, sender, message_id, time, text)
     {
+        $('#typing').hide();
         block = this.getBlock(source, sender, time)
         template = this.useTemplate('message_template', {message_id:message_id, time:time, message:text});
         block.append(template);
+
+        $(window).scrollTop($(document).height());
     }
 
     Core.prototype.test = function(){

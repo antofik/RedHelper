@@ -14,13 +14,14 @@ MainTab::MainTab(QWidget *parent) :
     ui->tab->addTab(visitorListView, tr("Visitors"));
 
     //hide close button of visitor list view
-    QWidget *button = ui->tab->tabBar()->tabButton(0, QTabBar::RightSide);
+    auto button = ui->tab->tabBar()->tabButton(0, QTabBar::RightSide);
     if (!button) button = ui->tab->tabBar()->tabButton(0, QTabBar::LeftSide);
     if (button) button->hide();
 
     connect(Core::ui(), SIGNAL(openChat(QString,bool)), SLOT(openChat(QString,bool)));
     connect(ui->tab, SIGNAL(tabCloseRequested(int)), SLOT(tabCloseRequested(int)));
-    connect(Core::network(), SIGNAL(messageReceived(QXmppMessage)), SLOT(messageReceived(QXmppMessage)));
+    connect(Core::network(), SIGNAL(messageReceived(TextNotification*)), SLOT(messageReceived(TextNotification*)));
+    connect(Core::network(), SIGNAL(typingReceived(TypingNotification*)), SLOT(typingReceived(TypingNotification*)));
 }
 
 MainTab::~MainTab()
@@ -32,8 +33,8 @@ VisitorChatView* MainTab::openChat(QString id, bool activate)
 {
     if (!chats->contains(id))
     {
-        Visitor *visitor = Core::visitors()->visitorById(id);
-        VisitorChatView *chat = new VisitorChatView(visitor);
+        auto visitor = Core::visitors()->visitorById(id);
+        auto chat = new VisitorChatView(visitor);
         int index = ui->tab->addTab(chat, visitor->DisplayName());
         chats->insert(id, chat);
         if (activate) ui->tab->setCurrentIndex(index);
@@ -41,7 +42,7 @@ VisitorChatView* MainTab::openChat(QString id, bool activate)
     }
     else
     {
-        VisitorChatView *chat = chats->operator [](id);
+        auto chat = chats->operator [](id);
         if (activate)
             ui->tab->setCurrentWidget(chat);
         return chat;
@@ -50,25 +51,25 @@ VisitorChatView* MainTab::openChat(QString id, bool activate)
 
 void MainTab::tabCloseRequested(int index)
 {
-    QWidget* tab = ui->tab->widget(index);
-    VisitorChatView *chat = reinterpret_cast<VisitorChatView*>(tab);
+    auto tab = ui->tab->widget(index);
+    auto chat = reinterpret_cast<VisitorChatView*>(tab);
     chats->remove(chat->visitor()->Id);
     ui->tab->removeTab(index);
     delete tab;
 }
 
-void MainTab::messageReceived(QXmppMessage message)
+void MainTab::messageReceived(TextNotification *message)
 {
-    QString from = message.from();
-    QString to = message.to();
-    if (to.indexOf("@") != to.lastIndexOf("@") && !message.attribute("jid").isEmpty())
-    {
-        from = message.attribute("jid");
-    }
-    if (from.contains("@visitor"))
-    {
-        QString vid = from.left(from.indexOf("@"));
-        VisitorChatView* chat = openChat(vid, false);
-        chat->messageReceived(message);
-    }
+    openChatByNotification(message);
+}
+
+void MainTab::typingReceived(TypingNotification *message)
+{
+    openChatByNotification(message);
+}
+
+void MainTab::openChatByNotification(BaseNotification* message)
+{
+    if (message->IsOperatorToOperator) return;
+    openChat(message->VisitorId, false);
 }

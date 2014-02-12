@@ -8,13 +8,23 @@ QT       -= gui
 
 TARGET = Containers
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib c++11
 
-SOURCES += containers.cpp \
-    visitor.cpp
+SOURCES += \
+    visitor.cpp \
+    basenotification.cpp \
+    textnotification.cpp \
+    typingnotification.cpp \
+    mousenotification.cpp \
+    cobrowsenotification.cpp
 
 HEADERS += containers.h \
-    visitor.h
+    visitor.h \
+    basenotification.h \
+    textnotification.h \
+    typingnotification.h \
+    mousenotification.h \
+    cobrowsenotification.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

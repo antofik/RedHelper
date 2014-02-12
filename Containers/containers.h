@@ -1,12 +1,7 @@
-#ifndef CONTAINERS_H
-#define CONTAINERS_H
+#include "basenotification.h"
+#include "textnotification.h"
+#include "typingnotification.h"
+#include "mousenotification.h"
+#include "cobrowsenotification.h"
 
-
-class Containers
-{
-
-public:
-    Containers();
-};
-
-#endif // CONTAINERS_H
+#include "visitor.h"

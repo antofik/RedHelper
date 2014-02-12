@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">
+
 <head>
-<script type='text/javascript' src='jquery.js'></script>
-<script type='text/javascript' src='baron.js'></script>
+    <script type='text/javascript' src='jquery.js'></script>
     <link rel="stylesheet" type="text/css" href="stylesheet.css" media="all" />
     <script type='text/javascript' src='chat.js'></script>
-
-    <script type='text/javascript'>
-        $(function(){
-            //$('.scroller').baron();
-        });
-    </script>
-
 </head>
+
 <body>
-    <div class='debug-panel'>
+    <!--<div class='debug-panel'>
         <span class='title'>Debug panel</span>
         <input type='button' onclick='javascript:core.test()' value='add message' />
-    </div>
+    </div>-->
+
+<!-- ********************************* TEMPLATES ********************************* -->
 
     <div class='templates' style='display:none'>
         <div id='message_block_template'>
             <div class="msgBlock from{{source}}"> <!-- fromOperator/fromVisitor -->
-                <div class="msgHeader from{{source}}">
+                <div class="msgHeader">
                     <span class="sender">{{sender}}</span>
                 </div>
             </div>
@@ -39,8 +35,13 @@
        </div>
     </div>
 
+<!-- ********************************* CHAT *************************************** -->
+
     <div class='chat-container'>
         <div id='chat' class='chat'>
+        </div>
+        <div id='typing' class='typing'>
+            <span class='text'></span><span id='dots'><span class="one">.</span><span class="two">.</span><span class="three">.</span></span>
         </div>
     </div>
 </body>

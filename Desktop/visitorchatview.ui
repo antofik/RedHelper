@@ -79,7 +79,7 @@
          </widget>
         </item>
         <item row="0" column="0" colspan="2">
-         <widget class="ChatControl" name="widget" native="true"/>
+         <widget class="ChatControl" name="chat" native="true"/>
         </item>
        </layout>
       </widget>

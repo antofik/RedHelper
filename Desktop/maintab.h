@@ -23,7 +23,10 @@ public:
 private slots:
     VisitorChatView* openChat(QString id, bool activate);
     void tabCloseRequested(int index);
-    void messageReceived(QXmppMessage);
+
+    void messageReceived(TextNotification *message);
+    void typingReceived(TypingNotification *message);
+    void openChatByNotification(BaseNotification *message);
 
 private:
     Ui::MainTab *ui;

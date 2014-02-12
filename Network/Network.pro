@@ -10,11 +10,13 @@ QT       -= gui
 
 TARGET = Network
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib c++11
 
-SOURCES += network.cpp
+SOURCES += network.cpp \
+    notificationparser.cpp
 
-HEADERS += network.h
+HEADERS += network.h \
+    notificationparser.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

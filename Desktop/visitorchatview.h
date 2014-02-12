@@ -10,6 +10,7 @@
 #include <QStandardItem>
 #include <QSortFilterProxyModel>
 #include "QXmppMessage.h"
+#include "containers.h"
 
 namespace Ui {
 class VisitorChatView;
@@ -23,7 +24,7 @@ public:
     explicit VisitorChatView(Visitor *visitor);
     ~VisitorChatView();
     Visitor* visitor();
-    void messageReceived(QXmppMessage message);
+    //void messageReceived(QXmppMessage message);
 
 private slots:
     void sendMessage();
@@ -32,8 +33,8 @@ private slots:
 private:
     Ui::VisitorChatView *ui;
     Visitor *_visitor;
-    QStandardItemModel *model;
-    QSortFilterProxyModel *proxy;
+
+    void prepare(BaseNotification *notification);
 };
 
 #endif // VISITORCHATVIEW_H
