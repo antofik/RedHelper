@@ -14,7 +14,7 @@ VisitorListView::VisitorListView(QWidget *parent) :
     model = new QStandardItemModel();
     QStringList header;
 
-    QString headerLabels = "Id;Name;Visits;Viewed pages;Time on site;city;Os;Browser;Ip;Current operator;Current url";
+    QString headerLabels = "Id;Name;Visits;Pages;Time on site;Сity;Os;Browser;Ip;Current operator;Current url";
     QStringList rawHeader = headerLabels.split(";");
     for (int i=0;i<rawHeader.count();i++)
     {
@@ -76,16 +76,33 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
 void VisitorListView::DisplayVisitor(Visitor *v, QList<QStandardItem*> items)
 {
     items.at(0)->setText(v->Id);
+
     items.at(1)->setText(v->DisplayName());
+    items.at(1)->setIcon(QIcon(":/Images/Visitors/cobrowse_icon.png"));
+
     items.at(2)->setText(v->Visits);
+    items.at(2)->setIcon(QIcon(":/Images/Visitors/pages.png"));
+
     items.at(3)->setText(v->ViewedPages);
+    items.at(3)->setIcon(QIcon(":/Images/Visitors/view.png"));
+
     items.at(4)->setText(v->TimeOnSite);
+    items.at(4)->setIcon(QIcon(":/Images/Visitors/time.png"));
+
     items.at(5)->setText(v->Country_ru);
+    items.at(5)->setIcon(QIcon(":/Images/Countries/" + v->CountryCode.toLower() + ".png"));
+
     items.at(6)->setText(v->Os);
+    items.at(6)->setIcon(QIcon(":/Images/Os/" + v->OsIcon().trimmed() + ".png"));
+
     items.at(7)->setText(v->BrowserName);
+    items.at(7)->setIcon(QIcon(":/Images/Browsers/" + v->BrowserIcon() + ".png"));
+
     items.at(8)->setText(v->Ip);
     items.at(9)->setText(v->CurrentOperator);
-    items.at(10)->setText(v->CurrentUrl);
+    items.at(10)->setText("<a href='" + v->CurrentUrl + "'>" + v->CurrentUrl + "</a>");
+    //ui->list->setItemDelegateForColumn(10, urlDelegate);
+
 }
 
 void VisitorListView::doubleClicked(QModelIndex index)

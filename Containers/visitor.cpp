@@ -40,16 +40,42 @@ void Visitor::copyFrom(Visitor *v)
     emit modified();
 }
 
-QString Visitor::DisplayName()
+QString Visitor::DisplayName(bool appendVisitor)
 {
     //if (!CustomName.isEmpty()) return CustomName;
-    return "Visitor #" + Id;
+    return appendVisitor ? "Visitor #" + Id : Id;
 }
 
 QString Visitor::vid()
 {
-    if (_vid.isNull() || _vid.isEmpty())    {
+    if (_vid.isNull() || _vid.isEmpty())
+    {
         _vid = Jid.left(Jid.indexOf("@"));
     }
     return _vid;
+}
+
+QString Visitor::OsIcon()
+{    
+    if (Os=="windows") return "xp";
+    if (Os=="windows xp") return "xp";
+    if (Os=="windows 7") return "win7";
+    if (Os=="windows 8") return "win7";
+    if (Os=="linux") return "linux";
+    if (Os=="mac") return "mac";
+    if (Os=="iOS") return "mac";
+    if (Os=="ios") return "mac";
+    if (Os=="android") return "android";
+    return Os;
+}
+
+QString Visitor::BrowserIcon()
+{
+    if (BrowserName.contains("explorer",Qt::CaseInsensitive)) return "ie";
+    if (BrowserName.contains("chrome",Qt::CaseInsensitive)) return "chrome";
+    if (BrowserName.contains("firefox",Qt::CaseInsensitive)) return "firefox";
+    if (BrowserName.contains("safari",Qt::CaseInsensitive)) return "safari";
+    if (BrowserName.contains("android",Qt::CaseInsensitive)) return "android";
+    if (BrowserName.contains("opera",Qt::CaseInsensitive)) return "opera";
+    return BrowserName;
 }

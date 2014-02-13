@@ -43,9 +43,11 @@ public:
     QString Visits;
 
     //Calculated properties
-    QString DisplayName();
+    QString DisplayName(bool appendVisitor=false);
     QString CountryFlag();
     QString vid();
+    QString OsIcon();
+    QString BrowserIcon();
 
 signals:
     void modified();    

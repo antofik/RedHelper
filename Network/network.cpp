@@ -10,8 +10,8 @@ Network::Network(QObject *parent) :
     //default login parameters
     this->Host = "xmpp.redhelper.ru";
     this->port = 443;
-    this->User = "antofik";
-    this->Password = "@test";
+    this->User = "antofik1985";
+    this->Password = "qweasd";
     this->MyJid = this->User + "@xmpp.redhelper.ru";
 
     //XMPP client

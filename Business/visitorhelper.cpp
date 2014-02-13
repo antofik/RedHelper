@@ -26,7 +26,6 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
     //remove offline visitors
     for (int i=0;i<deleted.count();i++)
     {
-        qDebug() << "deleting visitor";
         _visitors.remove(deleted.at(i));
     }
 
@@ -36,7 +35,6 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
         Visitor *v = visitors->at(i);
         if (_visitors.contains(v->Id))
         {
-            qDebug() << "updating visitor " << v->Id;
             Visitor *old = _visitors[v->Id];
             old->copyFrom(v);
             modified.append(v->Id);
@@ -44,7 +42,6 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
         }
         else
         {
-            qDebug() << "adding new visitor " << v->Id;
             added->append(v);
             _visitors[v->Id] = v;
         }
@@ -56,5 +53,12 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
 
 Visitor* VisitorHelper::visitorById(const QString id)
 {
+    if (!_visitors.contains(id))
+    {
+        qDebug() << "Dynamic visitor created!";
+        Visitor *v = new Visitor();
+        v->Id = id;
+        _visitors[id] = v;
+    }
     return _visitors[id];
 }

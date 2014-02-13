@@ -26,7 +26,10 @@ SOURCES += main.cpp\
     cobrowseobject.cpp \
     chatcontrol.cpp \
     web.cpp \
-    chatobject.cpp
+    chatobject.cpp \
+    tabbar.cpp \
+    scrollarea.cpp \
+    tabbutton.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -41,7 +44,10 @@ HEADERS  += mainwindow.h \
     cobrowseobject.h \
     chatcontrol.h \
     web.h \
-    chatobject.h
+    chatobject.h \
+    tabbar.h \
+    scrollarea.h \
+    tabbutton.h
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \
@@ -52,7 +58,9 @@ FORMS    += mainwindow.ui \
     loginwindow.ui \
     visitordetailsview.ui \
     cobrowseview.ui \
-    chatcontrol.ui
+    chatcontrol.ui \
+    tabbar.ui \
+    tabbutton.ui
 
 CONFIG += mobility c++11
 MOBILITY = 
@@ -148,5 +156,3 @@ EXTRA_BINFILES += \
 for(FILE,EXTRA_BINFILES){
     $$out($$FILE)
 }
-
-message($$QMAKE_POST_LINK)

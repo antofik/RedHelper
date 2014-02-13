@@ -22,16 +22,20 @@ public:
 
 private slots:
     VisitorChatView* openChat(QString id, bool activate);
-    void tabCloseRequested(int index);
 
     void messageReceived(TextNotification *message);
     void typingReceived(TypingNotification *message);
     void openChatByNotification(BaseNotification *message);
 
+    void activateTab(QString tabId);
+    void closeTab(QString tabId);
+    void setTabContent(QString tabId, QWidget* widget);
+
 private:
     Ui::MainTab *ui;
     VisitorListView *visitorListView;
     QMap<QString, VisitorChatView*> *chats;
+    QMap<QString, QWidget*> tabs;
 };
 
 #endif // MAINTAB_H
