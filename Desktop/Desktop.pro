@@ -62,7 +62,7 @@ FORMS    += mainwindow.ui \
     tabbar.ui \
     tabbutton.ui
 
-CONFIG += mobility c++11
+CONFIG += mobility
 MOBILITY = 
 
 ##################### BUSINESS ####################
@@ -140,6 +140,7 @@ RESOURCES += \
 defineReplace(out){
     win32:CONFIG(release, debug|release):QMAKE_POST_LINK += copy $$1 $$OUT_WIN\\release
     else:win32:CONFIG(debug, debug|release):QMAKE_POST_LINK += $$quote(copy $$1 $$OUT_WIN\\debug)
+    else:macx:QMAKE_POST_LINK += message($$system(cp $$1 $$OUT_PWD/Desktop.app/Contents/MacOS))
     else:QMAKE_POST_LINK += message($$system(cp $$1 $$OUT_PWD))
 
     win32:CONFIG(debug, debug|release):system(copy $$1 $$OUT_WIN\\debug)

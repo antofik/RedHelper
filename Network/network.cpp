@@ -10,8 +10,8 @@ Network::Network(QObject *parent) :
     //default login parameters
     this->Host = "xmpp.redhelper.ru";
     this->port = 443;
-    this->User = "antofik1985";
-    this->Password = "qweasd";
+    this->User = "antofik";
+    this->Password = "@test";
     this->MyJid = this->User + "@xmpp.redhelper.ru";
 
     //XMPP client
@@ -125,7 +125,7 @@ void Network::sendIqInit()
 void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
 {
    // return;
-    if (message.startsWith("<message"))
+    //if (message.startsWith("<message"))
     if (!message.contains("visitorlistdiff"))
         qDebug() << message;
 }
