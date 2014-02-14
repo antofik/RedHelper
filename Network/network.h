@@ -11,6 +11,14 @@ class Network : public QObject
     Q_OBJECT
 
 public:
+    enum OnlineState
+    {
+        Offline = 0,
+        Away = 1,
+        Dnd = 2,
+        Online = 3,
+    };
+
     explicit Network(QObject *parent = 0);
     QXmppClient* client;
 
@@ -20,6 +28,9 @@ public:
     bool isConnecting();
     void sendIqInit();
     void loadHistory(QString visitorId);
+    OnlineState state();
+    void setState(OnlineState state);
+    void updateState();
 
     QString User;
     QString Password;
@@ -38,12 +49,12 @@ signals:
 
     void iqReceived(QXmppIq iq);
 
+    void stateChanged();
+
     void messageReceived(TextNotification *message);
     void typingReceived(TypingNotification *message);
     void mouseReceived(MouseNotification *message);
     void cobrowseReceived(CobrowseNotification *message);
-
-    void PresenceReceived(QXmppPresence presence);
 
     void visitorListReceived(QXmppElement *);
     void historyLoaded(QString visitorId, QVector<BaseNotification*>* notifications);
@@ -57,6 +68,8 @@ private slots:
     void xmppPresenceReceived(QXmppPresence presence);
 
 private:
+    OnlineState _state;
+    OnlineState _wantedState;
 
 };
 

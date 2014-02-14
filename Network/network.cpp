@@ -124,7 +124,7 @@ void Network::sendIqInit()
 
 void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
 {
-   // return;
+    return;
     //if (message.startsWith("<message"))
     if (!message.contains("visitorlistdiff"))
         qDebug() << message;
@@ -156,10 +156,31 @@ void Network::xmppMessageReceived(const QXmppMessage &message)
     }
 }
 
-
 void Network::xmppPresenceReceived(QXmppPresence presence)
 {
-    emit PresenceReceived(presence);
+    auto a = presence.availableStatusType();
+    qDebug() << "PRESENCE RECEIVED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    if (presence.type()==QXmppPresence::Unavailable && _state != OnlineState::Offline)
+    {
+        _state = OnlineState::Offline;
+        emit stateChanged();
+    }
+    else
+    {
+        OnlineState newState;
+        auto state = presence.availableStatusType();
+        if (state == QXmppPresence::DND)
+            newState = OnlineState::Dnd;
+        else if (state == QXmppPresence::Away)
+            newState = OnlineState::Away;
+        else
+            newState = OnlineState::Online;
+        if (state != newState)
+        {
+            _state = newState;
+            emit stateChanged();
+        }
+    }
 }
 
 void Network::loadHistory(QString visitorId){
@@ -172,3 +193,52 @@ void Network::loadHistory(QString visitorId){
     iq.setId(visitorId);
     client->sendPacket(iq);
 }
+
+Network::OnlineState Network::state()
+{
+    return _state;
+}
+
+void Network::setState(OnlineState state)
+{
+    _wantedState = state;
+    updateState();
+}
+
+void Network::updateState()
+{
+    QXmppPresence presence(_wantedState == OnlineState::Offline ? QXmppPresence::Available : QXmppPresence::Unavailable);
+    if (_wantedState == OnlineState::Online)
+        presence.setAvailableStatusType(QXmppPresence::Online);
+    else if (_wantedState == OnlineState::Away)
+        presence.setAvailableStatusType(QXmppPresence::Away);
+    else if (_wantedState == OnlineState::Dnd)
+        presence.setAvailableStatusType(QXmppPresence::DND);
+    client->sendPacket(presence);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

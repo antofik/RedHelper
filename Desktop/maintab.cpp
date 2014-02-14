@@ -26,7 +26,7 @@ MainTab::MainTab(QWidget *parent) :
 
 
     visitorListView = new VisitorListView();
-    emit Core::ui()->createTab(VISITORS);
+    emit Core::ui()->createTab(VISITORS, false);
     emit Core::ui()->setTabContent(VISITORS, visitorListView);
     emit Core::ui()->setTabName(VISITORS, tr("Visitors"));
     emit Core::ui()->activateTab(VISITORS);
@@ -45,8 +45,10 @@ void MainTab::activateTab(QString tabId)
 
 void MainTab::closeTab(QString tabId)
 {
-    if (!tabs.contains(tabId)) return;
+    if (!tabs.contains(tabId)) return;    
+    chats->remove(tabId);
     ui->Stack->removeWidget(tabs[tabId]);
+    delete tabs[tabId];
     tabs.remove(tabId);
 }
 
@@ -60,11 +62,12 @@ void MainTab::setTabContent(QString tabId, QWidget *widget)
 
 VisitorChatView* MainTab::openChat(QString id, bool activate)
 {
+    VisitorChatView *chat;
     if (!chats->contains(id))
     {
-        auto visitor = Core::visitors()->visitorById(id);
-        VisitorChatView *chat = new VisitorChatView(visitor);
-        emit Core::ui()->createTab(visitor->Id);
+        Visitor* visitor = Core::visitors()->visitorById(id);
+        chat = new VisitorChatView(visitor);
+        emit Core::ui()->createTab(visitor->Id, true);
         emit Core::ui()->setTabContent(visitor->Id, chat);
         emit Core::ui()->setTabName(visitor->Id, visitor->DisplayName());
         chats->insert(id, chat);
@@ -72,17 +75,18 @@ VisitorChatView* MainTab::openChat(QString id, bool activate)
         {
             emit Core::ui()->activateTab(visitor->Id);
         }
-        return chat;
     }
     else
     {
-        VisitorChatView *chat = chats->operator [](id);
+        chat = chats->operator [](id);
         if (activate)
         {
             emit Core::ui()->activateTab(chat->visitor()->Id);
-        }
-        return chat;
+        }        
     }    
+    emit Core::ui()->highlight(chat->visitor()->Id);
+
+    return chat;
 }
 
 void MainTab::messageReceived(TextNotification *message)

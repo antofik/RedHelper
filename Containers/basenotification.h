@@ -19,7 +19,7 @@ public:
     QString VisitorId;
     QString OperatorLogin;
     bool IsIncoming;
-    bool IsOperatorToOperator = false;
+    bool IsOperatorToOperator;
     QString FromOperator;
     QString ToOperator;
 

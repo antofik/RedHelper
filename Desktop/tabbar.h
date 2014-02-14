@@ -20,12 +20,13 @@ public:
     void resizeEvent ( QResizeEvent * event );
 
 private slots:
-    void createTab(QString tabId);
+    void createTab(QString tabId, bool closable);
     void activateTab(QString tabId);
     void closeTab(QString tabId);
     void setTabName(QString tabId, QString name);
     void scrollLeft();
     void scrollRight();
+    void highlight(QString tabId);
 
 private:
     Ui::TabBar *ui;

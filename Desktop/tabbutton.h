@@ -12,10 +12,11 @@ class TabButton : public QWidget
     Q_OBJECT
 
 public:
-    explicit TabButton(QString tabId, QWidget *parent = 0);
+    explicit TabButton(QString tabId, bool closable, QWidget *parent = 0);
     ~TabButton();
     void mousePressEvent ( QMouseEvent * event );
     void setText(QString text);
+    void highlight();
 
     Q_PROPERTY(bool selected READ isSelected WRITE setSelected)
     bool isSelected();
@@ -25,6 +26,7 @@ public:
 public slots:
     void select();
     void unselect();
+    void closeClicked();
 
 private:
     Ui::TabButton *ui;

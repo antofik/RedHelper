@@ -12,13 +12,19 @@ public:
 signals:
     void openChat(QString id, bool activate);
 
-    void createTab(QString tabId);
+    void createTab(QString tabId, bool closable);
     void activateTab(QString tabId);
     void closeTab(QString tabId);
     void setTabContent(QString tabId, QWidget* widget);
     void setTabName(QString tabId, QString name);
+    void highlight(QString tabId);
+
+    void update();
 
 public slots:
+
+private slots:
+    void onUpdate();
 
 };
 

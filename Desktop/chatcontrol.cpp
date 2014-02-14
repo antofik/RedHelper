@@ -61,8 +61,9 @@ void ChatControl::historyLoaded(QString visitorId, QVector<BaseNotification*>* n
             TextNotification* item = dynamic_cast<TextNotification*>(notification);
             QString source = item->IsIncoming ? "Visitor" : "Operator";
             QString displayName = item->IsIncoming ? _visitor->DisplayName() : item->OperatorDisplayName;
-            chat->addTextMessage(source, displayName, item->Id, item->Time.toString("hh:mm"), item->Text);
-        }
+            emit chat->addTextMessage(source, displayName, item->Id, item->Time.toString("hh:mm"), item->Text);
+            emit Core::ui()->update();
+        }        
     }
 }
 
@@ -71,7 +72,7 @@ void ChatControl::messageReceived(TextNotification* message)
     if (message->Text.isEmpty()) return;
     QString source = message->IsIncoming ? "Visitor" : "Operator";
     QString displayName = message->IsIncoming ? _visitor->DisplayName() : message->OperatorDisplayName;
-    chat->addTextMessage(source, displayName, message->Id, message->Time.toString("hh:mm"), message->Text);
+    emit chat->addTextMessage(source, displayName, message->Id, message->Time.toString("hh:mm"), message->Text);
 }
 
 void ChatControl::typingReceived(TypingNotification* message)

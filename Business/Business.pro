@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-QT += network
-QT -= gui
+QT += core network widgets
 
 TARGET = Business
 TEMPLATE = lib
@@ -15,13 +14,15 @@ SOURCES += business.cpp \
     core.cpp \
     visitorupdater.cpp \
     visitorhelper.cpp \
-    uihelper.cpp
+    uihelper.cpp \
+    onlinestateindicator.cpp
 
 HEADERS += business.h \
     core.h \
     visitorupdater.h \
     visitorhelper.h \
-    uihelper.h
+    uihelper.h \
+    onlinestateindicator.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

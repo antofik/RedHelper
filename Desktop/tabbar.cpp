@@ -10,19 +10,26 @@ TabBar::TabBar(QWidget *parent) :
     ui(new Ui::TabBar)
 {
     ui->setupUi(this);
+    ui->cmdScrollLeft->hide();
+    ui->cmdScrollRight->hide();
+
     QHBoxLayout *layout = new QHBoxLayout();
     layout->addItem(new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Expanding));
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(2);
     ui->scrollContent->setLayout(layout);
 
+    ui->cmdScrollLeft->hide();
+    ui->cmdScrollRight->hide();
+    ui->scroll->adjustSize();
+    ui->scrollContent->adjustSize();
     updateScrollButtonsVisibility();
 
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
-
-    connect(Core::ui(), SIGNAL(createTab(QString)), SLOT(createTab(QString)));
+    connect(Core::ui(), SIGNAL(createTab(QString, bool)), SLOT(createTab(QString, bool)));
     connect(Core::ui(), SIGNAL(activateTab(QString)), SLOT(activateTab(QString)));
     connect(Core::ui(), SIGNAL(setTabName(QString,QString)), SLOT(setTabName(QString,QString)));
+    connect(Core::ui(), SIGNAL(highlight(QString)), SLOT(highlight(QString)));
+    connect(Core::ui(), SIGNAL(closeTab(QString)), SLOT(closeTab(QString)));
     connect(ui->cmdScrollLeft, SIGNAL(clicked()), SLOT(scrollLeft()));
     connect(ui->cmdScrollRight, SIGNAL(clicked()), SLOT(scrollRight()));
 
@@ -74,9 +81,9 @@ void TabBar::scrollRight()
     updateScrollButtonsVisibility();
 }
 
-void TabBar::createTab(QString tabId)
+void TabBar::createTab(QString tabId, bool closable)
 {
-    TabButton *button = new TabButton(tabId);
+    TabButton *button = new TabButton(tabId, closable);
     tabs[tabId] = button;    
     QHBoxLayout *layout = static_cast<QHBoxLayout*>(ui->scrollContent->layout());
     layout->insertWidget(tabs.count() > 1 ? 1 : 0, button);
@@ -100,14 +107,13 @@ void TabBar::setTabName(QString tabId, QString name)
     if (!tabs.contains(tabId)) return;
     tabs[tabId]->setText(name);
     updateScrollButtonsVisibility();
-
-    qDebug() << tabs[tabId]->sizeHint() << tabs[tabId]->size();
 }
 
 void TabBar::closeTab(QString tabId)
 {
     if (!tabs.contains(tabId)) return;
-    ui->scrollContent->layout()->removeWidget(tabs[tabId]);
+    TabButton *tab = tabs[tabId];
+    delete tab;
     tabs.remove(tabId);
     if (activeTab == tabId) activeTab = "";
     updateScrollButtonsVisibility();
@@ -126,6 +132,11 @@ QSize TabBar::sizeHint() const
     return size;
 }
 
+void TabBar::highlight(QString tabId)
+{
+    if (!tabs.contains(tabId)) return;
+    tabs[tabId]->highlight();
+}
 
 
 

@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     chatobject.cpp \
     tabbar.cpp \
     scrollarea.cpp \
-    tabbutton.cpp
+    tabbutton.cpp \
+    onlinestateselector.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -47,7 +48,8 @@ HEADERS  += mainwindow.h \
     chatobject.h \
     tabbar.h \
     scrollarea.h \
-    tabbutton.h
+    tabbutton.h \
+    onlinestateselector.h
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \
@@ -60,7 +62,8 @@ FORMS    += mainwindow.ui \
     cobrowseview.ui \
     chatcontrol.ui \
     tabbar.ui \
-    tabbutton.ui
+    tabbutton.ui \
+    onlinestateselector.ui
 
 CONFIG += mobility
 MOBILITY = 
