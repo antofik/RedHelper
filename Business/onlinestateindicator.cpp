@@ -9,24 +9,26 @@ OnlineStateIndicator::OnlineStateIndicator(QWidget *parent) :
     setScaledContents(true);
     setMinimumSize(QSize(16,16));
     setMaximumSize(QSize(16,16));
+    stateChanged();
 }
 
 void OnlineStateIndicator::stateChanged()
 {
     Network::OnlineState state = Core::network()->state();
+    qDebug() << "state is " << state;
     switch(state)
     {
         case Network::Online:
-            setPixmap(QPixmap(":/Images/Ribbon/online.png"));
+            setPixmap(QPixmap(":/Images/Statuses/online16.png"));
             break;
         case Network::Dnd:
-            setPixmap(QPixmap(":/Images/Ribbon/dnd.png"));
+            setPixmap(QPixmap(":/Images/Statuses/2ndline16.png"));
             break;
         case Network::Away:
-            setPixmap(QPixmap(":/Images/Ribbon/away.png"));
+            setPixmap(QPixmap(":/Images/Statuses/away16.png"));
             break;
         case Network::Offline:
-            setPixmap(QPixmap(":/Images/Ribbon/offline.png"));
+            setPixmap(QPixmap(":/Images/Statuses/offline16.png"));
             break;
     }
 }

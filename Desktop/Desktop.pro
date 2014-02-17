@@ -30,7 +30,9 @@ SOURCES += main.cpp\
     tabbar.cpp \
     scrollarea.cpp \
     tabbutton.cpp \
-    onlinestateselector.cpp
+    onlinestateselector.cpp \
+    onlinestatepopup.cpp \
+    menubutton.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -49,7 +51,9 @@ HEADERS  += mainwindow.h \
     tabbar.h \
     scrollarea.h \
     tabbutton.h \
-    onlinestateselector.h
+    onlinestateselector.h \
+    onlinestatepopup.h \
+    menubutton.h
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \
@@ -63,7 +67,9 @@ FORMS    += mainwindow.ui \
     chatcontrol.ui \
     tabbar.ui \
     tabbutton.ui \
-    onlinestateselector.ui
+    onlinestateselector.ui \
+    onlinestatepopup.ui \
+    menubutton.ui
 
 CONFIG += mobility
 MOBILITY = 

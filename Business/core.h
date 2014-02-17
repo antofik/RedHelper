@@ -7,6 +7,7 @@
 #include "visitorupdater.h"
 #include "visitorhelper.h"
 #include "uihelper.h"
+#include "connectionhelper.h"
 
 class VisitorUpdater;
 class VisitorHelper;
@@ -17,6 +18,7 @@ class Core : public QObject
 public:
     //Run-time constants and parameters
     const static qint64 TimeBetweenVisitorlistDiffs = 3000;
+    const static qint64 TimeBetweenPresences = 3000000;
 
     //Initializatin
     explicit Core(QObject *parent = 0);
@@ -26,6 +28,7 @@ public:
     static Network* network();
     static VisitorUpdater *visitorUpdater();
     static VisitorHelper *visitors();
+    static ConnectionHelper *reconnector();
     static UIHelper* ui();
 
 private:

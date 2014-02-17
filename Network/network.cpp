@@ -5,7 +5,9 @@
 #include "QXmppElement.h"
 
 Network::Network(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    _state(OnlineState::Offline),
+    _wantedState(OnlineState::Online)
 {
     //default login parameters
     this->Host = "xmpp.redhelper.ru";
@@ -22,7 +24,7 @@ Network::Network(QObject *parent) :
     connect(client, SIGNAL(iqReceived(QXmppIq)), SLOT(xmppIqReceived(QXmppIq)));
     connect(client, SIGNAL(logMessage(QXmppLogger::MessageType,QString)), SLOT(xmppLogMessage(QXmppLogger::MessageType,QString)));
     connect(client, SIGNAL(messageReceived(QXmppMessage)), SLOT(xmppMessageReceived(QXmppMessage)));
-    connect(client, SIGNAL(presenceReceived(QXmppPresence)), SLOT(xmppPresenceReceived(QXmppPresence)));
+    connect(client, SIGNAL(presenceReceived(QXmppPresence)), SLOT(xmppPresenceReceived(QXmppPresence)));     
 }
 
 void Network::Login()
@@ -52,7 +54,10 @@ void Network::xmppStateChanged(QXmppClient::State state)
     emit StateChanged();
 
     if (client->isConnected() && client->isAuthenticated())
+    {
+        updateState();
         sendIqInit();
+    }
 }
 
 void Network::xmppError(QXmppClient::Error error)
@@ -124,10 +129,11 @@ void Network::sendIqInit()
 
 void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
 {
-    return;
-    //if (message.startsWith("<message"))
+    //return;
+    //if (message.startsWith("<message"))    
+    QString direction = type == QXmppLogger::ReceivedMessage ? "<=" : "=>";
     if (!message.contains("visitorlistdiff"))
-        qDebug() << message;
+        qDebug() << direction << " " << message;
 }
 
 void Network::xmppMessageReceived(const QXmppMessage &message)
@@ -158,8 +164,6 @@ void Network::xmppMessageReceived(const QXmppMessage &message)
 
 void Network::xmppPresenceReceived(QXmppPresence presence)
 {
-    auto a = presence.availableStatusType();
-    qDebug() << "PRESENCE RECEIVED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     if (presence.type()==QXmppPresence::Unavailable && _state != OnlineState::Offline)
     {
         _state = OnlineState::Offline;
@@ -174,8 +178,8 @@ void Network::xmppPresenceReceived(QXmppPresence presence)
         else if (state == QXmppPresence::Away)
             newState = OnlineState::Away;
         else
-            newState = OnlineState::Online;
-        if (state != newState)
+            newState = OnlineState::Online;        
+        if (newState != _state)
         {
             _state = newState;
             emit stateChanged();
@@ -202,12 +206,20 @@ Network::OnlineState Network::state()
 void Network::setState(OnlineState state)
 {
     _wantedState = state;
-    updateState();
+    if (isConnected())
+        updateState();
+    else
+        reconnect();
+}
+
+void Network::reconnect()
+{
+    Login();
 }
 
 void Network::updateState()
 {
-    QXmppPresence presence(_wantedState == OnlineState::Offline ? QXmppPresence::Available : QXmppPresence::Unavailable);
+    QXmppPresence presence(_wantedState == OnlineState::Offline ? QXmppPresence::Unavailable : QXmppPresence::Available);
     if (_wantedState == OnlineState::Online)
         presence.setAvailableStatusType(QXmppPresence::Online);
     else if (_wantedState == OnlineState::Away)
@@ -217,8 +229,25 @@ void Network::updateState()
     client->sendPacket(presence);
 }
 
+void Network::goOnline()
+{
+    setState(OnlineState::Online);
+}
 
+void Network::goDnd()
+{
+    setState(OnlineState::Dnd);
+}
 
+void Network::goAway()
+{
+    setState(OnlineState::Away);
+}
+
+void Network::goOffline()
+{
+    client->disconnectFromServer();
+}
 
 
 

@@ -41,6 +41,13 @@ public:
 
     NotificationParser parser;
 
+public slots:
+    void goOnline();
+    void goDnd();
+    void goAway();
+    void goOffline();
+    void reconnect();
+
 signals:
     void StateChanged();
     void XmppError(QXmppStanza::Error::Condition error);

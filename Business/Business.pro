@@ -15,14 +15,16 @@ SOURCES += business.cpp \
     visitorupdater.cpp \
     visitorhelper.cpp \
     uihelper.cpp \
-    onlinestateindicator.cpp
+    onlinestateindicator.cpp \
+    connectionhelper.cpp
 
 HEADERS += business.h \
     core.h \
     visitorupdater.h \
     visitorhelper.h \
     uihelper.h \
-    onlinestateindicator.h
+    onlinestateindicator.h \
+    connectionhelper.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OnlineStateSelector</class>
- <widget class="QWidget" name="OnlineStateSelector">
+ <class>MenuButton</class>
+ <widget class="QWidget" name="MenuButton">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>58</width>
-    <height>74</height>
+    <width>39</width>
+    <height>45</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,9 +31,6 @@
    </property>
    <item row="0" column="0">
     <widget class="QWidget" name="widget" native="true">
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
      <property name="styleSheet">
       <string notr="true">#widget:hover{
     border-style: solid;
@@ -54,19 +51,19 @@
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>4</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>4</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>4</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>4</number>
+       <number>0</number>
       </property>
       <item>
-       <widget class="QLabel" name="image">
+       <widget class="QLabel" name="text">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -77,10 +74,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="Images.qrc">:/Images/Statuses/offline32.png</pixmap>
-        </property>
-        <property name="scaledContents">
-         <bool>false</bool>
+         <pixmap resource="Images.qrc">:/Images/MainMenu/colored/settings.png</pixmap>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -88,49 +82,12 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="text">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
+       <widget class="QLabel" name="image">
         <property name="text">
-         <string>Вторая линия</string>
+         <string>Settings</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="arrow">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="Images.qrc">:/Images/d.png</pixmap>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="margin">
-         <number>2</number>
         </property>
        </widget>
       </item>

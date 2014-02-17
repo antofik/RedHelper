@@ -13,6 +13,7 @@ void Core::initialize()
     visitorUpdater();
     visitors();
     ui();
+    reconnector();
 
     emit Core::network()->StartWorkers();
 }
@@ -38,5 +39,11 @@ VisitorHelper* Core::visitors()
 UIHelper* Core::ui()
 {
     static UIHelper instance;
+    return &instance;
+}
+
+ConnectionHelper* Core::reconnector()
+{
+    static ConnectionHelper instance;
     return &instance;
 }
