@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Login</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="Images.qrc">
+    <normaloff>:/Images/Logo/64.ico</normaloff>:/Images/Logo/64.ico</iconset>
+  </property>
   <widget class="LoginControl" name="control" native="true">
    <property name="geometry">
     <rect>
@@ -44,6 +48,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="Images.qrc"/>
+ </resources>
  <connections/>
 </ui>

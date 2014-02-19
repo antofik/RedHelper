@@ -33,22 +33,20 @@ void TabButton::closeClicked()
 void TabButton::select()
 {
     setSelected(true);
-    QString style = "#panel{background-color:#e0e0e0;border-style:solid;border-color:darkgray;border-width:1px;border-bottom-width:0px;border-top-left-radius:4px;border-top-right-radius:4px;}";
-    setStyleSheet(style);
+    setStyleSheet(styleSheet());
 }
 
 void TabButton::unselect()
 {
     setSelected(false);
-    QString style = "#panel{background-color:#d0d0d0;border-style:solid;border-color:darkgray;border-width:1px;border-bottom-width:0px;border-top-left-radius:4px;border-top-right-radius:4px;}";
-    setStyleSheet(style);
+    setStyleSheet(styleSheet());
 }
 
 void TabButton::highlight()
 {
     if (_isSelected) return;
-    QString style = "#panel{background-color:orange;border-style:solid;border-color:darkgray;border-width:1px;border-bottom-width:0px;border-top-left-radius:4px;border-top-right-radius:4px;}";
-    setStyleSheet(style);
+    setHighlighted(true);
+    setStyleSheet(styleSheet());
 }
 
 bool TabButton::isSelected()
@@ -59,7 +57,13 @@ bool TabButton::isSelected()
 void TabButton::setSelected(bool value)
 {
     _isSelected = value;
-    setStyleSheet(styleSheet());
+    ui->panel->setProperty("selected", value);
+    setHighlighted(false);
+}
+
+void TabButton::setHighlighted(bool value)
+{
+    ui->panel->setProperty("highlighted", value);
 }
 
 void TabButton::setText(QString text)

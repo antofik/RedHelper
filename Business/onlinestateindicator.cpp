@@ -6,7 +6,7 @@ OnlineStateIndicator::OnlineStateIndicator(QWidget *parent) :
 {
     connect(Core::network(), SIGNAL(stateChanged()), SLOT(stateChanged()));
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    setScaledContents(true);
+    setScaledContents(false);
     setMinimumSize(QSize(16,16));
     setMaximumSize(QSize(16,16));
     stateChanged();

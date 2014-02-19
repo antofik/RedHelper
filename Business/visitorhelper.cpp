@@ -1,4 +1,5 @@
 #include "visitorhelper.h"
+#include "log.h"
 
 VisitorHelper::VisitorHelper(QObject *parent) :
     QObject(parent)
@@ -11,6 +12,8 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
     QVector<Visitor*> *added = new QVector<Visitor*>();
     QStringList modified;
     QStringList deleted;
+
+    Log::info("VisitorHelper::NewVisitorsFromUpdater(total=" + QString::number(ids.count()) + ", updated=" + QString::number(visitors->count()) + ")");
 
     QMap<QString, Visitor*>::iterator iter = _visitors.begin();
     while(iter != _visitors.end())
@@ -26,6 +29,7 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
     //remove offline visitors
     for (int i=0;i<deleted.count();i++)
     {
+        Log::warning("Removing visitor " + deleted.at(i) + " from stored list");
         _visitors.remove(deleted.at(i));
     }
 

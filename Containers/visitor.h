@@ -2,6 +2,7 @@
 #define VISITOR_H
 
 #include <QObject>
+#include <QTime>
 
 class Visitor : public QObject
 {
@@ -37,7 +38,7 @@ public:
     QString Os;
     QString Referrer;
     QString Relevance;
-    QString TimeOnSite;
+    QTime TimeOnSite;
     QString Trigger;
     QString ViewedPages;
     QString Visits;

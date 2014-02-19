@@ -13,3 +13,8 @@ void UIHelper::onUpdate()
 {
     qApp->processEvents();
 }
+
+void UIHelper::exit()
+{
+    qApp->exit();
+}

@@ -9,7 +9,10 @@ int main(int argc, char *argv[])
     Core::initialize();
 
     MainWindow w;
+#if WIN32
+#else
     w.show();
+#endif
 
     return a.exec();
 }

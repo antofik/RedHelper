@@ -19,9 +19,13 @@ signals:
     void setTabName(QString tabId, QString name);
     void highlight(QString tabId);
 
+    void showMainWindow();
+    void loginWindowClosed();
+
     void update();
 
 public slots:
+    void exit();
 
 private slots:
     void onUpdate();

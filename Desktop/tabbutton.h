@@ -21,6 +21,7 @@ public:
     Q_PROPERTY(bool selected READ isSelected WRITE setSelected)
     bool isSelected();
     void setSelected(bool value);
+    void setHighlighted(bool value);
 
 
 public slots:

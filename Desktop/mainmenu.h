@@ -15,6 +15,12 @@ public:
     explicit MainMenu(QWidget *parent = 0);
     ~MainMenu();
 
+private slots:
+    void settings();
+    void bugreport();
+    void about();
+    void onlinehelp();
+
 private:
     Ui::MainMenu *ui;
 };

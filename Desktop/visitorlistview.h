@@ -28,11 +28,16 @@ public:
 private slots:
     void VisitorChanged(const QVector<Visitor*> *added, const QStringList &modified, const QStringList &deleted);
     void doubleClicked(QModelIndex index);
+    void clicked(QModelIndex index);
 
 private:
     Ui::VisitorListView *ui;
     QStandardItemModel *model;
     QSortFilterProxyModel *proxy;    
+
+    QStandardItem *online;
+    QStandardItem *busy;
+    QStandardItem *browsing;
 };
 
 #endif // VISITORLISTVIEW_H

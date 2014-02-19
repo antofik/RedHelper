@@ -16,7 +16,10 @@ SOURCES += business.cpp \
     visitorhelper.cpp \
     uihelper.cpp \
     onlinestateindicator.cpp \
-    connectionhelper.cpp
+    connectionhelper.cpp \
+    log.cpp \
+    logitem.cpp \
+    diagnosticswindow.cpp
 
 HEADERS += business.h \
     core.h \
@@ -24,7 +27,10 @@ HEADERS += business.h \
     visitorhelper.h \
     uihelper.h \
     onlinestateindicator.h \
-    connectionhelper.h
+    connectionhelper.h \
+    log.h \
+    logitem.h \
+    diagnosticswindow.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
@@ -68,5 +74,8 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Cont
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Containers/release/Containers.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Containers/debug/Containers.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Containers/libContainers.a
+
+FORMS += \
+    diagnosticswindow.ui
 
 

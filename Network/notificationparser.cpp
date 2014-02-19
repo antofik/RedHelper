@@ -76,9 +76,7 @@ BaseNotification* NotificationParser::MessageToNotification(const QXmppMessage &
     result->From = message.from();
     result->To = message.to();
     auto m = message.attribute("time");
-    qDebug() << m;
     result->Time = QDateTime::fromString(message.attribute("time"), "yyyy-MM-dd hh:mm:ss");
-    qDebug() << result->Time.toString();
 
     if (result->From.contains("@visitor"))
     {

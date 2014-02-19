@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DiagnosticsWindow</class>
+ <widget class="QWidget" name="DiagnosticsWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>957</width>
+    <height>428</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Diagnostics</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Desktop/Images.qrc">
+    <normaloff>:/Images/Ribbon/system_preferences.png</normaloff>:/Images/Ribbon/system_preferences.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QTableView" name="list">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="gridStyle">
+      <enum>Qt::NoPen</enum>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../Desktop/Images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

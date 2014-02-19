@@ -17,9 +17,11 @@ public:
 
 private slots:
     void networkStateChanged();
+    void loginWindowClosed();
+    void diagnostics();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui;    
 };
 
 #endif // MAINWINDOW_H

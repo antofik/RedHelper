@@ -49,7 +49,6 @@ public slots:
     void reconnect();
 
 signals:
-    void StateChanged();
     void XmppError(QXmppStanza::Error::Condition error);
     void SocketError(QAbstractSocket::SocketError error);
     void StartWorkers();
@@ -73,6 +72,7 @@ private slots:
     void xmppLogMessage(QXmppLogger::MessageType type, QString message);
     void xmppMessageReceived(const QXmppMessage &message);
     void xmppPresenceReceived(QXmppPresence presence);
+    void xmppDisconnected();
 
 private:
     OnlineState _state;

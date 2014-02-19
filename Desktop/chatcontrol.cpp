@@ -5,6 +5,7 @@
 #include <QDir>
 #include "core.h"
 #include <QWebInspector>
+#include "log.h"
 
 ChatControl::ChatControl(QWidget *parent) :
     QWidget(parent),
@@ -27,7 +28,9 @@ ChatControl::ChatControl(QWidget *parent) :
 
 ChatControl::~ChatControl()
 {
+    qDebug() << "~ChatControl()";
     delete ui;
+    ui = 0;
 }
 
 void ChatControl::setVisitor(Visitor *visitor)
@@ -62,13 +65,15 @@ void ChatControl::historyLoaded(QString visitorId, QVector<BaseNotification*>* n
             QString source = item->IsIncoming ? "Visitor" : "Operator";
             QString displayName = item->IsIncoming ? _visitor->DisplayName() : item->OperatorDisplayName;
             emit chat->addTextMessage(source, displayName, item->Id, item->Time.toString("hh:mm"), item->Text);
-            emit Core::ui()->update();
+            if (i%10==0) emit Core::ui()->update();
+            if (ui==0) return; //chat was destroyed
         }        
     }
 }
 
 void ChatControl::messageReceived(TextNotification* message)
 {
+    Log::info("ChatControl::messageReceived("+message->Text+")");
     if (message->Text.isEmpty()) return;
     QString source = message->IsIncoming ? "Visitor" : "Operator";
     QString displayName = message->IsIncoming ? _visitor->DisplayName() : message->OperatorDisplayName;

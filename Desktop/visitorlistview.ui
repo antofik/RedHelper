@@ -14,8 +14,39 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
-    <widget class="QTableView" name="list"/>
+    <widget class="QTreeView" name="list">
+     <property name="styleSheet">
+      <string notr="true">QTreeView::branch:has-children:adjoins-item {  border-image: url(:/Images/Visitors/collapsed.png); }
+QTreeView::branch:has-children:closed {  border-image: url(:/Images/Visitors/collapsed.png); }
+QTreeView::branch:has-children:open {  border-image: url(:/Images/Visitors/open.png); }
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="indentation">
+      <number>0</number>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

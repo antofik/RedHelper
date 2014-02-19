@@ -19,6 +19,9 @@ VisitorChatView::VisitorChatView(Visitor *visitor) : QWidget(0), ui(new Ui::Visi
 
 VisitorChatView::~VisitorChatView()
 {
+    //delete ui->chat;
+    //delete ui->Details;
+    //delete ui->Cobrowse;
     delete ui;
 }
 

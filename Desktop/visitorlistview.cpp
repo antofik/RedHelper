@@ -4,6 +4,7 @@
 #include "visitorupdater.h"
 #include "visitor.h"
 #include <QVariant>
+#include "groupdelegate.h"
 
 VisitorListView::VisitorListView(QWidget *parent) :
     QWidget(parent),
@@ -14,7 +15,7 @@ VisitorListView::VisitorListView(QWidget *parent) :
     model = new QStandardItemModel();
     QStringList header;
 
-    QString headerLabels = "Id;Name;Visits;Pages;Time on site;Сity;Os;Browser;Ip;Current operator;Current url";
+    QString headerLabels = "Name;Id;Visits;Pages;Time on site;Сity;Os;Browser;Ip;Current operator;Current url";
     QStringList rawHeader = headerLabels.split(";");
     for (int i=0;i<rawHeader.count();i++)
     {
@@ -27,12 +28,30 @@ VisitorListView::VisitorListView(QWidget *parent) :
     proxy->setSourceModel(model);
     ui->list->setModel(proxy);
 
-    ui->list->setColumnHidden(0, true);
-    ui->list->verticalHeader()->hide();
-    //ui->list->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->list->setColumnHidden(1, true);
+
+    online = new QStandardItem(tr("Online"));
+    browsing = new QStandardItem(tr("Browsing"));
+    busy = new QStandardItem(tr("Busy"));
+    //ui->list->set
+    online->setIcon(QIcon(":/Images/Visitors/icon_plus.png"));
+    model->setItem(0, 0, online);
+    model->setItem(0, 1, new QStandardItem("online"));
+    model->setItem(1, 0, browsing);
+    model->setItem(1, 1, new QStandardItem("browsing"));
+    model->setItem(2, 0, busy);
+    model->setItem(2, 1, new QStandardItem("busy"));
+    ui->list->setItemsExpandable(true);
+    ui->list->setExpanded(online->index(), true);
+    ui->list->setExpanded(browsing->index(), true);
+    ui->list->setEditTriggers(QTreeView::NoEditTriggers);
+
+    GroupDelegate *groupDelegate = new GroupDelegate(ui->list);
+    ui->list->setItemDelegate(groupDelegate);
 
     connect(Core::visitors(), SIGNAL(VisitorChanged(const QVector<Visitor*>*,QStringList,QStringList)), SLOT(VisitorChanged(const QVector<Visitor*>*,QStringList,QStringList)));
     connect(ui->list, SIGNAL(doubleClicked(QModelIndex)), SLOT(doubleClicked(QModelIndex)));
+    connect(ui->list, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)));
 }
 
 VisitorListView::~VisitorListView()
@@ -54,65 +73,100 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
             items.append(item);
         }
         DisplayVisitor(v, items);
-        model->appendRow(items);
+        if (v->ChatState=="chat")
+            online->appendRow(items);
+        else if (v->ChatState=="busy")
+            busy->appendRow(items);
+        else if (v->ChatState=="browse")
+            browsing->appendRow(items);
     }
 
     for (int i=0;i<modified.count();i++)
     {
         QString id = modified.at(i);
         Visitor *v = Core::visitors()->visitorById(id);
-        QList<QStandardItem*> rows = model->findItems(id);
+        if (!v) continue;
+        QList<QStandardItem*> rows = model->findItems(id, Qt::MatchExactly, 1);
         if (rows.count()==1)
         {
             QModelIndex index = model->indexFromItem(rows.at(0));
             int row = index.row();
             QList<QStandardItem*> items = model->takeRow(row);
             DisplayVisitor(v, items);
-            model->insertRow(row, items);
+            if (v->ChatState=="online")
+                online->insertRow(row, items);
+            else if (v->ChatState=="busy")
+                busy->insertRow(row, items);
+            else if (v->ChatState=="browsing")
+                browsing->insertRow(row, items);
+        }
+    }
+
+    for (int i=0;i<deleted.count();i++)
+    {
+        QString id = deleted.at(i);
+        QList<QStandardItem*> rows = model->findItems(id, Qt::MatchExactly, 1);
+        if (rows.count()==1)
+        {
+            int row = rows.at(0)->row();
+            model->removeRow(row);
         }
     }
 }
 
 void VisitorListView::DisplayVisitor(Visitor *v, QList<QStandardItem*> items)
 {
-    items.at(0)->setText(v->Id);
+    int i = 0;
+    //items.at(i++)->setText(v->ChatState);
 
-    items.at(1)->setText(v->DisplayName());
-    items.at(1)->setIcon(QIcon(":/Images/Visitors/cobrowse_icon.png"));
+    items.at(i)->setText(v->DisplayName());
+    items.at(i++)->setIcon(QIcon(":/Images/Visitors/cobrowse_icon.png"));
 
-    items.at(2)->setText(v->Visits);
-    items.at(2)->setIcon(QIcon(":/Images/Visitors/pages.png"));
+    items.at(i++)->setText(v->Id);
 
-    items.at(3)->setText(v->ViewedPages);
-    items.at(3)->setIcon(QIcon(":/Images/Visitors/view.png"));
+    items.at(i)->setText(v->Visits);
+    items.at(i++)->setIcon(QIcon(":/Images/Visitors/pages.png"));
 
-    items.at(4)->setText(v->TimeOnSite);
-    items.at(4)->setIcon(QIcon(":/Images/Visitors/time.png"));
+    items.at(i)->setText(v->ViewedPages);
+    items.at(i++)->setIcon(QIcon(":/Images/Visitors/view.png"));
 
-    items.at(5)->setText(v->Country_ru);
-    items.at(5)->setIcon(QIcon(":/Images/Countries/" + v->CountryCode.toLower() + ".png"));
+    items.at(i)->setText(v->TimeOnSite.toString("hh:mm:ss"));
+    items.at(i++)->setIcon(QIcon(":/Images/Visitors/time.png"));
 
-    items.at(6)->setText(v->Os);
-    items.at(6)->setIcon(QIcon(":/Images/Os/" + v->OsIcon().trimmed() + ".png"));
+    items.at(i)->setText(v->Country_ru);
+    items.at(i++)->setIcon(QIcon(":/Images/Countries/" + v->CountryCode.toLower() + ".png"));
 
-    items.at(7)->setText(v->BrowserName);
-    items.at(7)->setIcon(QIcon(":/Images/Browsers/" + v->BrowserIcon() + ".png"));
+    items.at(i)->setText(v->Os);
+    items.at(i++)->setIcon(QIcon(":/Images/Os/" + v->OsIcon().trimmed() + ".png"));
 
-    items.at(8)->setText(v->Ip);
-    items.at(9)->setText(v->CurrentOperator);
-    items.at(10)->setText("<a href='" + v->CurrentUrl + "'>" + v->CurrentUrl + "</a>");
+    items.at(i)->setText(v->BrowserName);
+    items.at(i++)->setIcon(QIcon(":/Images/Browsers/" + v->BrowserIcon() + ".png"));
+
+    items.at(i++)->setText(v->Ip);
+    items.at(i++)->setText(v->CurrentOperator);
+    items.at(i++)->setText(v->CurrentUrl);
     //ui->list->setItemDelegateForColumn(10, urlDelegate);
-
 }
 
 void VisitorListView::doubleClicked(QModelIndex index)
 {
-    QStandardItem *item = model->item(index.row());
-    QString id = item->text();
+    if (!index.parent().isValid()) return;
+
+    QString id = index.data(Qt::UserRole).toString();
     emit Core::ui()->openChat(id, true);
 }
 
-
+void VisitorListView::clicked(QModelIndex index)
+{
+    if (index.parent().isValid())
+    {
+        //todo hyperlinks
+    }
+    else
+    {
+        ui->list->setExpanded(index, !ui->list->isExpanded(index));
+    }
+}
 
 
 

@@ -53,7 +53,7 @@ void VisitorDetailsView::showVisitor()
     addRow(row, tr("Browser"), _visitor->BrowserName);
     addRow(row, tr("Visits"), _visitor->Visits);
     addRow(row, tr("Viewed pages"), _visitor->ViewedPages);
-    addRow(row, tr("Time on site"), _visitor->TimeOnSite);
+    addRow(row, tr("Time on site"), _visitor->TimeOnSite.toString("hh:mm:ss"));
     addRow(row, tr("Trigger"), _visitor->Trigger);
 }
 

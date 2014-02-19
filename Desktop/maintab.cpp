@@ -3,6 +3,7 @@
 #include "QXmppMessage.h"
 #include "visitorchatview.h"
 #include <QMap>
+#include "log.h"
 
 const QString VISITORS = "Visitors";
 
@@ -62,11 +63,13 @@ void MainTab::setTabContent(QString tabId, QWidget *widget)
 
 VisitorChatView* MainTab::openChat(QString id, bool activate)
 {
+    Log::info("Opening chat for visitor " + id);
     VisitorChatView *chat;
     if (!chats->contains(id))
     {
         Visitor* visitor = Core::visitors()->visitorById(id);
         chat = new VisitorChatView(visitor);
+        Log::info("creating new chat");
         emit Core::ui()->createTab(visitor->Id, true);
         emit Core::ui()->setTabContent(visitor->Id, chat);
         emit Core::ui()->setTabName(visitor->Id, visitor->DisplayName());
@@ -78,6 +81,7 @@ VisitorChatView* MainTab::openChat(QString id, bool activate)
     }
     else
     {
+        Log::info("chat found (already exists)");
         chat = chats->operator [](id);
         if (activate)
         {
@@ -91,16 +95,22 @@ VisitorChatView* MainTab::openChat(QString id, bool activate)
 
 void MainTab::messageReceived(TextNotification *message)
 {
+    Log::info("MainTab::messageReceived(" + message->Text + ")");
     openChatByNotification(message);
 }
 
 void MainTab::typingReceived(TypingNotification *message)
 {
+    Log::info("MainTab::typingReceived(" + message->Text + ")");
     openChatByNotification(message);
 }
 
 void MainTab::openChatByNotification(BaseNotification* message)
 {
-    if (message->IsOperatorToOperator) return;
+    if (message->IsOperatorToOperator)
+    {
+        Log::info("message is from operator to operator. Skipping");
+        return;
+    }
     openChat(message->VisitorId, false);
 }

@@ -2,6 +2,7 @@
 #include "ui_onlinestateselector.h"
 #include <QMenu>
 #include <core.h>
+#include "loginwindow.h"
 
 OnlineStateSelector::OnlineStateSelector(QWidget *parent) :
     QWidget(parent),
@@ -21,8 +22,6 @@ OnlineStateSelector::OnlineStateSelector(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(QIcon(":/Images/MainMenu/exit.png"), tr("Exit"), this, SLOT(exit()));
     connect(menu, SIGNAL(aboutToHide()), SLOT(menuClosed()));
-
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 }
 
 OnlineStateSelector::~OnlineStateSelector()
@@ -60,11 +59,16 @@ void OnlineStateSelector::menuClosed()
 
 void OnlineStateSelector::changeAccount()
 {
-
+    Core::network()->goOffline();
+    qApp->activeWindow()->hide();
+    LoginWindow *window = new LoginWindow();
+    window->setWindowFlags(Qt::Drawer);
+    window->setWindowModality(Qt::WindowModal);
+    window->show();
 }
 void OnlineStateSelector::exit()
 {
-
+    Core::ui()->exit();
 }
 
 void OnlineStateSelector::stateChanged()
@@ -85,8 +89,16 @@ void OnlineStateSelector::stateChanged()
             ui->text->setText(tr("Away"));
             break;
         case Network::Offline:
-            ui->image->setPixmap(QPixmap(":/Images/Statuses/offline32.png"));
-            ui->text->setText(tr("Offline"));
+            if (Core::network()->isConnecting())
+            {
+                ui->image->setPixmap(QPixmap(":/Images/Statuses/connecting32.png"));
+                ui->text->setText(tr("Connecting"));
+            }
+            else if (!Core::network()->isConnected())
+            {
+                ui->image->setPixmap(QPixmap(":/Images/Statuses/offline32.png"));
+                ui->text->setText(tr("Offline"));
+            }
             break;
     }
 }

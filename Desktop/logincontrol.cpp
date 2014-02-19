@@ -9,7 +9,7 @@ LoginControl::LoginControl(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->cmdLogin, SIGNAL(pressed()), SLOT(login()));
-    connect(Core::network(), SIGNAL(StateChanged()), SLOT(networkStateChanged()));
+    connect(Core::network(), SIGNAL(stateChanged()), SLOT(networkStateChanged()));
     connect(Core::network(), SIGNAL(XmppError(QXmppStanza::Error::Condition)), SLOT(xmppError(QXmppStanza::Error::Condition)));
     connect(Core::network(), SIGNAL(SocketError(QAbstractSocket::SocketError)), SLOT(socketError(QAbstractSocket::SocketError)));
 
@@ -19,17 +19,20 @@ LoginControl::LoginControl(QWidget *parent) :
 
     if (true) //TODO autologin
     {
-        this->login();
+//        this->login();
     }
 }
 
 LoginControl::~LoginControl()
 {
+    disconnect(Core::network(), SIGNAL(stateChanged()), this, SLOT(networkStateChanged()));
     delete ui;
 }
 
 void LoginControl::login()
 {
+    this->setEnabled(false);
+    emit Core::ui()->update();
     ui->txtError->setText("");
     Core::network()->User = ui->txtUser->text();
     Core::network()->Password = ui->txtPassword->text();
@@ -41,17 +44,13 @@ void LoginControl::networkStateChanged()
     if (Core::network()->isConnected())
     {
         ui->txtStatus->setText(tr("Logged in."));
+        emit Core::ui()->showMainWindow();
         emit hideWindow();
     }
     else if (Core::network()->isConnecting())
     {
         ui->txtStatus->setText(tr("Connecting..."));
         this->setEnabled(false);
-    }
-    else
-    {
-        //ui->txtStatus->setText("");
-        this->setEnabled(true);
     }
 }
 
@@ -72,11 +71,22 @@ void LoginControl::xmppError(QXmppStanza::Error::Condition error)
     } else {
         ui->txtError->setText(tr("Unknown error: ") + QString::number(error));
     }
-
-
+    this->setEnabled(true);
 }
 
 void LoginControl::socketError(QAbstractSocket::SocketError error)
 {
-    ui->txtError->setText(tr("Network error: ") + QString::number(error));
+    if (error == QAbstractSocket::RemoteHostClosedError)
+    {
+        ui->txtError->setText(tr("The remote host closed the connection"));
+    }
+    else if (error == QAbstractSocket::HostNotFoundError)
+    {
+        ui->txtError->setText(tr("Host not found"));
+    }
+    else
+    {
+        ui->txtError->setText(tr("Network error: ") + QString::number(error));
+    }
+    this->setEnabled(true);
 }

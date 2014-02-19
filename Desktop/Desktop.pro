@@ -31,8 +31,12 @@ SOURCES += main.cpp\
     scrollarea.cpp \
     tabbutton.cpp \
     onlinestateselector.cpp \
-    onlinestatepopup.cpp \
-    menubutton.cpp
+    menubutton.cpp \
+    menuseparator.cpp \
+    aboutwindow.cpp \
+    bugreportwindow.cpp \
+    settingswindow.cpp \
+    groupdelegate.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -52,8 +56,12 @@ HEADERS  += mainwindow.h \
     scrollarea.h \
     tabbutton.h \
     onlinestateselector.h \
-    onlinestatepopup.h \
-    menubutton.h
+    menubutton.h \
+    menuseparator.h \
+    aboutwindow.h \
+    bugreportwindow.h \
+    settingswindow.h \
+    groupdelegate.h
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \
@@ -68,8 +76,11 @@ FORMS    += mainwindow.ui \
     tabbar.ui \
     tabbutton.ui \
     onlinestateselector.ui \
-    onlinestatepopup.ui \
-    menubutton.ui
+    menubutton.ui \
+    menuseparator.ui \
+    aboutwindow.ui \
+    bugreportwindow.ui \
+    settingswindow.ui
 
 CONFIG += mobility
 MOBILITY = 
@@ -121,9 +132,10 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Containers/libContainers.a
 
 ##################### QXMPP #######################
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d
 else:unix: LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d
+
 
 INCLUDEPATH += $$PWD/../qxmpp/src
 DEPENDPATH += $$PWD/../qxmpp/src
@@ -134,8 +146,11 @@ DEPENDPATH += $$PWD/../qxmpp/src/client
 INCLUDEPATH += $$PWD/../qxmpp/src/server
 DEPENDPATH += $$PWD/../qxmpp/src/server
 
-win32:!win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/qxmpp_d.lib
+win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/qxmpp.lib
+win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/qxmpp_d.lib
+else:win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp.a
 else:unix|win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp_d.a
+
 
 OTHER_FILES += \
     VisitorChat.html \

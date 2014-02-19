@@ -19,6 +19,7 @@ Network::Network(QObject *parent) :
     //XMPP client
     client = new QXmppClient();
     client->logger()->setLoggingType(QXmppLogger::SignalLogging);
+    connect(client, SIGNAL(disconnected()), SLOT(xmppDisconnected()));
     connect(client, SIGNAL(stateChanged(QXmppClient::State)), SLOT(xmppStateChanged(QXmppClient::State)));
     connect(client, SIGNAL(error(QXmppClient::Error)), SLOT(xmppError(QXmppClient::Error)));
     connect(client, SIGNAL(iqReceived(QXmppIq)), SLOT(xmppIqReceived(QXmppIq)));
@@ -41,23 +42,31 @@ void Network::Login()
 
 bool Network::isConnected()
 {
-    return client->isAuthenticated();
+    return client->isAuthenticated() && _state != Network::Offline;
 }
 
 bool Network::isConnecting()
 {
-    return client->isConnected() && !client->isAuthenticated();
+    return client->isConnected() && !isConnected();
 }
 
 void Network::xmppStateChanged(QXmppClient::State state)
 {
-    emit StateChanged();
-
     if (client->isConnected() && client->isAuthenticated())
     {
         updateState();
         sendIqInit();
     }
+    else if (state == QXmppClient::DisconnectedState)
+    {
+        _state = OnlineState::Offline;
+    }
+
+    emit stateChanged();
+}
+
+void Network::xmppDisconnected()
+{
 }
 
 void Network::xmppError(QXmppClient::Error error)

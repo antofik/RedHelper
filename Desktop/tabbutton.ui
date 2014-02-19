@@ -16,6 +16,27 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#panel{
+	background-color:#eaecf2;
+	border-style:solid;
+	border-color:#b3b3b3;
+	border-width:1px;
+	border-bottom-width:1px;
+	border-top-left-radius:0px;
+	border-top-right-radius:0px;
+}
+
+#panel[selected=&quot;true&quot;]{
+    background-color: #f2f2f2;
+	border-bottom-width:0px;
+}
+
+#panel[highlighted=&quot;true&quot;]{
+    background-color: orange;
+}
+</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
     <number>0</number>

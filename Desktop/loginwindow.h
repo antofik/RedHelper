@@ -14,6 +14,9 @@ class LoginWindow : public QDialog
 public:
     explicit LoginWindow(QWidget *parent = 0);
     ~LoginWindow();
+    void closeEvent(QCloseEvent *e);
+
+public slots:
 
 private:
     Ui::LoginWindow *ui;

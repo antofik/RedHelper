@@ -569,6 +569,8 @@
         <file>Images/Visitors/code_button.png</file>
         <file>Images/Visitors/code_default.png</file>
         <file>Images/Visitors/code_pressed.png</file>
+        <file>Images/Visitors/collapsed.png</file>
+        <file>Images/Visitors/open.png</file>
         <file>Images/Visitors/cross.png</file>
         <file>Images/Visitors/currentpage.png</file>
         <file>Images/Visitors/empty.png</file>
