@@ -50,27 +50,33 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>30</x>
      <y>140</y>
-     <width>51</width>
-     <height>20</height>
+     <width>61</width>
+     <height>18</height>
     </rect>
    </property>
    <property name="text">
     <string>Password</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>110</y>
-     <width>31</width>
-     <height>16</height>
+     <width>61</width>
+     <height>18</height>
     </rect>
    </property>
    <property name="text">
     <string>Login</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="cmdLogin">
@@ -79,7 +85,7 @@
      <x>110</x>
      <y>200</y>
      <width>75</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
