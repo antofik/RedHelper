@@ -33,7 +33,6 @@ VisitorListView::VisitorListView(QWidget *parent) :
     online = new QStandardItem(tr("Online"));
     browsing = new QStandardItem(tr("Browsing"));
     busy = new QStandardItem(tr("Busy"));
-    //ui->list->set
     online->setIcon(QIcon(":/Images/Visitors/icon_plus.png"));
     model->setItem(0, 0, online);
     model->setItem(0, 1, new QStandardItem("online"));
@@ -41,9 +40,7 @@ VisitorListView::VisitorListView(QWidget *parent) :
     model->setItem(1, 1, new QStandardItem("browsing"));
     model->setItem(2, 0, busy);
     model->setItem(2, 1, new QStandardItem("busy"));
-    ui->list->setItemsExpandable(true);
-    ui->list->setExpanded(online->index(), true);
-    ui->list->setExpanded(browsing->index(), true);
+    ui->list->expandAll();
     ui->list->setEditTriggers(QTreeView::NoEditTriggers);
 
     GroupDelegate *groupDelegate = new GroupDelegate(ui->list);
@@ -64,6 +61,11 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
     for(int i=0;i<added->count();i++)
     {
         Visitor *v = added->at(i);
+        if (_rows.contains(v->Id))
+        {
+            continue;
+        }
+
         QList<QStandardItem*> items;
         for(int j=0;j<model->columnCount();j++)
         {
@@ -72,6 +74,7 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
             item->setData(v->Id, Qt::UserRole);
             items.append(item);
         }
+        _rows[v->Id] = items;
         DisplayVisitor(v, items);
         if (v->ChatState=="chat")
             online->appendRow(items);
@@ -87,13 +90,14 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
         Visitor *v = Core::visitors()->visitorById(id);
         if (!v) continue;
         QList<QStandardItem*> rows = model->findItems(id, Qt::MatchExactly, 1);
-        if (rows.count()==1)
+        rows = _rows[id];
+        if (rows.count()>0)
         {
-            QModelIndex index = model->indexFromItem(rows.at(0));
-            int row = index.row();
-            QList<QStandardItem*> items = model->takeRow(row);
+            int row = rows.at(0)->row();
+            if (row == -1) continue;
+            QList<QStandardItem*> items = rows.at(0)->parent()->takeRow(row);
             DisplayVisitor(v, items);
-            if (v->ChatState=="online")
+            if (v->ChatState=="chat")
                 online->insertRow(row, items);
             else if (v->ChatState=="busy")
                 busy->insertRow(row, items);
@@ -105,12 +109,13 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
     for (int i=0;i<deleted.count();i++)
     {
         QString id = deleted.at(i);
-        QList<QStandardItem*> rows = model->findItems(id, Qt::MatchExactly, 1);
-        if (rows.count()==1)
+        if (!_rows.contains(id)) continue;
+        QList<QStandardItem*> rows = _rows[id];
+        if (rows.count() > 0)
         {
-            int row = rows.at(0)->row();
-            model->removeRow(row);
+            rows.at(0)->parent()->removeRow(rows.at(0)->row());
         }
+        _rows.remove(id);
     }
 }
 

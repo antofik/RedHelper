@@ -10,6 +10,7 @@
 #include "visitorlistview.h"
 #include "visitor.h"
 #include "visitorchatview.h"
+#include <QMap>
 
 namespace Ui {
 class VisitorListView;
@@ -38,6 +39,8 @@ private:
     QStandardItem *online;
     QStandardItem *busy;
     QStandardItem *browsing;
+
+    QMap<QString, QList<QStandardItem*> > _rows;
 };
 
 #endif // VISITORLISTVIEW_H

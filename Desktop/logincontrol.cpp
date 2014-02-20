@@ -9,6 +9,7 @@ LoginControl::LoginControl(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->cmdLogin, SIGNAL(pressed()), SLOT(login()));
+    connect(ui->cmdCancel, SIGNAL(pressed()), SLOT(cancel()));
     connect(Core::network(), SIGNAL(stateChanged()), SLOT(networkStateChanged()));
     connect(Core::network(), SIGNAL(XmppError(QXmppStanza::Error::Condition)), SLOT(xmppError(QXmppStanza::Error::Condition)));
     connect(Core::network(), SIGNAL(SocketError(QAbstractSocket::SocketError)), SLOT(socketError(QAbstractSocket::SocketError)));
@@ -31,12 +32,24 @@ LoginControl::~LoginControl()
 
 void LoginControl::login()
 {
-    this->setEnabled(false);
+    enableEditing(false);
     emit Core::ui()->update();
     ui->txtError->setText("");
     Core::network()->User = ui->txtUser->text();
     Core::network()->Password = ui->txtPassword->text();
     Core::network()->Login();
+}
+
+void LoginControl::cancel()
+{
+    emit Core::ui()->exit();
+}
+
+void LoginControl::enableEditing(bool ok)
+{
+    ui->txtUser->setEnabled(ok);
+    ui->txtPassword->setEnabled(ok);
+    ui->cmdLogin->setEnabled(ok);
 }
 
 void LoginControl::networkStateChanged()
@@ -50,7 +63,7 @@ void LoginControl::networkStateChanged()
     else if (Core::network()->isConnecting())
     {
         ui->txtStatus->setText(tr("Connecting..."));
-        this->setEnabled(false);
+        enableEditing(false);
     }
 }
 
@@ -71,7 +84,7 @@ void LoginControl::xmppError(QXmppStanza::Error::Condition error)
     } else {
         ui->txtError->setText(tr("Unknown error: ") + QString::number(error));
     }
-    this->setEnabled(true);
+    enableEditing(true);
 }
 
 void LoginControl::socketError(QAbstractSocket::SocketError error)
@@ -88,5 +101,5 @@ void LoginControl::socketError(QAbstractSocket::SocketError error)
     {
         ui->txtError->setText(tr("Network error: ") + QString::number(error));
     }
-    this->setEnabled(true);
+    enableEditing(true);
 }

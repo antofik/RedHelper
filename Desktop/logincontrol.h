@@ -20,6 +20,8 @@ public:
 
 private slots:
     void login();
+    void cancel();
+    void enableEditing(bool ok);
     void networkStateChanged();
     void xmppError(QXmppStanza::Error::Condition error);
     void socketError(QAbstractSocket::SocketError error);

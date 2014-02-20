@@ -47,14 +47,14 @@ void GroupDelegate::paint(QPainter * painter, const QStyleOptionViewItem & optio
             painter->fillRect(option.rect, grayBackground);
         }
         QVariant value = index.data(Qt::DecorationRole);
-        int adjust = 0;
+        int adjust = index.column()==0 ? 24 : 0;
         if (value.isValid() && value.type() == QVariant::Icon)
         {
             QIcon icon = value.value<QIcon>();
             if (icon.availableSizes().count()>0)
             {
                 int width = icon.availableSizes().at(0).width();
-                icon.paint(painter, r.x()+8, r.y(), width, 28);
+                icon.paint(painter, r.x()+8 + adjust, r.y(), width, 28);
                 adjust += width + 8;
             }
         }
