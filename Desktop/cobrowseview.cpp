@@ -3,6 +3,7 @@
 #include <QWebFrame>
 #include "cobrowseobject.h"
 #include "core.h"
+#include "webpage.h"
 
 const QUrl safe_url("http://test.web.redhelper.ru/desktop3/index.html");
 const QUrl normal_url("http://test.web.redhelper.ru/desktop3/index.html");
@@ -11,6 +12,7 @@ CobrowseView::CobrowseView(QWidget *parent) : QWidget(parent),
     ui(new Ui::CobrowseView)
 {
     ui->setupUi(this);
+    ui->web->setPage(new WebPage());
     ui->web->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
     ui->web->settings()->setAttribute(QWebSettings::LocalStorageEnabled, true);
 
@@ -71,14 +73,14 @@ QVariant CobrowseView::execute(QString script)
     return "";
 }
 
-void CobrowseView::cobrowseReceived(QXmppMessage message)
+void CobrowseView::cobrowseReceived(CobrowseNotification* message)
 {
     QByteArray base64data;
-    base64data.append(message.body().toUtf8());
+    base64data.append(message->Data.toUtf8());
     execute("rhDesktop.messageReceived('" + base64data.toBase64() + "')");
 }
 
-void CobrowseView::mouseReceived(QXmppMessage message)
+void CobrowseView::mouseReceived(MouseNotification* message)
 {
-    execute("rhDesktop.mouseMoved('" + message.body() + "')");
+    execute("rhDesktop.mouseMoved('" + message->Data + "')");
 }

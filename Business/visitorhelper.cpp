@@ -51,8 +51,8 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
         }
     }
 
-    emit VisitorChanged(added, modified, deleted);
     delete visitors;
+    emit VisitorChanged(added, modified, deleted);
 }
 
 Visitor* VisitorHelper::visitorById(const QString id)

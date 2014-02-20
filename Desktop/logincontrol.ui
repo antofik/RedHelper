@@ -152,6 +152,12 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>txtUser</tabstop>
+  <tabstop>txtPassword</tabstop>
+  <tabstop>cmdLogin</tabstop>
+  <tabstop>cmdCancel</tabstop>
+ </tabstops>
  <resources>
   <include location="Images.qrc"/>
  </resources>

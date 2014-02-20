@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     aboutwindow.cpp \
     bugreportwindow.cpp \
     settingswindow.cpp \
-    groupdelegate.cpp
+    groupdelegate.cpp \
+    webpage.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -61,7 +62,8 @@ HEADERS  += mainwindow.h \
     aboutwindow.h \
     bugreportwindow.h \
     settingswindow.h \
-    groupdelegate.h
+    groupdelegate.h \
+    webpage.h
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \

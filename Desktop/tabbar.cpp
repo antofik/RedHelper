@@ -49,7 +49,7 @@ void TabBar::updateScrollButtonsVisibility()
 {
     int contentWidth = ui->scrollContent->size().width();
     int viewportWidth = ui->scroll->viewport()->size().width();
-    qDebug() << contentWidth << viewportWidth;
+    //qDebug() << contentWidth << viewportWidth;
     if (contentWidth>viewportWidth)
     {
         ui->cmdScrollLeft->show();

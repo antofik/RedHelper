@@ -141,7 +141,7 @@ void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
     //return;
     //if (message.startsWith("<message"))    
     QString direction = type == QXmppLogger::ReceivedMessage ? "<=" : "=>";
-    if (!message.contains("visitorlistdiff"))
+   // if (!message.contains("visitorlistdiff"))
         qDebug() << direction << " " << message;
 }
 
