@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>187</width>
+    <width>429</width>
     <height>42</height>
    </rect>
   </property>
@@ -44,7 +44,7 @@
    <item>
     <widget class="QFrame" name="frame">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -57,8 +57,8 @@
      </property>
      <property name="maximumSize">
       <size>
-       <width>16777215</width>
-       <height>6</height>
+       <width>0</width>
+       <height>16777215</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -67,7 +67,7 @@
 }</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
@@ -92,84 +92,47 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <property name="leftMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="topMargin">
        <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="bottomMargin">
        <number>0</number>
       </property>
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item row="0" column="0">
-       <widget class="QWidget" name="leftPanel" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" alignment="Qt::AlignLeft">
-       <widget class="QPushButton" name="cmdScrollLeft">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>&lt;</string>
-        </property>
-        <property name="autoRepeat">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QPushButton" name="cmdScrollRight">
+       <widget class="QToolButton" name="cmdScrollLeft">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>16777215</height>
-         </size>
-        </property>
         <property name="text">
-         <string>&gt;</string>
-        </property>
-        <property name="autoRepeat">
-         <bool>true</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
+         <string>&lt;</string>
         </property>
        </widget>
       </item>
       <item row="0" column="2">
+       <widget class="QToolButton" name="cmdScrollRight">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
        <widget class="ScrollArea" name="scroll">
         <property name="maximumSize">
          <size>
@@ -200,7 +163,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>89</width>
+           <width>375</width>
            <height>32</height>
           </rect>
          </property>
@@ -210,7 +173,6 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <zorder>frame</zorder>
         </widget>
        </widget>
       </item>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>66</width>
-    <height>82</height>
+    <height>90</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -107,6 +107,11 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Вторая линия</string>
         </property>
@@ -142,6 +147,9 @@
       </item>
       <item>
        <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
         <property name="sizeHint" stdset="0">
          <size>
           <width>0</width>
