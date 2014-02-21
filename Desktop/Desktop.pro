@@ -140,7 +140,8 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Containers/libContainers.a
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d
-else:unix: LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d
+else:unix:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp
+else:unix:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../qxmpp/src/ -lqxmpp_d
 
 
 INCLUDEPATH += $$PWD/../qxmpp/src
@@ -155,7 +156,8 @@ DEPENDPATH += $$PWD/../qxmpp/src/server
 win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/qxmpp.lib
 win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/qxmpp_d.lib
 else:win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp.a
-else:unix|win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp_d.a
+else:unix|win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp.a
+else:unix|win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp_d.a
 
 
 OTHER_FILES += \
@@ -171,7 +173,7 @@ RESOURCES += \
 defineReplace(out){
     win32:CONFIG(release, debug|release):QMAKE_POST_LINK += copy $$1 $$OUT_WIN\\release
     else:win32:CONFIG(debug, debug|release):QMAKE_POST_LINK += $$quote(copy $$1 $$OUT_WIN\\debug)
-    else:macx:QMAKE_POST_LINK += message($$system(cp $$1 $$OUT_PWD/Desktop.app/Contents/MacOS))
+    else:macx:QMAKE_POST_LINK += message($$system(cp $$1 $$OUT_PWD/RedHelper.app/Contents/MacOS/))
     else:QMAKE_POST_LINK += message($$system(cp $$1 $$OUT_PWD))
 
     win32:CONFIG(debug, debug|release):system(copy $$1 $$OUT_WIN\\debug)
