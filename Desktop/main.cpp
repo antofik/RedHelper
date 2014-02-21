@@ -5,6 +5,8 @@
 
 int main(int argc, char *argv[])
 {
+    qApp->addLibraryPath("./plugins");
+
     QApplication a(argc, argv);
     QCoreApplication::setApplicationName("RedHelper Desktop Application");
     QCoreApplication::setOrganizationDomain("http://redhelper.ru");

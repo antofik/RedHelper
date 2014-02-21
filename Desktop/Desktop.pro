@@ -8,8 +8,10 @@ QT       += core gui network webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Desktop
+TARGET = RedHelper
 TEMPLATE = app
+RC_FILE = icons.rc
+
 OUT_WIN = $$replace(OUT_PWD, /, \\)
 
 SOURCES += main.cpp\
@@ -155,6 +157,7 @@ else:unix|win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp_d.a
 
 
 OTHER_FILES += \
+    icons.rc \
     VisitorChat.html \
     jquery.js \
     chat.js \
