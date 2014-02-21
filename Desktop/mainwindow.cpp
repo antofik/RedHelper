@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     loginWindow->setWindowFlags(Qt::Dialog);
 #else
     LoginWindow *loginWindow = new LoginWindow(this);
-    loginWindow->setWindowFlags(Qt::Drawer);
+    //loginWindow->setWindowFlags(Qt::Drawer);
     loginWindow->setWindowModality(Qt::WindowModal);
 #endif
     loginWindow->show();

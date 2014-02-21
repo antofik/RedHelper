@@ -82,5 +82,5 @@ void CobrowseView::cobrowseReceived(CobrowseNotification* message)
 
 void CobrowseView::mouseReceived(MouseNotification* message)
 {
-    execute("rhDesktop.mouseMoved('" + message->Data + "')");
+    execute("rhDesktop.moveMouse(" + message->Data + ")");
 }

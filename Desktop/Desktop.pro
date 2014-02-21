@@ -8,9 +8,11 @@ QT       += core gui network webkit webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Desktop
+TARGET = RedHelper
 TEMPLATE = app
 OUT_WIN = $$replace(OUT_PWD, /, \\)
+
+ICON = redhelper.icns
 
 SOURCES += main.cpp\
         mainwindow.cpp \
