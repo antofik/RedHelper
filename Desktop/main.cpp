@@ -5,6 +5,9 @@
 
 int main(int argc, char *argv[])
 {
+    enter
+    qDebug() << __VERSION__ << __VERSION3__;
+
     qApp->addLibraryPath("./plugins");
 
     QApplication a(argc, argv);
@@ -20,6 +23,8 @@ int main(int argc, char *argv[])
     w.setStyleSheet("font-size: 11px;");
     w.show();
 #endif
+
+    leave
 
     return a.exec();
 }

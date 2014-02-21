@@ -12,6 +12,11 @@ TARGET = RedHelper
 TEMPLATE = app
 RC_FILE = icons.rc
 
+GIT_VERSION = $$system(git rev-parse HEAD)
+message($$GIT_VERSION)
+
+DEFINES += '__VERSION3__=\'\"$$GIT_VERSION\"\''
+
 OUT_WIN = $$replace(OUT_PWD, /, \\)
 
 ICON = redhelper.icns
@@ -171,12 +176,13 @@ RESOURCES += \
     Images.qrc
 
 defineReplace(out){
-    win32:CONFIG(release, debug|release):QMAKE_POST_LINK += copy $$1 $$OUT_WIN\\release
+    win32:CONFIG(release, debug|release):QMAKE_POST_LINK += message($$quote(copy $$1 $$OUT_WIN\\release))
     else:win32:CONFIG(debug, debug|release):QMAKE_POST_LINK += $$quote(copy $$1 $$OUT_WIN\\debug)
     else:macx:QMAKE_POST_LINK += message($$system(cp $$1 $$OUT_PWD/RedHelper.app/Contents/MacOS/))
     else:QMAKE_POST_LINK += message($$system(cp $$1 $$OUT_PWD))
 
     win32:CONFIG(debug, debug|release):system(copy $$1 $$OUT_WIN\\debug)
+    else:win32:CONFIG(release, debug|release):system(copy $$1 $$OUT_WIN\\release)
 
     return(true)
 }

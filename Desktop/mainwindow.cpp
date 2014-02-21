@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    enter
+
     ui->setupUi(this);
     connect(Core::ui(), SIGNAL(showMainWindow()), SLOT(show()));
     connect(Core::ui(), SIGNAL(loginWindowClosed()), SLOT(loginWindowClosed()));
@@ -33,15 +35,20 @@ MainWindow::MainWindow(QWidget *parent) :
     OnlineStateIndicator *indicator = new OnlineStateIndicator();
     indicator->setFixedWidth(24);
     ui->statusBar->addPermanentWidget(indicator);
+
+    leave
 }
 
 MainWindow::~MainWindow()
 {
+    enter
     delete ui;
+    leave
 }
 
 void MainWindow::networkStateChanged()
 {
+    enter
     Network *network;
     network = Core::network();
     if (network->isConnected())
@@ -56,17 +63,22 @@ void MainWindow::networkStateChanged()
     else
     {
         ui->statusBar->showMessage(tr("Disconnected"));
-    }
+    }    
+    leave
 }
 
 void MainWindow::loginWindowClosed()
 {
+    enter
     if (this->isVisible()) return;
-    this->close();
+    this->close();    
+    leave
 }
 
 void MainWindow::diagnostics()
 {
+    enter
     DiagnosticsWindow *window = new DiagnosticsWindow();
     window->show();
+    leave
 }

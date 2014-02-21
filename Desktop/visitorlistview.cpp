@@ -11,6 +11,7 @@ VisitorListView::VisitorListView(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::VisitorListView)
 {
+    enter
     ui->setupUi(this);
 
     model = new QStandardItemModel();
@@ -62,15 +63,19 @@ VisitorListView::VisitorListView(QWidget *parent) :
     ui->list->setColumnWidth(8, 120); //Ip
     ui->list->setColumnWidth(9, 100); //Current operator
     ui->list->setColumnWidth(10, 280); //Current url
+    leave
 }
 
 VisitorListView::~VisitorListView()
 {
+    enter
     delete ui;
+    leave
 }
 
 void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStringList &modified, const QStringList &deleted)
 {
+    enter
     try
     {
         for(int i=0;i<added->count();i++)
@@ -144,10 +149,12 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
     {
         qDebug() << "Unknown error!";
     }
+    leave
 }
 
 void VisitorListView::DisplayVisitor(Visitor *v, QList<QStandardItem*> items)
 {
+    enter
     int i = 0;
     //items.at(i++)->setText(v->ChatState);
 
@@ -201,18 +208,22 @@ void VisitorListView::DisplayVisitor(Visitor *v, QList<QStandardItem*> items)
     items.at(i)->setData(v->CurrentUrl, Qt::InitialSortOrderRole);
     items.at(i++)->setToolTip(v->CurrentUrl);
     //ui->list->setItemDelegateForColumn(10, urlDelegate);
+    leave
 }
 
 void VisitorListView::doubleClicked(QModelIndex index)
 {
+    enter
     if (!index.parent().isValid()) return;
 
     QString id = index.data(Qt::UserRole).toString();
     emit Core::ui()->openChat(id, true);
+    leave
 }
 
 void VisitorListView::clicked(QModelIndex index)
 {
+    enter
     if (index.parent().isValid())
     {
         if (index.column() == 0)
@@ -230,6 +241,7 @@ void VisitorListView::clicked(QModelIndex index)
     {
         ui->list->setExpanded(index, !ui->list->isExpanded(index));
     }
+    leave
 }
 
 

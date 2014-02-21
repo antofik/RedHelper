@@ -9,6 +9,9 @@
 #include "uihelper.h"
 #include "connectionhelper.h"
 
+#define enter qDebug() << "enter" << __PRETTY_FUNCTION__ << __TIMESTAMP__;
+#define leave qDebug() << "leave" << __PRETTY_FUNCTION__ << __TIMESTAMP__;
+
 class VisitorUpdater;
 class VisitorHelper;
 
