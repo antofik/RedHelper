@@ -10,6 +10,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RedHelper
 TEMPLATE = app
+RC_FILE = icons.rc
+
 OUT_WIN = $$replace(OUT_PWD, /, \\)
 
 ICON = redhelper.icns
@@ -157,6 +159,7 @@ else:unix|win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../qxmpp/src/libqxmpp_d.a
 
 
 OTHER_FILES += \
+    icons.rc \
     VisitorChat.html \
     jquery.js \
     chat.js \
