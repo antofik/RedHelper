@@ -174,8 +174,8 @@ void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
 void Network::xmppMessageReceived(const QXmppMessage &message)
 {
     enter
-    QXmppMessage m(message); //copy message since it could be deleted any time
-    BaseNotification *notification = parser.MessageToNotification(m);
+    BaseNotification *notification = parser.MessageToNotification(message);
+    if (notification==nullptr) return;
     if (auto item = dynamic_cast<TextNotification*>(notification))
     {
         emit messageReceived(item);

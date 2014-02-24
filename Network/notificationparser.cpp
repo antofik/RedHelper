@@ -71,6 +71,10 @@ BaseNotification* NotificationParser::MessageToNotification(const QXmppMessage &
         item->Data = message.body();
         result = item;
     }
+    else
+    {
+        return nullptr;
+    }
 
     result->Id = message.id();
     result->From = message.from();

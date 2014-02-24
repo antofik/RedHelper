@@ -115,6 +115,7 @@ public:
     void parse(const QDomElement &element);
     void toXml(QXmlStreamWriter *writer) const;
     /// \endcond
+    ///
 
 private:
     QSharedDataPointer<QXmppMessagePrivate> d;
