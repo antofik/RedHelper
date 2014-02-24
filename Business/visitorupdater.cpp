@@ -1,8 +1,10 @@
 #include "visitorupdater.h"
 #include <QTimer>
+#include "memorychecker.h"
 
 VisitorUpdater::VisitorUpdater() : QObject(0)
-{
+{    
+    enter
     _lastRequest = QDateTime::currentDateTime();
 
     static QThread thread;
@@ -10,16 +12,19 @@ VisitorUpdater::VisitorUpdater() : QObject(0)
     connect(Core::network(), SIGNAL(StartWorkers()), SLOT(doWork()));
     connect(Core::network(), SIGNAL(visitorListReceived(QXmppElement *)), SLOT(visitorListReceived(QXmppElement *)));
     thread.start();
-
+    leave
 }
 
 void VisitorUpdater::doWork()
 {
+    enter
     sendVisitorList();
+    leave
 }
 
 void VisitorUpdater::sendVisitorList()
 {
+    enter
     QDateTime time = QDateTime::currentDateTime();
     qint64 delta = _lastRequest.msecsTo(time);
     if (delta < Core::TimeBetweenVisitorlistDiffs)
@@ -63,11 +68,12 @@ void VisitorUpdater::sendVisitorList()
     }
 
     QTimer::singleShot(Core::TimeBetweenVisitorlistDiffs, this, SLOT(sendVisitorList()));
-
+    leave
 }
 
 void VisitorUpdater::visitorListReceived(QXmppElement *element)
 {
+    enter
     _lastRequest = QDateTime::currentDateTime();
 
     QString q = element->value();
@@ -113,5 +119,8 @@ void VisitorUpdater::visitorListReceived(QXmppElement *element)
         visitorElement = visitorElement.nextSiblingElement("visitor");
     }
 
+    _log_(QString::number(updatedVisitors->count()) + " visitors updated. " + QString::number(ids.count()) + " visitors online")
+
     emit NewVisitors(ids, updatedVisitors);
+    leave
 }

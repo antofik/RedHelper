@@ -16,11 +16,13 @@ signals:
     void activateTab(QString tabId);
     void closeTab(QString tabId);
     void setTabContent(QString tabId, QWidget* widget);
-    void setTabName(QString tabId, QString name);
+    void setTabName(QString tabId, QString name);    
+    void setTabIcon(QString tabId, QString imagePath);
     void highlight(QString tabId);
 
     void showMainWindow();
     void loginWindowClosed();
+    void updateOnlineCount();
 
     void update();
 

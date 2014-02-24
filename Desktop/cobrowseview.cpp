@@ -11,6 +11,7 @@ const QUrl normal_url("http://test.web.redhelper.ru/desktop3/index.html");
 CobrowseView::CobrowseView(QWidget *parent) : QWidget(parent),
     ui(new Ui::CobrowseView)
 {
+    enter
     ui->setupUi(this);
     ui->web->setPage(new WebPage());
     ui->web->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
@@ -24,15 +25,19 @@ CobrowseView::CobrowseView(QWidget *parent) : QWidget(parent),
 
     this->layout()->invalidate();
     this->layout()->activate();
+    leave
 }
 
 CobrowseView::~CobrowseView()
 {
+    enter
     delete ui;
+    leave
 }
 
 void CobrowseView::setVisitor(Visitor *visitor)
 {
+    enter
     _visitor = visitor;
     rhDesktop = new CobrowseObject(_visitor);
     ui->web->page()->mainFrame()->addToJavaScriptWindowObject("rhDesktop", rhDesktop);
@@ -40,19 +45,25 @@ void CobrowseView::setVisitor(Visitor *visitor)
     if (!_visitor->CurrentUrl.isNull() && _visitor->CurrentUrl.startsWith("https"))
     {
         ui->web->setUrl(safe_url);
-    }else{
+    }
+    else
+    {
         ui->web->setUrl(normal_url);
     }
+    leave
 }
 
 void CobrowseView::javaScriptWindowObjectCleared()
 {
+    enter
     if (rhDesktop==0) return;
     ui->web->page()->mainFrame()->addToJavaScriptWindowObject("rhDesktop", rhDesktop);
+    leave
 }
 
 void CobrowseView::loadFinished(bool ok)
 {
+    enter
     if (!ok) return;
     if (_visitor==0) return;
     if (rhDesktop==0) return;
@@ -61,26 +72,33 @@ void CobrowseView::loadFinished(bool ok)
     execute("rhDesktop.vid = '" + _visitor->vid() + "';");
     execute("rhDesktop.language = 'en';");
     execute("rhDesktop.currentUrl = '" + _visitor->CurrentUrl + "';");
+    leave
 }
 
 QVariant CobrowseView::execute(QString script)
 {
+    enter
     if (ui->web->page() && ui->web->page()->mainFrame())
     {
         qDebug() << "SCRIPT: " << script;
         return ui->web->page()->mainFrame()->evaluateJavaScript(script);
     }
+    leave
     return "";
 }
 
 void CobrowseView::cobrowseReceived(CobrowseNotification* message)
 {
+    enter
     QByteArray base64data;
     base64data.append(message->Data.toUtf8());
     execute("rhDesktop.messageReceived('" + base64data.toBase64() + "')");
+    leave
 }
 
 void CobrowseView::mouseReceived(MouseNotification* message)
 {
+    enter
     execute("rhDesktop.moveMouse(" + message->Data + ")");
+    leave
 }

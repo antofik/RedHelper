@@ -1,4 +1,5 @@
 #include "log.h"
+#include "diagnostics.h"
 
 Log::Log(QObject *parent) :
     QObject(parent)
@@ -15,6 +16,7 @@ void Log::info(QString message)
 {
     LogItem *item = new LogItem(Log::Info, QString(message));
     Log::instance()->_items.append(item);
+    _llog_("Info: " + message)
     emit Log::instance()->added(item);
 }
 
@@ -22,6 +24,7 @@ void Log::warning(QString message)
 {
     LogItem *item = new LogItem(Log::Warning, QString(message));
     Log::instance()->_items.append(item);
+    _llog_("Warning: " + message)
     emit Log::instance()->added(item);
 }
 
@@ -29,6 +32,7 @@ void Log::error(QString message)
 {
     LogItem *item = new LogItem(Log::Error, QString(message));
     Log::instance()->_items.append(item);
+    _llog_("Error: " + message)
     emit Log::instance()->added(item);
 }
 

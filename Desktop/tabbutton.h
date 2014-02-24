@@ -22,7 +22,7 @@ public:
     bool isSelected();
     void setSelected(bool value);
     void setHighlighted(bool value);
-
+    void setIcon(QString imagePath);
 
 public slots:
     void select();

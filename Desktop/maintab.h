@@ -30,6 +30,7 @@ private slots:
     void activateTab(QString tabId);
     void closeTab(QString tabId);
     void setTabContent(QString tabId, QWidget* widget);
+    void updateOnlineCount();
 
 private:
     Ui::MainTab *ui;

@@ -5,6 +5,7 @@
 
 VisitorChatView::VisitorChatView(Visitor *visitor) : QWidget(0), ui(new Ui::VisitorChatView)
 {
+    enter
     ui->setupUi(this);
     _visitor = visitor;
 
@@ -14,37 +15,24 @@ VisitorChatView::VisitorChatView(Visitor *visitor) : QWidget(0), ui(new Ui::Visi
     ui->chat->setVisitor(_visitor);
     ui->Details->setVisitor(_visitor);
     ui->Cobrowse->setVisitor(_visitor);
+    leave
 }
 
 VisitorChatView::~VisitorChatView()
 {
+    enter
     delete ui;
+    leave
 }
 
 Visitor* VisitorChatView::visitor()
 {
     return _visitor;
 }
-/*
-void VisitorChatView::messageReceived(TextMessage *message)
-{
-    if (message.attribute("content") == "cobrowse")
-    {
-        ui->Cobrowse->cobrowseReceived(message);
-    }
-    else if (message.attribute("content") == "mouse")
-    {
-        ui->Cobrowse->mouseReceived(message);
-    }
-    else
-    {
-        ui->chat->messageReceived(message);
-    }
-    //ui->list->setIndexWidget(item->index(), new QPushButton("test button"));
-}
-*/
+
 void VisitorChatView::sendMessage()
 {
+    enter
     QString text = ui->txtMessage->toPlainText();
     ui->txtMessage->clear();
 
@@ -54,10 +42,12 @@ void VisitorChatView::sendMessage()
     emit ui->chat->messageReceived(n);
 
     Core::network()->client->sendMessage(_visitor->Jid, text);
+    leave
 }
 
 void VisitorChatView::prepare(BaseNotification *n)
 {
+    enter
     n->From = Core::network()->MyJid;
     n->To = _visitor->Jid;
     n->IsIncoming = false;
@@ -66,4 +56,5 @@ void VisitorChatView::prepare(BaseNotification *n)
     n->OperatorDisplayName = Core::network()->MyName;
     n->OperatorLogin = Core::network()->User;
     n->VisitorId = _visitor->Id;
+    leave
 }

@@ -6,6 +6,7 @@ LoginControl::LoginControl(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LoginControl)
 {
+    enter
     ui->setupUi(this);
 
     connect(ui->cmdLogin, SIGNAL(pressed()), SLOT(login()));
@@ -17,43 +18,48 @@ LoginControl::LoginControl(QWidget *parent) :
     ui->txtUser->setText(Core::network()->User);
     ui->txtPassword->setText(Core::network()->Password);    
     ui->txtStatus->setText("");
-
-    if (true) //TODO autologin
-    {
-//        this->login();
-    }
+    leave
 }
 
 LoginControl::~LoginControl()
 {
+    enter
     disconnect(Core::network(), SIGNAL(stateChanged()), this, SLOT(networkStateChanged()));
     delete ui;
+    leave
 }
 
 void LoginControl::login()
 {
+    enter
     enableEditing(false);
     emit Core::ui()->update();
     ui->txtError->setText("");
     Core::network()->User = ui->txtUser->text();
     Core::network()->Password = ui->txtPassword->text();
     Core::network()->Login();
+    leave
 }
 
 void LoginControl::cancel()
 {
+    enter
     emit Core::ui()->exit();
+    leave
 }
 
 void LoginControl::enableEditing(bool ok)
 {
+    enter
     ui->txtUser->setEnabled(ok);
     ui->txtPassword->setEnabled(ok);
     ui->cmdLogin->setEnabled(ok);
+    leave
 }
 
 void LoginControl::networkStateChanged()
 {
+    enter
     if (Core::network()->isConnected())
     {
         ui->txtStatus->setText(tr("Logged in."));
@@ -65,10 +71,12 @@ void LoginControl::networkStateChanged()
         ui->txtStatus->setText(tr("Connecting..."));
         enableEditing(false);
     }
+    leave
 }
 
 void LoginControl::xmppError(QXmppStanza::Error::Condition error)
 {
+    enter
     if (error == QXmppStanza::Error::NotAuthorized){
         ui->txtError->setText(tr("Invalid login or password"));
     } else if (error == QXmppStanza::Error::Conflict){
@@ -85,10 +93,12 @@ void LoginControl::xmppError(QXmppStanza::Error::Condition error)
         ui->txtError->setText(tr("Unknown error: ") + QString::number(error));
     }
     enableEditing(true);
+    leave
 }
 
 void LoginControl::socketError(QAbstractSocket::SocketError error)
 {
+    enter
     if (error == QAbstractSocket::RemoteHostClosedError)
     {
         ui->txtError->setText(tr("The remote host closed the connection"));
@@ -102,4 +112,5 @@ void LoginControl::socketError(QAbstractSocket::SocketError error)
         ui->txtError->setText(tr("Network error: ") + QString::number(error));
     }
     enableEditing(true);
+    leave
 }

@@ -4,16 +4,20 @@
 VisitorHelper::VisitorHelper(QObject *parent) :
     QObject(parent)
 {
+    enter
     connect(Core::visitorUpdater(), SIGNAL(NewVisitors(QStringList,const QVector<Visitor*>*)), SLOT(NewVisitorsFromUpdater(QStringList,const QVector<Visitor*>*)));
+    leave
 }
 
 void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector<Visitor *> *visitors)
 {
+    enter
     QVector<Visitor*> *added = new QVector<Visitor*>();
     QStringList modified;
     QStringList deleted;
 
     Log::info("VisitorHelper::NewVisitorsFromUpdater(total=" + QString::number(ids.count()) + ", updated=" + QString::number(visitors->count()) + ")");
+    Log::info("Total known visitors: " + QString::number(_visitors.count()));
 
     QMap<QString, Visitor*>::iterator iter = _visitors.begin();
     while(iter != _visitors.end())
@@ -53,10 +57,13 @@ void VisitorHelper::NewVisitorsFromUpdater(const QStringList &ids, const QVector
 
     delete visitors;
     emit VisitorChanged(added, modified, deleted);
+    emit Core::ui()->updateOnlineCount();
+    leave
 }
 
 Visitor* VisitorHelper::visitorById(const QString id)
 {
+    enter
     if (!_visitors.contains(id))
     {
         qDebug() << "Dynamic visitor created!";
@@ -64,5 +71,11 @@ Visitor* VisitorHelper::visitorById(const QString id)
         v->Id = id;
         _visitors[id] = v;
     }
+    leave
     return _visitors[id];
+}
+
+int VisitorHelper::onlineCount()
+{
+    return _visitors.count();
 }

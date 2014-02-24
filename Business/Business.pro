@@ -19,7 +19,8 @@ SOURCES += business.cpp \
     connectionhelper.cpp \
     log.cpp \
     logitem.cpp \
-    diagnosticswindow.cpp
+    diagnosticswindow.cpp \
+    memorychecker.cpp
 
 HEADERS += business.h \
     core.h \
@@ -30,7 +31,8 @@ HEADERS += business.h \
     connectionhelper.h \
     log.h \
     logitem.h \
-    diagnosticswindow.h
+    diagnosticswindow.h \
+    memorychecker.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

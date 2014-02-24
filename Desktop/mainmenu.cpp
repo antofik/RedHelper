@@ -8,11 +8,13 @@
 #include "aboutwindow.h"
 #include "bugreportwindow.h"
 #include "settingswindow.h"
+#include "core.h"
 
 MainMenu::MainMenu(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainMenu)
 {
+    enter
     ui->setupUi(this);
 
     int i = 1;
@@ -24,42 +26,52 @@ MainMenu::MainMenu(QWidget *parent) :
     ui->horizontalLayout->insertWidget(i++, new MenuSeparator());
     ui->horizontalLayout->insertWidget(i++, MenuButton::button(QPixmap(":/Images/MainMenu/colored/onlinehelp.png"), tr("Online help"), this, SLOT(onlinehelp())));
     ui->horizontalLayout->insertWidget(i++, new MenuSeparator());
+    leave
 }
 
 MainMenu::~MainMenu()
 {
+    enter
     delete ui;
+    leave
 }
 
 void MainMenu::settings()
 {
+    enter
     SettingsWindow *window = new SettingsWindow();
     window->setWindowFlags(Qt::Dialog);
     window->setWindowModality(Qt::ApplicationModal);
     window->setWindowTitle(tr("Settings"));
     window->show();
+    leave
 }
 
 void MainMenu::bugreport()
 {
+    enter
     BugReportWindow *window = new BugReportWindow();
     window->setWindowFlags(Qt::Dialog);
     window->setWindowModality(Qt::ApplicationModal);
     window->setWindowTitle(tr("Bug report"));
     window->show();
+    leave
 }
 
 void MainMenu::about()
 {
+    enter
     AboutWindow *window = new AboutWindow();
     window->setWindowFlags(Qt::Dialog);
     window->setWindowModality(Qt::ApplicationModal);
     window->setWindowTitle(tr("About"));
     window->show();
+    leave
 }
 
 void MainMenu::onlinehelp()
 {
+    enter
     QWebView* view = new QWebView();
     view->resize(300, 400);
     view->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
@@ -68,4 +80,5 @@ void MainMenu::onlinehelp()
     view->setWindowFlags(Qt::Dialog);
     view->setWindowTitle(tr("Online help"));
     view->show();
+    leave
 }

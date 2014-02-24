@@ -1,4 +1,5 @@
 #include "visitor.h"
+#include "diagnostics.h"
 
 Visitor::Visitor(QObject *parent) :
     QObject(parent)
@@ -42,7 +43,7 @@ void Visitor::copyFrom(Visitor *v)
 
 QString Visitor::DisplayName(bool appendVisitor)
 {
-    //if (!CustomName.isEmpty()) return CustomName;
+    if (!CustomName.isEmpty()) return CustomName;
     return appendVisitor ? "Visitor #" + Id : Id;
 }
 

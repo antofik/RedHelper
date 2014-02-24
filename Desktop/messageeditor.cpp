@@ -1,19 +1,24 @@
 #include "messageeditor.h"
 #include <QDebug>
+#include "core.h"
 
 MessageEditor::MessageEditor(QWidget *parent) : QPlainTextEdit(parent)
 {
+    enter
+    leave
 }
 
 QSize MessageEditor::sizeHint() const
 {
+    enter
     QSize size(-1,40);
+    leave
     return size;
 }
 
 void MessageEditor::keyPressEvent(QKeyEvent *e)
 {
-    qDebug() << e->key();
+    enter
     if (e->key()==Qt::Key_Return || e->key()==Qt::Key_Enter)
     {
         emit sendMessage();
@@ -22,4 +27,5 @@ void MessageEditor::keyPressEvent(QKeyEvent *e)
     {
         QPlainTextEdit::keyPressEvent(e);
     }
+    leave
 }

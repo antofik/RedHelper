@@ -5,4 +5,5 @@ SUBDIRS += \
     qxmpp \
     Network \
     Business \
-    Desktop
+    Desktop \
+    Smtp

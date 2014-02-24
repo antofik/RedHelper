@@ -9,11 +9,14 @@
 
 CobrowseObject::CobrowseObject(Visitor *visitor) : QObject(0)
 {
+    enter
     _visitor = visitor;
+    leave
 }
 
 void CobrowseObject::sendMessage(QString type, QString body, QString store)
 {
+    enter
     QXmppMessage message;
     message.setId(QUuid::createUuid().toString().replace("{","").replace("}",""));
     Visitor* v = _visitor;
@@ -23,25 +26,26 @@ void CobrowseObject::sendMessage(QString type, QString body, QString store)
     message.setAttribute("content", type.toLower());
     message.setAttribute("store", store);
     Core::network()->client->sendPacket(message);
+    leave
 }
-/*
-<?xml version="1.0" encoding="utf-16"?>
-<message to="30890241@visitor.xmpp.redhelper.ru" xml:lang="ru-ru" id="2fe60200-e413-4159-b23d-5cd23478d6c6" type="chat" displayName="" time="02/06/2014 09:58:34" content="command">
-  <body mid="2fe60200-e413-4159-b23d-5cd23478d6c6">{"type":"html"}</body>
-</message>
-*/
 
 void CobrowseObject::pushInformation(QString message)
 {
+    enter
     qDebug() << "pushInformation " << message;
+    leave
 }
 
 void CobrowseObject::confirmRedirect()
 {
+    enter
     qDebug() << "confirmRedirect";
+    leave
 }
 
 void CobrowseObject::stateChanged(QString b1, QString b2, QString b3)
 {
+    enter
     qDebug() << "stateChanged";
+    leave
 }

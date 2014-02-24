@@ -1,14 +1,17 @@
 #include "groupdelegate.h"
 #include <QPainter>
 #include <QDebug>
+#include "core.h"
 
 GroupDelegate::GroupDelegate(QTreeView *tree, QObject *parent) :
     QStyledItemDelegate(parent)
 {
+    enter
     this->tree = tree;
     grayFont = QColor(60,60,60);
     hyperlink = QColor(79, 141, 196);
     grayBackground = QColor(247,247,247);
+    leave
 }
 
 void GroupDelegate::paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const

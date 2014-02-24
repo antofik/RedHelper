@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     enter
-
     ui->setupUi(this);
     connect(Core::ui(), SIGNAL(showMainWindow()), SLOT(show()));
     connect(Core::ui(), SIGNAL(loginWindowClosed()), SLOT(loginWindowClosed()));

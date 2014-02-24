@@ -8,6 +8,7 @@ OnlineStateSelector::OnlineStateSelector(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::OnlineStateSelector)
 {
+    enter
     ui->setupUi(this);
     connect(Core::network(), SIGNAL(stateChanged()), SLOT(stateChanged()));
     stateChanged();
@@ -22,57 +23,73 @@ OnlineStateSelector::OnlineStateSelector(QWidget *parent) :
     menu->addSeparator();
     menu->addAction(QIcon(":/Images/MainMenu/exit.png"), tr("Exit"), this, SLOT(exit()));
     connect(menu, SIGNAL(aboutToHide()), SLOT(menuClosed()));
+    leave
 }
 
 OnlineStateSelector::~OnlineStateSelector()
 {
+    enter
     delete ui;
+    leave
 }
 
 void OnlineStateSelector::mousePressEvent(QMouseEvent *e)
 {
+    enter
     ui->widget->setProperty("IsPressed", true);
     ui->widget->setStyleSheet(ui->widget->styleSheet());
 
     menu->move(this->mapToGlobal(QPoint(0, this->height())));
     menu->show();
+    leave
 }
 
 void OnlineStateSelector::mouseReleaseEvent(QMouseEvent *e)
 {
+    enter
     ui->widget->setProperty("IsPressed", false);
     ui->widget->setStyleSheet(ui->widget->styleSheet());
+    leave
 }
 
 void OnlineStateSelector::leaveEvent(QEvent *e)
 {
+    enter
     if (menu->isVisible()) return;
     ui->widget->setProperty("IsPressed", false);
     ui->widget->setStyleSheet(ui->widget->styleSheet());
+    leave
 }
 
 void OnlineStateSelector::menuClosed()
 {
+    enter
     ui->widget->setProperty("IsPressed", false);
     ui->widget->setStyleSheet(ui->widget->styleSheet());
+    leave
 }
 
 void OnlineStateSelector::changeAccount()
 {
+    enter
     Core::network()->goOffline();
     qApp->activeWindow()->hide();
     LoginWindow *window = new LoginWindow();
     window->setWindowFlags(Qt::Drawer);
     window->setWindowModality(Qt::WindowModal);
     window->show();
+    leave
 }
 void OnlineStateSelector::exit()
 {
+    enter
     Core::ui()->exit();
+    leave
 }
 
 void OnlineStateSelector::stateChanged()
 {
+    enter
     Network::OnlineState state = Core::network()->state();
     switch(state)
     {
@@ -101,4 +118,5 @@ void OnlineStateSelector::stateChanged()
             }
             break;
     }
+    leave
 }

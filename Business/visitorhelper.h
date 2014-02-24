@@ -14,6 +14,7 @@ public:
     explicit VisitorHelper(QObject *parent = 0);
 
     Visitor* visitorById(const QString id);
+    int onlineCount();
 
 signals:
     void VisitorChanged(const QVector<Visitor*> *added, const QStringList &modified, const QStringList &deleted);

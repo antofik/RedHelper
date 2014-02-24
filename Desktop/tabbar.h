@@ -24,6 +24,7 @@ private slots:
     void activateTab(QString tabId);
     void closeTab(QString tabId);
     void setTabName(QString tabId, QString name);
+    void setTabIcon(QString tabId, QString imagePath);
     void scrollLeft();
     void scrollRight();
     void highlight(QString tabId);

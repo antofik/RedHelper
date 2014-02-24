@@ -4,10 +4,13 @@
 
 Core::Core(QObject *parent) : QObject(parent)
 {
+    enter
+    leave
 }
 
 void Core::initialize()
 {
+    enter
     //create instances of helpers
     network();
     visitorUpdater();
@@ -16,6 +19,7 @@ void Core::initialize()
     reconnector();
 
     emit Core::network()->StartWorkers();
+    leave
 }
 
 VisitorUpdater* Core::visitorUpdater()

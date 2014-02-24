@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     bugreportwindow.cpp \
     settingswindow.cpp \
     groupdelegate.cpp \
-    webpage.cpp
+    webpage.cpp \
+    application.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -72,7 +73,8 @@ HEADERS  += mainwindow.h \
     bugreportwindow.h \
     settingswindow.h \
     groupdelegate.h \
-    webpage.h
+    webpage.h \
+    application.h
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \
@@ -196,3 +198,16 @@ EXTRA_BINFILES += \
 for(FILE,EXTRA_BINFILES){
     $$out($$FILE)
 }
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Smtp/release/ -lSmtp
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Smtp/debug/ -lSmtp
+else:unix: LIBS += -L$$OUT_PWD/../Smtp/ -lSmtp
+
+INCLUDEPATH += $$PWD/../Smtp
+DEPENDPATH += $$PWD/../Smtp
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/release/libSmtp.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/debug/libSmtp.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/release/Smtp.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/debug/Smtp.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Smtp/libSmtp.a
