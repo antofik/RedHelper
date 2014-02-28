@@ -3,13 +3,6 @@
 
 #include <QObject>
 
-#ifdef Q_OS_WIN
-// #include <winbase.h>
-#include <windows.h>
-#elif Q_OS_MAC
-#elif Q_OS_LINUX
-#endif
-
 class MemoryChecker : public QObject
 {
     Q_OBJECT

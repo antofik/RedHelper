@@ -1,7 +1,7 @@
 #include "notificationcenter.h"
 #include <NSUserNotification.h>
 
-void Foo::test() {
+void NotificationCenter::test() {
   NSUserNotification *userNotification = [[[NSUserNotification alloc] init] autorelease];
   userNotification.title = @"RedHelper";
   userNotification.informativeText = @"Test message";
