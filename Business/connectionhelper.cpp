@@ -1,6 +1,6 @@
 #include "connectionhelper.h"
 #include <QDebug>
-#include <core.h>
+#include "core.h"
 #include <QThread>
 #include <QTimer>
 

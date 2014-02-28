@@ -2,12 +2,19 @@
 #define UIHELPER_H
 
 #include <QObject>
+#include <QWidget>
 
 class UIHelper : public QObject
 {
     Q_OBJECT
 public:
     explicit UIHelper(QObject *parent = 0);
+    bool isActive();
+    void playSound();
+    void flash();
+    void stopFlash();
+
+    WId mainWindowHandle;
 
 signals:
     void openChat(QString id, bool activate);

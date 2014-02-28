@@ -32,7 +32,7 @@ public slots:
 private:
     Ui::TabButton *ui;
     QString _tabId;    
-    bool _isSelected=false;
+    bool _isSelected;
 };
 
 #endif // TABBUTTON_H

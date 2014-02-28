@@ -28,6 +28,7 @@ public:
 
 private slots:
     void sendMessage();
+    void currentTagChanged(int tabId);
 
 
 private:

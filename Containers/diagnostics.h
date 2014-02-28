@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QDebug>
 
-#define enter Diagnostics::Log(QString("enter ") + __PRETTY_FUNCTION__);
-#define leave Diagnostics::Log(QString("leave ") + __PRETTY_FUNCTION__);
+#define enter Diagnostics::Log(QString("enter ") + __FUNCTION__);
+#define leave Diagnostics::Log(QString("leave ") + __FUNCTION__);
 #define _log_(s1) Diagnostics::Log(QString(s1) + __FUNCTION__ + " at " + QString(__FILE__) + ":" + QString::number(__LINE__));
 #define _llog_(s1) Diagnostics::Log(QString(s1));
 
@@ -14,8 +14,8 @@ class Diagnostics : public QObject
     Q_OBJECT
 public:
 
-    const int LOG_FILE_LIMIT = 10000000; //10MB
-    const int LOG_FILES_COUNT = 10;
+    static const int LOG_FILE_LIMIT = 10000000; //10MB
+    static const int LOG_FILES_COUNT = 10;
 
     explicit Diagnostics(QObject *parent = 0);
     static Diagnostics *instance();

@@ -11,18 +11,24 @@ VisitorChatView::VisitorChatView(Visitor *visitor) : QWidget(0), ui(new Ui::Visi
 
     connect(ui->cmdSend, SIGNAL(pressed()), SLOT(sendMessage()));
     connect(ui->txtMessage, SIGNAL(sendMessage()), SLOT(sendMessage()));
+    connect(ui->tabDetails, SIGNAL(currentChanged(int)), SLOT(currentTagChanged(int)));
 
     ui->chat->setVisitor(_visitor);
     ui->Details->setVisitor(_visitor);
-    ui->Cobrowse->setVisitor(_visitor);
     leave
 }
 
 VisitorChatView::~VisitorChatView()
 {
     enter
+    ui->Cobrowse->stop();
     delete ui;
     leave
+}
+
+void VisitorChatView::currentTagChanged(int tabId)
+{
+    ui->Cobrowse->setVisitor(_visitor);
 }
 
 Visitor* VisitorChatView::visitor()

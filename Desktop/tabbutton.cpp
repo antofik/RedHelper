@@ -7,6 +7,8 @@ TabButton::TabButton(QString tabId, bool closable, QWidget *parent) :
     ui(new Ui::TabButton)
 {
     enter
+
+    _isSelected = false;
     _tabId = tabId;
     ui->setupUi(this);
 

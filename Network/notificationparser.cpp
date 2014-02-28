@@ -10,7 +10,7 @@ NotificationParser::NotificationParser(QObject *parent) :
 
 BaseNotification* NotificationParser::parse(QXmppElement *element)
 {
-
+    return 0;
 }
 
 QVector<BaseNotification*>* NotificationParser::parse(QXmppIq *iq)

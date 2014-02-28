@@ -32,10 +32,10 @@ private slots:
 
 private:
     Ui::ChatControl *ui;
-    ChatObject *chat = 0;
-    Visitor* _visitor = 0;
+    ChatObject *chat;
+    Visitor* _visitor;
 
-    bool isHistoryLoaded = false;
+    bool isHistoryLoaded;
     void loadHistoryToChat();
 };
 

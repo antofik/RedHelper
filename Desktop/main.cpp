@@ -3,6 +3,7 @@
 #include <QCoreApplication>
 #include "core.h"
 #include "application.h"
+#include <QSound>
 
 int main(int argc, char *argv[])
 {
@@ -16,7 +17,6 @@ int main(int argc, char *argv[])
         QCoreApplication::setOrganizationName("RedHelper");
 
         Core::initialize();
-
         MainWindow w;
 
 #if WIN32

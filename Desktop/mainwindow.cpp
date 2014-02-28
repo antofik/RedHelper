@@ -10,17 +10,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    enter
+    enter    
     ui->setupUi(this);
     connect(Core::ui(), SIGNAL(showMainWindow()), SLOT(show()));
-    connect(Core::ui(), SIGNAL(loginWindowClosed()), SLOT(loginWindowClosed()));
+    connect(Core::ui(), SIGNAL(loginWindowClosed()), SLOT(loginWindowClosed()));    
 
 #if WIN32
     LoginWindow *loginWindow = new LoginWindow();
     loginWindow->setWindowFlags(Qt::Dialog);
 #else
     LoginWindow *loginWindow = new LoginWindow(this);
-    //loginWindow->setWindowFlags(Qt::Drawer);
     loginWindow->setWindowModality(Qt::WindowModal);
 #endif
     loginWindow->show();
@@ -43,6 +42,12 @@ MainWindow::~MainWindow()
     enter
     delete ui;
     leave
+}
+
+void MainWindow::showEvent(QShowEvent * event)
+{
+    Core::ui()->mainWindowHandle = effectiveWinId();
+    Core::ui()->stopFlash();
 }
 
 void MainWindow::networkStateChanged()

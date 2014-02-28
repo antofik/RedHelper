@@ -2,9 +2,21 @@ function Core()
 {
     Core.prototype.initialize = function()
     {
+		rhChat.playSound.connect(playSound);
+        rhChat.markLoaded.connect(markLoaded);
         rhChat.addTextMessage.connect(addTextMessage);
         rhChat.addInfoMessage.connect(addInfoMessage);
         rhChat.addTypingMessage.connect(addTypingMessage);
+    }
+	
+	function playSound()
+	{
+        $('#audio')[0].play();
+	}
+
+    function markLoaded()
+    {
+        $('#loading').hide();
     }
 
     function addTextMessage(source, sender, message_id, time, text)

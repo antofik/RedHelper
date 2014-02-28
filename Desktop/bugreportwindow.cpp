@@ -34,7 +34,7 @@ void BugReportWindow::sendReport()
     MimeMessage message;
     message.setSender(new EmailAddress("mailbot@redhelper.ru", "Qt Desktop Bug Report"));
     message.addRecipient(new EmailAddress("antofik@gmail.com", "Anton"));
-    message.setSubject(QString("[QT BUGREPORT ") + __VERSION3__ + "] " + ui->txtHeader->text());
+    message.setSubject(QString("[QT BUGREPORT] ") + ui->txtHeader->text());
 
     MimeText text;
     text.setText(ui->txtDescription->toPlainText());

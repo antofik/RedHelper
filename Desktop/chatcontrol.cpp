@@ -6,11 +6,16 @@
 #include "core.h"
 #include <QWebInspector>
 #include "log.h"
+#include <QSound>
 
 ChatControl::ChatControl(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ChatControl)
 {
+    chat = 0;
+    _visitor = 0;
+    isHistoryLoaded = false;
+
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     ui->setupUi(this);    
 
@@ -52,9 +57,10 @@ void ChatControl::loadHistoryToChat()
 }
 
 void ChatControl::historyLoaded(QString visitorId, QVector<BaseNotification*>* notifications)
-{
+{        
     if (_visitor==0) return;
     if (visitorId != _visitor->Id) return;
+    emit chat->markLoaded();
 
     for(int i=0;i<notifications->length();i++)
     {

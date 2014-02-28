@@ -117,6 +117,7 @@ void MainTab::messageReceived(TextNotification *message)
     enter
     Log::info("MainTab::messageReceived(" + message->Text + ")");
     openChatByNotification(message);
+    if (!Core::ui()->isActive()) Core::ui()->playSound();
     leave
 }
 
@@ -125,6 +126,7 @@ void MainTab::typingReceived(TypingNotification *message)
     enter
     Log::info("MainTab::typingReceived(" + message->Text + ")");
     openChatByNotification(message);
+    if (!Core::ui()->isActive()) Core::ui()->playSound();
     leave
 }
 

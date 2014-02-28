@@ -12,6 +12,10 @@ CobrowseView::CobrowseView(QWidget *parent) : QWidget(parent),
     ui(new Ui::CobrowseView)
 {
     enter
+
+    _visitor = 0;
+    rhDesktop = 0;
+
     ui->setupUi(this);
     ui->web->setPage(new WebPage());
     ui->web->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true);
@@ -37,6 +41,7 @@ CobrowseView::~CobrowseView()
 
 void CobrowseView::setVisitor(Visitor *visitor)
 {
+    if (_visitor == visitor) return;
     enter
     _visitor = visitor;
     rhDesktop = new CobrowseObject(_visitor);
@@ -51,6 +56,13 @@ void CobrowseView::setVisitor(Visitor *visitor)
         ui->web->setUrl(normal_url);
     }
     leave
+}
+
+void CobrowseView::stop()
+{
+    if (_visitor == 0) return;
+    execute("rhDesktop.stop();");
+    _visitor = 0;
 }
 
 void CobrowseView::javaScriptWindowObjectCleared()

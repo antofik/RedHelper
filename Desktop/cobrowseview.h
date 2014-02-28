@@ -21,6 +21,7 @@ public:
     explicit CobrowseView(QWidget *parent = 0);
     ~CobrowseView();
     void setVisitor(Visitor *visitor);
+    void stop();
 
 private slots:
     void loadFinished(bool ok);
@@ -30,8 +31,8 @@ private slots:
 
 private:
     Ui::CobrowseView *ui;
-    Visitor *_visitor = 0;
-    CobrowseObject *rhDesktop = 0;
+    Visitor *_visitor;
+    CobrowseObject *rhDesktop;
 
     QVariant execute(QString script);
 };

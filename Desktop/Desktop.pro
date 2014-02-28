@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network webkit webkitwidgets
+QT += core gui network webkit webkitwidgets multimedia
+QT -= qml quick sensors sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,7 +14,6 @@ TEMPLATE = app
 RC_FILE = icons.rc
 
 GIT_VERSION = $$system(git rev-parse HEAD)
-message($$GIT_VERSION)
 
 DEFINES += '__VERSION3__=\'\"$$GIT_VERSION\"\''
 
@@ -74,7 +74,14 @@ HEADERS  += mainwindow.h \
     settingswindow.h \
     groupdelegate.h \
     webpage.h \
-    application.h
+    application.h \
+
+macx{
+    HEADERS += notificationcenter.h
+    OBJECTIVE_SOURCES += notificationcenter.mm
+    LIBS += -framework Foundation
+    INCLUDEPATH += /System/Library/Frameworks/Foundation.framework/Versions/C/Headers
+}
 
 FORMS    += mainwindow.ui \
     mainmenu.ui \
@@ -172,7 +179,10 @@ OTHER_FILES += \
     VisitorChat.html \
     jquery.js \
     chat.js \
-    stylesheet.css
+    stylesheet.css \
+    Incoming.wav \
+    Incoming.mp3 \
+    notificationcenter.mm
 
 RESOURCES += \
     Images.qrc
@@ -193,7 +203,9 @@ EXTRA_BINFILES += \
     VisitorChat.html \
     jquery.js \
     chat.js \
-    stylesheet.css
+    stylesheet.css \
+    Incoming.wav \
+    Incoming.mp3
 
 for(FILE,EXTRA_BINFILES){
     $$out($$FILE)

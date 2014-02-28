@@ -26,6 +26,7 @@ Diagnostics *Diagnostics::instance()
 
 void Diagnostics::Log(const QString value)
 {
+    return;
     emit Diagnostics::instance()->write(value);
 }
 

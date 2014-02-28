@@ -13,6 +13,8 @@ public:
     //Q_INVOKABLE void addInfoMessage(QString time, QString text);
 
 signals:
+    void playSound();
+    void markLoaded();
     void addTextMessage(QString source, QString sender, QString message_id, QString time, QString text);
     void addInfoMessage(QString time, QString text);
     void addTypingMessage(QString text);
