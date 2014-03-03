@@ -2,6 +2,9 @@
 #include "ui_maintab.h"
 #include "QXmppMessage.h"
 #include "visitorchatview.h"
+#include "core.h"
+#include "visitorhelper.h"
+#include "visitor.h"
 #include <QMap>
 #include "log.h"
 
@@ -124,7 +127,8 @@ void MainTab::messageReceived(TextNotification *message)
     if (!Core::ui()->isActive())
     {
 #ifdef Q_OS_MAC
-        NotificationCenter::instance()->test();
+        Visitor *visitor = Core::visitors()->visitorById(message->VisitorId);
+        NotificationCenter::instance()->showNotification(visitor->DisplayName(), message->Text);
 #endif
         Core::ui()->playSound();
     }

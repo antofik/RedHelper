@@ -77,9 +77,9 @@ HEADERS  += mainwindow.h \
     application.h \
 
 macx{
-    HEADERS += notificationcenter.h
+    OBJECTIVE_HEADERS += notificationcenter.h
     OBJECTIVE_SOURCES += notificationcenter.mm
-    LIBS += -framework Foundation
+    LIBS += -framework Foundation -lobjc -framework Cocoa
     INCLUDEPATH += /System/Library/Frameworks/Foundation.framework/Versions/C/Headers
 }
 
@@ -102,7 +102,7 @@ FORMS    += mainwindow.ui \
     bugreportwindow.ui \
     settingswindow.ui
 
-CONFIG += mobility
+CONFIG += mobility objective_c
 MOBILITY = 
 
 ##################### BUSINESS ####################
@@ -181,8 +181,7 @@ OTHER_FILES += \
     chat.js \
     stylesheet.css \
     Incoming.wav \
-    Incoming.mp3 \
-    notificationcenter.mm
+    Incoming.mp3
 
 RESOURCES += \
     Images.qrc

@@ -1,14 +1,17 @@
 #ifndef NOTIFICATIONCENTER_H
 #define NOTIFICATIONCENTER_H
 
-class NotificationCenter
+#include <QString>
+
+class NotificationCenter //: NSUserNotificationCenterDelegate<NSObject>
 {
 public:
     explicit NotificationCenter();
 
-    NotificationCenter* instance();
+    static NotificationCenter* instance();
 
-    void test();
+    void showNotification(QString title, QString message);
 };
+
 
 #endif // NOTIFICATIONCENTER_H

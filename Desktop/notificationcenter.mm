@@ -1,9 +1,23 @@
 #include "notificationcenter.h"
-#include <NSUserNotification.h>
+//#include <NSUserNotification.h>
+#include <AppKit/AppKit.h>
+#include <Cocoa/Cocoa.h>
+#include <objc/runtime.h>
+#include <Carbon/Carbon.h>
+
+@interface NotificationCenterDelegate : NSObject<NSUserNotificationCenterDelegate>
+{}
+
+@end
+
+@implementation NotificationCenterDelegate
+
+@end
 
 NotificationCenter::NotificationCenter()
 {
-    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+    NotificationCenterDelegate *delegate = [[NotificationCenterDelegate alloc] init];
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:delegate];
 }
 
 NotificationCenter *NotificationCenter::instance()
@@ -12,16 +26,12 @@ NotificationCenter *NotificationCenter::instance()
     return &instance;
 }
 
--(BOOL)NotificationCenter:(NSUserNotificationCenter *)center
-    shouldPresentNotification:(NSUserNotification *)notification
-{
-    return YES;
-}
-
-void NotificationCenter::test() {
+void NotificationCenter::showNotification(QString title, QString message) {
   NSUserNotification *userNotification = [[[NSUserNotification alloc] init] autorelease];
-  userNotification.title = @"RedHelper";
-  userNotification.informativeText = @"Test message";
+  userNotification.title = [NSString stringWithFormat:@"%@", title.toCFString()];
+  userNotification.informativeText = [NSString stringWithFormat:@"%@", message.toCFString()];
 
   [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+
+  [NSApp requestUserAttention: NSInformationalRequest];
 }
