@@ -46,7 +46,10 @@ void UIHelper::flash()
     fInfo->dwTimeout = 0;
 
     FlashWindowEx(fInfo);
-#elif Q_OS_MAC
+#endif
+
+#ifdef Q_OS_MAC
+    int i;
 #endif
 }
 
@@ -60,7 +63,9 @@ void UIHelper::stopFlash()
     fInfo->dwFlags = FLASHW_STOP;
 
     FlashWindowEx(fInfo);
-#elif Q_OS_MAC
+#endif
+#ifdef Q_OS_MAC
+    int i;
 #endif
 }
 
