@@ -4,6 +4,10 @@
 class NotificationCenter
 {
 public:
+    explicit NotificationCenter();
+
+    NotificationCenter* instance();
+
     void test();
 };
 

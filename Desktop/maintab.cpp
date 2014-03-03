@@ -5,6 +5,10 @@
 #include <QMap>
 #include "log.h"
 
+#ifdef Q_OS_MAC
+#include "notificationcenter.h"
+#endif
+
 const QString VISITORS = "Visitors";
 
 MainTab::MainTab(QWidget *parent) :
@@ -117,7 +121,13 @@ void MainTab::messageReceived(TextNotification *message)
     enter
     Log::info("MainTab::messageReceived(" + message->Text + ")");
     openChatByNotification(message);
-    if (!Core::ui()->isActive()) Core::ui()->playSound();
+    if (!Core::ui()->isActive())
+    {
+#ifdef Q_OS_MAC
+        NotificationCenter::instance()->test();
+#endif
+        Core::ui()->playSound();
+    }
     leave
 }
 
