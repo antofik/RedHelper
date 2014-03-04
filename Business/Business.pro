@@ -20,7 +20,8 @@ SOURCES += business.cpp \
     log.cpp \
     logitem.cpp \
     diagnosticswindow.cpp \
-    memorychecker.cpp
+    memorychecker.cpp \
+    winsparkleautoupdater.cpp
 
 HEADERS += business.h \
     core.h \
@@ -32,7 +33,11 @@ HEADERS += business.h \
     log.h \
     logitem.h \
     diagnosticswindow.h \
-    memorychecker.h
+    memorychecker.h \
+    autoupdater.h \
+    SparkleAutoUpdater.h \
+    CocoaInitializer.h \
+    winsparkleautoupdater.h
 unix {
     target.path = /usr/lib
     INSTALLS += target
@@ -80,4 +85,13 @@ else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Containers/libContainers.a
 FORMS += \
     diagnosticswindow.ui
 
+macx{
+    OBJECTIVE_SOURCES += \
+        SparkleAutoUpdater.mm \
+        CocoaInitializer.mm
+}
 
+win32{
+    HEADERS += winskarkleautoupdater.h
+    SOURCES += winskarkleautoupdater.cpp
+}

@@ -5,6 +5,15 @@
 #include "application.h"
 #include <QSound>
 #include <iostream>
+#include "autoupdater.h"
+
+#ifdef Q_OS_MAC
+#include "SparkleAutoUpdater.h"
+#include "CocoaInitializer.h"
+#endif
+#ifdef Q_OS_WIN
+#include "winsparkleautoupdater.h"
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +37,21 @@ int main(int argc, char *argv[])
         QCoreApplication::setApplicationName("RedHelper Desktop Application");
         QCoreApplication::setOrganizationDomain("http://redhelper.ru");
         QCoreApplication::setOrganizationName("RedHelper");
+
+        AutoUpdater* updater = 0;
+        QString updaterUrl = "http://update.redhelper.ru/qt.xml?channel=alpha";
+#ifdef Q_OS_MAC
+        CocoaInitializer cocoaInitializer;
+        updater = new SparkleAutoUpdater(updaterUrl);
+#endif
+#ifdef Q_OS_WIN
+        updater = new WinSparkleAutoUpdater(updaterUrl);
+#endif
+
+        if (updater)
+        {
+            updater->checkForUpdates();
+        }
 
         Core::initialize();
         MainWindow w;

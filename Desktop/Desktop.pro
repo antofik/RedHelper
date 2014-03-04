@@ -79,8 +79,25 @@ HEADERS  += mainwindow.h \
 macx{
     OBJECTIVE_HEADERS += notificationcenter.h
     OBJECTIVE_SOURCES += notificationcenter.mm
-    LIBS += -framework Foundation -lobjc -framework Cocoa
+    LIBS += -framework Foundation -lobjc -framework Cocoa -framework Sparkle
     INCLUDEPATH += /System/Library/Frameworks/Foundation.framework/Versions/C/Headers
+}
+
+win32{
+    #message(Test)
+    #LIBS += -lWinSparkle
+    #PRE_TARGETDEPS += $$PWD/../ThirdParty/winsparkle/WinSparkle.lib
+    #INCLUDEPATH += $$PWD/../ThirdParty/winsparkle
+    #DEPENDPATH += $$PWD/../ThirdParty/winsparkle
+
+    #system(xcopy $$PWD x:\\xxx /I /E)
+    message(xcopy $$OUT_WIN x:\\xxxx)
+    message($$system(xcopy $$OUT_WIN\\..\\..\\RedHelper\\ThirdParty x:\\xxx))
+    LIBS += -L$$PWD/../ThirdParty/winsparkle/ -lWinSparkle
+    INCLUDEPATH += $$PWD/../ThirdParty/winsparkle
+    DEPENDPATH += $$PWD/../ThirdParty/winsparkle
+    PRE_TARGETDEPS += $$PWD/../ThirdParty/winsparkle/WinSparkle.lib
+
 }
 
 FORMS    += mainwindow.ui \
@@ -222,3 +239,4 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/release/Smtp.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/debug/Smtp.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Smtp/libSmtp.a
+
