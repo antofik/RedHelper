@@ -4,7 +4,7 @@
 
 WinSparkleAutoUpdater::WinSparkleAutoUpdater(const QString& url)
 {
-    win_sparkle_set_appcast_url(url.data());
+    win_sparkle_set_appcast_url(url.toLocal8Bit().data());
     win_sparkle_init();
 }
 

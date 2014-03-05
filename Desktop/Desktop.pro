@@ -90,17 +90,14 @@ win32{
     #INCLUDEPATH += $$PWD/../ThirdParty/winsparkle
     #DEPENDPATH += $$PWD/../ThirdParty/winsparkle
 
-    #system(xcopy $$PWD x:\\xxx /I /E)
-    message(xcopy $$OUT_WIN x:\\xxxx)
-    message($$system(xcopy $$OUT_WIN\\..\\..\\RedHelper\\ThirdParty x:\\xxx))
+    system(xcopy $$OUT_WIN\\..\\..\\RedHelper\\ThirdParty $$OUT_WIN\\..\\ThirdParty /E /I /R /Y)
     LIBS += -L$$PWD/../ThirdParty/winsparkle/ -lWinSparkle
     INCLUDEPATH += $$PWD/../ThirdParty/winsparkle
     DEPENDPATH += $$PWD/../ThirdParty/winsparkle
-    PRE_TARGETDEPS += $$PWD/../ThirdParty/winsparkle/WinSparkle.lib
-
+    PRE_TARGETDEPS += $$OUT_PWD/../ThirdParty/winsparkle/WinSparkle.lib
 }
 
-FORMS    += mainwindow.ui \
+FORMS += mainwindow.ui \
     mainmenu.ui \
     maintab.ui \
     visitorlistview.ui \

@@ -6,7 +6,7 @@
 #include <QPushButton>
 #include "diagnosticswindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(AutoUpdater* updater, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -33,6 +33,11 @@ MainWindow::MainWindow(QWidget *parent) :
     OnlineStateIndicator *indicator = new OnlineStateIndicator();
     indicator->setFixedWidth(24);
     ui->statusBar->addPermanentWidget(indicator);
+
+    if (updater)
+    {
+        updater->checkForUpdates();
+    }
 
     leave
 }

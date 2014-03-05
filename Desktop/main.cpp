@@ -15,6 +15,20 @@
 #include "winsparkleautoupdater.h"
 #endif
 
+#include "Windows.h" //remove
+#include "wchar.h"
+
+BOOL CALLBACK GetFirstIconProc(HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LONG_PTR lParam)
+{
+    if (IS_INTRESOURCE(lpszName))
+        *((LPTSTR*)lParam) = lpszName;
+    else
+        *((LPTSTR*)lParam) = lpszName;
+    //qDebug() << QString(lpszName);
+
+    return FALSE; // stop on the first icon found
+}
+
 int main(int argc, char *argv[])
 {
     Application a(argc, argv);
@@ -39,7 +53,8 @@ int main(int argc, char *argv[])
         QCoreApplication::setOrganizationName("RedHelper");
 
         AutoUpdater* updater = 0;
-        QString updaterUrl = "http://update.redhelper.ru/qt.xml?channel=alpha";
+        //undone QString updaterUrl = "http://update.redhelper.ru/qt.xml?channel=alpha";
+        QString updaterUrl = "http://mfst.pro/update.xml";
 #ifdef Q_OS_MAC
         CocoaInitializer cocoaInitializer;
         updater = new SparkleAutoUpdater(updaterUrl);
@@ -47,14 +62,8 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
         updater = new WinSparkleAutoUpdater(updaterUrl);
 #endif
-
-        if (updater)
-        {
-            updater->checkForUpdates();
-        }
-
         Core::initialize();
-        MainWindow w;
+        MainWindow w(updater);
 
 #if WIN32
 #else

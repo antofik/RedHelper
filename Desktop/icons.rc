@@ -1,5 +1,42 @@
+appicon ICON "Images/Logo/48.ico"
+
 IDI_ICON1	ICON	DISCARDABLE	"Images/Logo/16.ico"
 IDI_ICON2	ICON	DISCARDABLE	"Images/Logo/24.ico"
 IDI_ICON3	ICON	DISCARDABLE	"Images/Logo/32.ico"
 IDI_ICON4	ICON	DISCARDABLE	"Images/Logo/48.ico"
 IDI_ICON5	ICON	DISCARDABLE	"Images/Logo/64.ico"
+
+#include <winver.h>
+
+//FeedURL     APPCAST     {"http://winsparkle.org/example/appcast.xml"}
+
+1 VERSIONINFO
+ FILEVERSION     1,0,0,0
+ PRODUCTVERSION  1,0,0,0
+ FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+ FILEFLAGS       0
+ FILEOS          VOS_NT_WINDOWS32
+ FILETYPE        VFT_APP
+ FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0" // US English, Unicode
+        BEGIN
+            VALUE "Comments", "RedHelper operator desktop application"
+            VALUE "CompanyName", "RedHelper LLC\0"
+            VALUE "FileDescription", "RedHelper operator desktop application\0"
+            VALUE "FileVersion", "1.0\0"
+            VALUE "InternalName", "redhelper.exe\0"
+            VALUE "OriginalFilename", "redhelper.exe\0"
+            VALUE "LegalCopyright", "RedHelper LLC\0"
+            VALUE "ProductName", "RedHelper operator desktop application\0"
+            VALUE "ProductVersion", "1.0\0"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 0x04B0
+    END
+END

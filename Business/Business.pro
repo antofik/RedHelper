@@ -92,6 +92,6 @@ macx{
 }
 
 win32{
-    HEADERS += winskarkleautoupdater.h
-    SOURCES += winskarkleautoupdater.cpp
+    HEADERS += winsparkleautoupdater.h
+    SOURCES += winsparkleautoupdater.cpp
 }

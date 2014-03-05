@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QShowEvent>
+#include "autoupdater.h"
 
 namespace Ui {
 class MainWindow;
@@ -13,7 +14,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(AutoUpdater* updater, QWidget *parent = 0);
     ~MainWindow();
 
 protected:
