@@ -131,6 +131,7 @@ void MainTab::messageReceived(TextNotification *message)
         NotificationCenter::instance()->showNotification(visitor->DisplayName(), message->Text);
 #endif
         Core::ui()->playSound();
+        Core::ui()->flash();
     }
     leave
 }
@@ -140,7 +141,7 @@ void MainTab::typingReceived(TypingNotification *message)
     enter
     Log::info("MainTab::typingReceived(" + message->Text + ")");
     openChatByNotification(message);
-    if (!Core::ui()->isActive()) Core::ui()->playSound();
+    if (!Core::ui()->isActive()) Core::ui()->flash();
     leave
 }
 

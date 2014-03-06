@@ -21,7 +21,6 @@ UIHelper::UIHelper(QObject *parent) :
 
 bool UIHelper::isActive()
 {
-    return false;
     if (qApp->activeWindow()) return true;
     if (qApp->activePopupWidget()) return true;
     if (qApp->activeModalWidget()) return true;
@@ -31,7 +30,6 @@ bool UIHelper::isActive()
 void UIHelper::playSound()
 {
     QSound::play(qApp->applicationDirPath() + "/Incoming.wav");
-    flash();
 }
 
 void UIHelper::flash()

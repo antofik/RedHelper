@@ -6,12 +6,14 @@
 #include <Carbon/Carbon.h>
 
 @interface NotificationCenterDelegate : NSObject<NSUserNotificationCenterDelegate>
-{}
-
+  -(BOOL)userNotificationCenter:(NSUserNotificationCenter*)center shouldPresentNotification:(NSUserNotification*)notification;
 @end
 
 @implementation NotificationCenterDelegate
-
+-(BOOL)userNotificationCenter:(NSUserNotificationCenter*)center shouldPresentNotification:(NSUserNotification*)notification
+{
+    return YES;
+}
 @end
 
 NotificationCenter::NotificationCenter()
@@ -26,7 +28,9 @@ NotificationCenter *NotificationCenter::instance()
     return &instance;
 }
 
-void NotificationCenter::showNotification(QString title, QString message) {
+void NotificationCenter::showNotification(QString title, QString message)
+{
+
   NSUserNotification *userNotification = [[[NSUserNotification alloc] init] autorelease];
   userNotification.title = [NSString stringWithFormat:@"%@", title.toCFString()];
   userNotification.informativeText = [NSString stringWithFormat:@"%@", message.toCFString()];
