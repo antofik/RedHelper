@@ -61,11 +61,11 @@ HEADERS  += mainwindow.h \
     settingswindow.h \
     groupdelegate.h \
     webpage.h \
-    application.h \
+    application.h
 
 macx{
-    OBJECTIVE_HEADERS += notificationcenter.h
-    OBJECTIVE_SOURCES += notificationcenter.mm
+    OBJECTIVE_HEADERS += notificationcenter.h objectiveinitializer.h
+    OBJECTIVE_SOURCES += notificationcenter.mm objectiveinitializer.mm
     QMAKE_LFLAGS += -F$$PWD/../ThirdParty
     LIBS += -framework Foundation -lobjc -framework Cocoa -framework Sparkle
     system(cp $$PWD/../dsa_pub.pem $$OUT_PWD/RedHelper.app/Contents/Resources/)
@@ -198,6 +198,7 @@ defineReplace(out){
 
     win32:CONFIG(debug, debug|release):system(copy $$1 $$OUT_WIN\\debug)
     else:win32:CONFIG(release, debug|release):system(copy $$1 $$OUT_WIN\\release)
+    else:macx:system(cp $$1 $$OUT_PWD/RedHelper.app/Contents/MacOS/)
 
     return(true)
 }
@@ -226,4 +227,5 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/release/Smtp.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Smtp/debug/Smtp.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Smtp/libSmtp.a
+
 

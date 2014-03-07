@@ -16,6 +16,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(AutoUpdater* updater, QWidget *parent = 0);
     ~MainWindow();
+    void test();
 
 protected:
     void showEvent(QShowEvent * event);

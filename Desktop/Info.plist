@@ -19,6 +19,6 @@
         <key>NOTE</key>
         <string>RedHelper operator desktop application</string>
         <key>SUPublicDSAKeyFile</key>
-        <string>XXXXXXXXXXXXXXXXXXXXX</string>
+        <string>dsa_pub.pem</string>
 </dict>
 </plist>

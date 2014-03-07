@@ -89,7 +89,8 @@ body{
 }
 
 .msgBlock .msg .textWrapper .text{
-    font-size: 14px;
+    font-size: 1em;
+    line-height: 1em;
 }
 
 .typing{

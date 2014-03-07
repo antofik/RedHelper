@@ -79,6 +79,7 @@ void ChatControl::historyLoaded(QString visitorId, QVector<BaseNotification*>* n
 
 void ChatControl::messageReceived(TextNotification* message)
 {
+    if (message->VisitorId != _visitor->Id) return;
     Log::info("ChatControl::messageReceived("+message->Text+")");
     if (message->Text.isEmpty()) return;
     QString source = message->IsIncoming ? "Visitor" : "Operator";
