@@ -23,15 +23,24 @@ QVector<BaseNotification*>* NotificationParser::parse(QXmppIq *iq)
         QXmppElement body = item.firstChildElement("body");
         if (!body.isNull() && !body.value().isNull() && !body.value().isEmpty())
         {
-            TextNotification *n = new TextNotification();
-            n->Id = body.attribute("mid");
-            n->Text = body.value();
-            n->From = item.attribute("from");
-            n->To = item.attribute("to");
-            n->IsIncoming = n->From.contains("@visitor.");
-            n->OperatorDisplayName = item.attribute("displayName");
-            n->Time = QDateTime::fromString(item.attribute("time"), "yyyy-MM-dd HH:mm:ss");
-            list->append(n);
+            QString text = body.value();
+            if (text.startsWith(":r ")) {} //redirect
+            else if (text.startsWith(":seize")) {} //seize
+            else if (text.startsWith(":notify")) {} //redirect
+            else if (text.startsWith(":fail")) {} //redirect
+            else if (text.startsWith(":ok")) {} //redirect*/
+            else
+            {
+                TextNotification *n = new TextNotification();
+                n->Id = body.attribute("mid");
+                n->Text = body.value();
+                n->From = item.attribute("from");
+                n->To = item.attribute("to");
+                n->IsIncoming = n->From.contains("@visitor.");
+                n->OperatorDisplayName = item.attribute("displayName");
+                n->Time = QDateTime::fromString(item.attribute("time"), "yyyy-MM-dd HH:mm:ss");
+                list->append(n);
+            }
         }
         item = item.nextSiblingElement("message");
     }
@@ -52,6 +61,13 @@ BaseNotification* NotificationParser::MessageToNotification(const QXmppMessage &
         item->Text = message.body();
         item->OperatorDisplayName = message.attribute("displayName");
         result = item;
+
+        QString text = item->Text;
+        if (text.startsWith(":r ")) return nullptr; //redirect
+        if (text.startsWith(":seize ")) return nullptr; //seize
+        if (text.startsWith(":notify redirect")) return nullptr; //redirect
+        if (text.startsWith(":fail redirect")) return nullptr; //redirect
+        if (text.startsWith(":ok redirect")) return nullptr; //redirect
     }
     else if (content == "partial")
     {

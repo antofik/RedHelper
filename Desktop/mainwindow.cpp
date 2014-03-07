@@ -5,7 +5,6 @@
 #include "onlinestateindicator.h"
 #include <QPushButton>
 #include "diagnosticswindow.h"
-#include "objectiveinitializer.h"
 
 MainWindow::MainWindow(AutoUpdater* updater, QWidget *parent) :
     QMainWindow(parent),
@@ -32,8 +31,6 @@ MainWindow::MainWindow(AutoUpdater* updater, QWidget *parent) :
     {
         updater->checkForUpdates();
     }
-
-    ObjectiveInitializer::test(this);
 
     leave
 }

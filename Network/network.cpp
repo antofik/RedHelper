@@ -234,6 +234,7 @@ void Network::loadHistory(QString visitorId)
     QXmppElement query;
     query.setTagName("query");
     query.setAttribute("xmlns", "consultant:history");
+    query.setAttribute("limit", "1");
     query.setAttribute("jid", visitorId);    
     iq.setExtensions(QXmppElementList() << query);
     iq.setId(visitorId);

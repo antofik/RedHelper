@@ -18,6 +18,15 @@ LoginControl::LoginControl(QWidget *parent) :
     ui->txtUser->setText(Core::network()->User);
     ui->txtPassword->setText(Core::network()->Password);    
     ui->txtStatus->setText("");
+
+    QSettings settings;
+    ui->chkAutologin->setChecked(settings.value("autologin", false).toBool());
+
+    if (ui->chkAutologin->isChecked())
+    {
+        emit login();
+    }
+
     leave
 }
 
@@ -38,6 +47,10 @@ void LoginControl::login()
     Core::network()->User = ui->txtUser->text();
     Core::network()->Password = ui->txtPassword->text();
     Core::network()->Login();
+
+    QSettings settings;
+    settings.setValue("autologin", ui->chkAutologin->isChecked());
+    settings.sync();
     leave
 }
 
@@ -54,6 +67,7 @@ void LoginControl::enableEditing(bool ok)
     ui->txtUser->setEnabled(ok);
     ui->txtPassword->setEnabled(ok);
     ui->cmdLogin->setEnabled(ok);
+    ui->chkAutologin->setEnabled(ok);
     leave
 }
 
