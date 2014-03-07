@@ -7,3 +7,5 @@ SUBDIRS += \
     Business \
     Desktop \
     Smtp
+
+OTHER_FILES += dsa_pub.pem

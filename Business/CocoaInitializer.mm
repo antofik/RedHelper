@@ -1,3 +1,6 @@
+#import "CocoaInitializer.h"
+#import <Cocoa/Cocoa.h>
+
 class CocoaInitializer::Private {
   public:
     NSAutoreleasePool* autoReleasePool;

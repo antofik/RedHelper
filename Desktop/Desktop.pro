@@ -1,24 +1,11 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2014-01-31T12:14:32
-#
-#-------------------------------------------------
-
-QT += core gui network webkit webkitwidgets multimedia
+QT += core gui widgets network webkit webkitwidgets multimedia
 QT -= qml quick sensors sql
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 TARGET = RedHelper
 TEMPLATE = app
 RC_FILE = icons.rc
-
 GIT_VERSION = $$system(git rev-parse HEAD)
-
-DEFINES += '__VERSION3__=\'\"$$GIT_VERSION\"\''
-
+DEFINES += '__REVISION__=\'\"$$GIT_VERSION\"\''
 OUT_WIN = $$replace(OUT_PWD, /, \\)
-
 ICON = redhelper.icns
 
 SOURCES += main.cpp\
@@ -79,8 +66,10 @@ HEADERS  += mainwindow.h \
 macx{
     OBJECTIVE_HEADERS += notificationcenter.h
     OBJECTIVE_SOURCES += notificationcenter.mm
+    QMAKE_LFLAGS += -F$$PWD/../ThirdParty
     LIBS += -framework Foundation -lobjc -framework Cocoa -framework Sparkle
-    INCLUDEPATH += /System/Library/Frameworks/Foundation.framework/Versions/C/Headers
+    system(cp $$PWD/../dsa_pub.pem $$OUT_PWD/RedHelper.app/Contents/Resources/)
+    QMAKE_INFO_PLIST = $$PWD/Info.plist
 }
 
 win32{
@@ -195,7 +184,8 @@ OTHER_FILES += \
     chat.js \
     stylesheet.css \
     Incoming.wav \
-    Incoming.mp3
+    Incoming.mp3 \
+    Info.plist
 
 RESOURCES += \
     Images.qrc

@@ -13,17 +13,8 @@ MainWindow::MainWindow(AutoUpdater* updater, QWidget *parent) :
     enter    
     ui->setupUi(this);
     connect(Core::ui(), SIGNAL(showMainWindow()), SLOT(show()));
-    connect(Core::ui(), SIGNAL(loginWindowClosed()), SLOT(loginWindowClosed()));    
-
-#if WIN32
-    LoginWindow *loginWindow = new LoginWindow();
-    loginWindow->setWindowFlags(Qt::Dialog);
-#else
-    LoginWindow *loginWindow = new LoginWindow(this);
-    loginWindow->setWindowModality(Qt::WindowModal);
-#endif
-    loginWindow->show();
-
+    connect(Core::ui(), SIGNAL(loginWindowClosed()), SLOT(loginWindowClosed()));
+    connect(Core::ui(), SIGNAL(showLoginWindow()), SLOT(showLoginWindow()));
     connect(Core::network(), SIGNAL(stateChanged()), SLOT(networkStateChanged()));
 
     QPushButton *logButton = new QPushButton(tr("Diagnostics"));
@@ -33,6 +24,8 @@ MainWindow::MainWindow(AutoUpdater* updater, QWidget *parent) :
     OnlineStateIndicator *indicator = new OnlineStateIndicator();
     indicator->setFixedWidth(24);
     ui->statusBar->addPermanentWidget(indicator);
+
+    emit Core::ui()->showLoginWindow();
 
     if (updater)
     {
@@ -46,6 +39,20 @@ MainWindow::~MainWindow()
 {
     enter
     delete ui;
+    leave
+}
+
+void MainWindow::showLoginWindow()
+{
+    enter
+#if WIN32
+    LoginWindow *loginWindow = new LoginWindow();
+    loginWindow->setWindowFlags(Qt::Dialog);
+#else
+    LoginWindow *loginWindow = new LoginWindow(this);
+    loginWindow->setWindowModality(Qt::WindowModal);
+#endif
+    loginWindow->show();
     leave
 }
 

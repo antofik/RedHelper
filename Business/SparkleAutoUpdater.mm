@@ -1,4 +1,11 @@
 #include "SparkleAutoUpdater.h"
+#include <AppKit/AppKit.h>
+#include <Cocoa/Cocoa.h>
+#include <objc/runtime.h>
+//#include <Carbon/Carbon.h>
+//#include <Sparkle/Sparkle.h>
+#import <Cocoa/Cocoa.h>
+#import <Sparkle/Sparkle.h>
 
 class SparkleAutoUpdater::Private {
   public:

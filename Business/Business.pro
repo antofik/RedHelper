@@ -89,6 +89,8 @@ macx{
     OBJECTIVE_SOURCES += \
         SparkleAutoUpdater.mm \
         CocoaInitializer.mm
+    QMAKE_OBJECTIVE_CFLAGS += -F$$PWD/../ThirdParty
+LIBS += -framework Sparkle
 }
 
 win32{

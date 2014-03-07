@@ -73,11 +73,7 @@ void OnlineStateSelector::changeAccount()
 {
     enter
     Core::network()->goOffline();
-    qApp->activeWindow()->hide();
-    LoginWindow *window = new LoginWindow();
-    window->setWindowFlags(Qt::Drawer);
-    window->setWindowModality(Qt::WindowModal);
-    window->show();
+    emit Core::ui()->showLoginWindow();
     leave
 }
 void OnlineStateSelector::exit()

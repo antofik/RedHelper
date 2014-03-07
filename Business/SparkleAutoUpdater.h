@@ -1,6 +1,9 @@
 #ifndef SPARKLEAUTOUPDATER_H
 #define SPARKLEAUTOUPDATER_H
 
+#include <QString>
+#include "autoupdater.h"
+
 class SparkleAutoUpdater : public AutoUpdater {
   public:
     SparkleAutoUpdater(const QString& url);

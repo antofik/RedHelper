@@ -23,6 +23,7 @@ protected:
 private slots:
     void networkStateChanged();
     void loginWindowClosed();
+    void showLoginWindow();
     void diagnostics();
 
 private:

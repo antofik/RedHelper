@@ -1,10 +1,12 @@
 #ifndef COCOAINITIALIZER_H
 #define COCOAINITIALIZER_H
 
+#import <QString>
+
 class CocoaInitializer
 {
   public:
-    CocoaInitializer(const QString& url);
+    CocoaInitializer();
     ~CocoaInitializer();
   private:
     class Private;

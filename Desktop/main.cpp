@@ -15,20 +15,6 @@
 #include "winsparkleautoupdater.h"
 #endif
 
-#include "Windows.h" //remove
-#include "wchar.h"
-
-BOOL CALLBACK GetFirstIconProc(HMODULE hModule, LPCTSTR lpszType, LPTSTR lpszName, LONG_PTR lParam)
-{
-    if (IS_INTRESOURCE(lpszName))
-        *((LPTSTR*)lParam) = lpszName;
-    else
-        *((LPTSTR*)lParam) = lpszName;
-    //qDebug() << QString(lpszName);
-
-    return FALSE; // stop on the first icon found
-}
-
 int main(int argc, char *argv[])
 {
     Application a(argc, argv);
