@@ -29,6 +29,8 @@ bool UIHelper::isActive()
 
 void UIHelper::playSound()
 {
+    QSettings settings;
+    if (!settings.value("enableSounds", true).toBool()) return;
     QSound::play(qApp->applicationDirPath() + "/Incoming.wav");
 }
 

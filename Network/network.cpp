@@ -127,9 +127,13 @@ void Network::xmppIqReceived(QXmppIq iq)
             }
             else if (ns == "consultant:init")
             {
-                QXmppElement *e = new QXmppElement(element);               
-                //todo
-                this->MyName = "todo";
+                QXmppElement *q = new QXmppElement(element);
+                MyName = q->firstChildElement("displayName").value();
+                ServerTime = QTime::fromString(q->firstChildElement("time").value(), "yyyy-MM-dd hh:mm:ss");
+                ClientEmail = q->firstChildElement("clientEmail").value();
+                FirstMessage = q->firstChildElement("firstMessage").value();
+                DefaultWelcome = q->firstChildElement("defaultWelcome").value();
+                VisitorListInterval = q->firstChildElement("visitorListInterval").value().toInt();
             }
             else if (ns == "consultant:history")
             {
@@ -166,9 +170,9 @@ void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
     //if (message.startsWith("<message"))    
     QString direction = type == QXmppLogger::ReceivedMessage ? "<=" : "=>";
     _log_(direction + "\t" + message)
-    return;
-   // if (!message.contains("visitorlistdiff"))
-        //qDebug() << direction << " " << message;
+    //return;
+    if (!message.contains("visitorlistdiff"))
+        qDebug() << direction << " " << message;
 }
 
 void Network::xmppMessageReceived(const QXmppMessage &message)
@@ -234,7 +238,7 @@ void Network::loadHistory(QString visitorId)
     QXmppElement query;
     query.setTagName("query");
     query.setAttribute("xmlns", "consultant:history");
-    query.setAttribute("limit", "1");
+    query.setAttribute("limit", "7");
     query.setAttribute("jid", visitorId);    
     iq.setExtensions(QXmppElementList() << query);
     iq.setId(visitorId);

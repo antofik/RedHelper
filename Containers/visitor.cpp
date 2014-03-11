@@ -41,10 +41,11 @@ void Visitor::copyFrom(Visitor *v)
     emit modified();
 }
 
-QString Visitor::DisplayName(bool appendVisitor)
+QString Visitor::DisplayName(bool appendVisitor, bool appendHash)
 {
     if (!CustomName.isEmpty()) return CustomName;
-    return appendVisitor ? "Visitor #" + Id : Id;
+    if (appendVisitor) return tr("Visitor #") + Id;
+    return appendHash ? "#" + Id : Id;
 }
 
 QString Visitor::vid()

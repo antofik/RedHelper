@@ -5,8 +5,8 @@
 #include "core.h"
 #include "webpage.h"
 
-const QUrl safe_url("http://test.web.redhelper.ru/desktop3/index.html");
-const QUrl normal_url("http://test.web.redhelper.ru/desktop3/index.html");
+const QUrl safe_url("http://web.redhelper.ru/desktop3/index.html");
+const QUrl normal_url("http://web.redhelper.ru/desktop3/index.html");
 
 CobrowseView::CobrowseView(QWidget *parent) : QWidget(parent),
     ui(new Ui::CobrowseView)

@@ -7,10 +7,15 @@ body{
     overflow-x: hidden;
     overflow-y: scroll;
     margin: 0px;
+    font-family: arial, tahoma, verdana, sans-serif;
 }
 
 .chat{
     margin: 4px 4px 0px 4px;
+}
+
+.hidden{
+    display: none;
 }
 
 .debug-panel{
@@ -89,13 +94,14 @@ body{
 }
 
 .msgBlock .msg .textWrapper .text{
-    font-size: 1em;
-    line-height: 1em;
+    font-size: 0.8em;
+    line-height: 1.1em;
 }
 
 .typing{
     margin: 0 4px 1px 8px;
-    font-size: 15px;
+    font-size: 0.8em;
+    line-height: 1.1em;
     color: #888;
     word-wrap: break-word;
 }

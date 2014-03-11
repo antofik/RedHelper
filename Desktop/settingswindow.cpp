@@ -12,12 +12,20 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 
     connect(ui->cmdSave, SIGNAL(clicked()), SLOT(close()));
     connect(ui->list, SIGNAL(currentRowChanged(int)), ui->stack, SLOT(setCurrentIndex(int)));
+
+    QSettings settings;
+    ui->chkEnableSound_2->setChecked(settings.value("enableSounds", true).toBool());
+
     leave
 }
 
 SettingsWindow::~SettingsWindow()
 {
     enter
+    QSettings settings;
+    settings.setValue("enableSounds", ui->chkEnableSound_2->isChecked());
+    settings.sync();
+
     delete ui;
     leave
 }

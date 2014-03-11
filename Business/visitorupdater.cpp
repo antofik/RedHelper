@@ -115,8 +115,16 @@ void VisitorUpdater::visitorListReceived(QXmppElement *element)
         visitor->ViewedPages = visitorElement.firstChildElement("viewedPages").value();
         visitor->Visits = visitorElement.firstChildElement("visits").value();
         visitor->Id = visitor->Jid.left(visitor->Jid.indexOf("@"));
+
+        if (visitor->ChatState=="chat"
+                && !visitor->CurrentOperator.isEmpty()
+                && visitor->CurrentOperator!=Core::network()->User)
+        {
+            visitor->ChatState = "busy";
+        }
+
         updatedVisitors->append(visitor);
-        visitorElement = visitorElement.nextSiblingElement("visitor");
+        visitorElement = visitorElement.nextSiblingElement("visitor");       
     }
 
     _log_(QString::number(updatedVisitors->count()) + " visitors updated. " + QString::number(ids.count()) + " visitors online")

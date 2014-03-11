@@ -53,13 +53,13 @@ VisitorListView::VisitorListView(QWidget *parent) :
     connect(ui->list, SIGNAL(doubleClicked(QModelIndex)), SLOT(doubleClicked(QModelIndex)));
     connect(ui->list, SIGNAL(clicked(QModelIndex)), SLOT(clicked(QModelIndex)));
 
-    ui->list->setColumnWidth(0, 130); //Name
+    ui->list->setColumnWidth(0, 150); //Name
     ui->list->setColumnWidth(2, 60); //Visits
     ui->list->setColumnWidth(3, 60); //Pages
     ui->list->setColumnWidth(4, 85); //Time on site
     ui->list->setColumnWidth(5, 85); //City
-    ui->list->setColumnWidth(6, 80); //Os
-    ui->list->setColumnWidth(7, 95); //Browser
+    ui->list->setColumnWidth(6, 100); //Os
+    ui->list->setColumnWidth(7, 100); //Browser
     ui->list->setColumnWidth(8, 120); //Ip
     ui->list->setColumnWidth(9, 100); //Current operator
     ui->list->setColumnWidth(10, 280); //Current url
@@ -102,6 +102,10 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
                 busy->appendRow(items);
             else if (v->ChatState=="browse")
                 browsing->appendRow(items);
+            else
+            {
+                qWarning() << "Failed to add visitor with chatstate" << v->ChatState;
+            }
         }
 
         for (int i=0;i<modified.count();i++)
@@ -120,11 +124,14 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
                 if (v->ChatState=="chat")
                     online->insertRow(row, items);
                 else if (v->ChatState=="busy")
+                {
+                    qDebug() << "Adding visitor to Busy";
                     busy->insertRow(row, items);
+                }
                 else if (v->ChatState=="browse")
                     browsing->insertRow(row, items);
                 else {
-                    qDebug() << "Failed to add visitor with chatstate" << v->ChatState;
+                    qDebug() << "Failed to move visitor with chatstate" << v->ChatState;
                 }
             }
         }
@@ -158,7 +165,7 @@ void VisitorListView::DisplayVisitor(Visitor *v, QList<QStandardItem*> items)
     int i = 0;
     //items.at(i++)->setText(v->ChatState);
 
-    items.at(i)->setText("#" + v->DisplayName());
+    items.at(i)->setText(v->DisplayName(false, true));
     items.at(i)->setToolTip(v->DisplayName(true));
 
     items.at(i)->setData(v->DisplayName(), Qt::InitialSortOrderRole);

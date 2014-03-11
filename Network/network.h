@@ -37,6 +37,12 @@ public:
     QString Host;
     QString MyJid;
     QString MyName;
+    QTime ServerTime;
+    QString ClientEmail;
+    QString UpdateChannel;
+    QString FirstMessage;
+    QString DefaultWelcome;
+    int VisitorListInterval;
     int port;
 
     NotificationParser parser;
