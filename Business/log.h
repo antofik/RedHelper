@@ -17,11 +17,13 @@ public:
         Info = 0,
         Warning = 1,
         Error = -1,
+        Xmpp = 2,
     };
 
     static void info(QString message);
     static void warning(QString message);
     static void error(QString message);
+    static void xmpp(QString stanza, bool isIncoming, bool isIq, bool isMessage, bool isOperatorToOperator);
 
     static QVector<LogItem*>* items();
 

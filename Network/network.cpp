@@ -32,6 +32,7 @@ Network::Network(QObject *parent) :
     connect(client, SIGNAL(logMessage(QXmppLogger::MessageType,QString)), SLOT(xmppLogMessage(QXmppLogger::MessageType,QString)));
     connect(client, SIGNAL(messageReceived(QXmppMessage)), SLOT(xmppMessageReceived(QXmppMessage)));
     connect(client, SIGNAL(presenceReceived(QXmppPresence)), SLOT(xmppPresenceReceived(QXmppPresence)));     
+
     leave
 }
 
@@ -173,6 +174,8 @@ void Network::xmppLogMessage(QXmppLogger::MessageType type, QString message)
     //return;
     if (!message.contains("visitorlistdiff"))
         qDebug() << direction << " " << message;
+
+    emit logMessage(message, type == QXmppLogger::ReceivedMessage, message.startsWith("<iq"), message.startsWith("<message"), false);
 }
 
 void Network::xmppMessageReceived(const QXmppMessage &message)

@@ -36,6 +36,17 @@ void Log::error(QString message)
     emit Log::instance()->added(item);
 }
 
+void Log::xmpp(QString stanza, bool isIncoming, bool isIq, bool isMessage, bool isOperatorToOperator)
+{
+    LogItem *item = new LogItem(Log::Xmpp, stanza);
+    item->isIncoming = isIncoming;
+    item->isIq = isIq;
+    item->isMessage = isMessage;
+    item->isOperatorToOperator = isOperatorToOperator;
+    Log::instance()->_items.append(item);
+    emit Log::instance()->added(item);
+}
+
 void Log::write(LogItem item)
 {
 

@@ -71,6 +71,8 @@ signals:
     void visitorListReceived(QXmppElement *);
     void historyLoaded(QString visitorId, QVector<BaseNotification*>* notifications);
 
+    void logMessage(QString stanza, bool isIncoming, bool isIq, bool isMessage, bool isOperatorToOperator);
+
 private slots:
     void xmppStateChanged(QXmppClient::State state);
     void xmppError(QXmppClient::Error error);

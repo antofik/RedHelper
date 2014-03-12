@@ -20,10 +20,12 @@ public:
 
 private slots:
     void added(LogItem *item);
+    void logMessage(QString stanza, bool isIncoming, bool isIq, bool isMessage, bool isOperatorToOperator);
 
 private:
     Ui::DiagnosticsWindow *ui;
     QStandardItemModel *model;
+    QStandardItemModel *modelXmpp;
 };
 
 #endif // DIAGNOSTICSWINDOW_H
