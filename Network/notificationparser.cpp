@@ -29,6 +29,7 @@ QVector<BaseNotification*>* NotificationParser::parse(QXmppIq *iq)
             else if (text.startsWith(":notify")) {} //redirect
             else if (text.startsWith(":fail")) {} //redirect
             else if (text.startsWith(":ok")) {} //redirect*/
+            else if (text.startsWith("###supervising###")) {} //supervising*/
             else
             {
                 TextNotification *n = new TextNotification();
@@ -68,6 +69,7 @@ BaseNotification* NotificationParser::MessageToNotification(const QXmppMessage &
         if (text.startsWith(":notify redirect")) return nullptr; //redirect
         if (text.startsWith(":fail redirect")) return nullptr; //redirect
         if (text.startsWith(":ok redirect")) return nullptr; //redirect
+        if (text.startsWith("###supervising###")) return nullptr; //supervising*/
     }
     else if (content == "partial")
     {

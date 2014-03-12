@@ -123,15 +123,22 @@ void MainTab::messageReceived(TextNotification *message)
 {
     enter
     Log::info("MainTab::messageReceived(" + message->Text + ")");
-    openChatByNotification(message);
-    if (!Core::ui()->isActive())
+    if (message->IsOperatorToOperator)
     {
-#ifdef Q_OS_MAC
-        Visitor *visitor = Core::visitors()->visitorById(message->VisitorId);
-        NotificationCenter::instance()->showNotification(visitor->DisplayName(), message->Text);
-#endif
-        Core::ui()->playSound();
-        Core::ui()->flash();
+        //todo
+    }
+    else
+    {
+        openChatByNotification(message);
+        if (!Core::ui()->isActive())
+        {
+    #ifdef Q_OS_MAC
+            Visitor *visitor = Core::visitors()->visitorById(message->VisitorId);
+            NotificationCenter::instance()->showNotification(visitor->DisplayName(), message->Text);
+    #endif
+            Core::ui()->playSound();
+            Core::ui()->flash();
+        }
     }
     leave
 }
