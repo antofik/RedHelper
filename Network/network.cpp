@@ -5,6 +5,8 @@
 #include "QXmppElement.h"
 #include "diagnostics.h"
 #include <QSettings>
+#include <QDebug>
+#include "redirectnotification.h"
 
 Network::Network(QObject *parent) :
     QObject(parent),
@@ -139,7 +141,16 @@ void Network::xmppIqReceived(QXmppIq iq)
             else if (ns == "consultant:history")
             {
                 QXmppIq *e = new QXmppIq(iq);
-                emit historyLoaded(iq.id(), parser.parse(e));
+                emit historyLoaded(iq.id(), parser.parseHistory(e));
+            }
+            else if (ns == "consultant:operatorlist")
+            {
+                QXmppIq *e = new QXmppIq(iq);
+                emit operatorsLoaded(parser.parseOperators(e));
+            }
+            else
+            {
+                qDebug() << "Unknown Iq received:" << ns;
             }
         }
     }
@@ -198,6 +209,13 @@ void Network::xmppMessageReceived(const QXmppMessage &message)
     else if (auto item = dynamic_cast<CobrowseNotification*>(notification))
     {
         emit cobrowseReceived(item);
+    }
+    else if (auto item = dynamic_cast<RedirectNotification*>(notification))
+    {
+        emit redirectReceived(item);
+        if (item->Type == RedirectNotification::Notify){
+            client->sendMessage(item->From, ":ok redirect " + User);
+        }
     }
     else
     {
@@ -269,6 +287,45 @@ void Network::reconnect()
 {
     enter
     Login();
+    leave
+}
+
+void Network::loadOperators()
+{
+    enter
+    qDebug() << "Network::loadOperators()";
+    if (client->isConnected() && client->isAuthenticated())
+    {
+        try
+        {
+            QXmppIq iq;
+            QXmppElement query;
+            query.setTagName("query");
+            query.setAttribute("xmlns", "consultant:operatorlist");
+            iq.setExtensions(QXmppElementList() << query);
+            client->sendPacket(iq);
+        }
+        catch (const std::exception& ex)
+        {
+            qDebug() << "OperatorList Error" << ex.what();
+        }
+        catch (const std::string& ex)
+        {
+            qDebug() << "OperatorList Error" << QString(ex.data());
+        }
+        catch(...)
+        {
+            qDebug() << "OperatorList Error";
+        }
+    }
+
+    leave
+}
+
+void Network::redirectVisitorTo(Visitor *visitor, QString login, QString message)
+{
+    enter
+    client->sendMessage(visitor->Jid, ":r " + login + " " + message);
     leave
 }
 

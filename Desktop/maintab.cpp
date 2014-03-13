@@ -32,6 +32,7 @@ MainTab::MainTab(QWidget *parent) :
     connect(Core::ui(), SIGNAL(setTabContent(QString,QWidget*)), SLOT(setTabContent(QString,QWidget*)));
     connect(Core::network(), SIGNAL(messageReceived(TextNotification*)), SLOT(messageReceived(TextNotification*)));
     connect(Core::network(), SIGNAL(typingReceived(TypingNotification*)), SLOT(typingReceived(TypingNotification*)));
+    connect(Core::network(), SIGNAL(redirectReceived(RedirectNotification*)), SLOT(redirectReceived(RedirectNotification*)));
     connect(Core::ui(), SIGNAL(updateOnlineCount()), SLOT(updateOnlineCount()));
 
     visitorListView = new VisitorListView();
@@ -165,3 +166,43 @@ void MainTab::openChatByNotification(BaseNotification* message)
     }
     leave
 }
+
+void MainTab::redirectReceived(RedirectNotification *message)
+{
+    enter
+    Log::info("MainTab::redirectReceived(" + message->Message + ")");
+    openChatByNotification(message);
+    if (!Core::ui()->isActive())
+    {
+    #ifdef Q_OS_MAC
+        Visitor *visitor = Core::visitors()->visitorById(message->VisitorId);
+        NotificationCenter::instance()->showNotification(visitor->DisplayName(), message->Message);
+    #endif
+        Core::ui()->playSound();
+        Core::ui()->flash();
+    }
+    leave
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

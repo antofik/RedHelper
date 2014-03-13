@@ -25,14 +25,25 @@
             </div>
         </div>
 
-        <div id='message_template'>
-            <div class="msg" id="{{message_id}}">
-                <span class="time">{{time}}</span>
-                <div class="textWrapper">
-                    <div class="text">{{message}}</div>
+        <div id='redirect_template'>
+            <div class="msgBlock redirect">
+                <div class="msg redirect" id="{{message_id}}">
+                    <span class="time">{{time}}</span>
+                    <div class="textWrapper">
+                        <div class="text">{{message}}</div>
+                    </div>
                 </div>
             </div>
        </div>
+
+        <div id='message_template'>
+        <div class="msg" id="{{message_id}}">
+        <span class="time">{{time}}</span>
+        <div class="textWrapper">
+        <div class="text">{{message}}</div>
+        </div>
+        </div>
+        </div>
     </div>
 
 <!-- ********************************* CHAT *************************************** -->
@@ -44,6 +55,7 @@
         <div id='typing' class='typing' style='display:none'>
             <span class='text'></span>...<span class='hidden' id='dots'><span class="one">.</span><span class="two">.</span><span class="three">.</span></span>
         </div>
+        <div id='bottom-separator'></div>
     </div>
 
 <!-- ********************************* AUDIO ************************************** -->

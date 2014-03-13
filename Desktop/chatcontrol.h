@@ -23,12 +23,15 @@ public:
 
 public slots:
     void messageReceived(TextNotification *message);
+    void startRedirect(QString name, QString message);
+    void seize(QString message);
 
 private slots:
     void loadFinished(bool ok);
     void javaScriptWindowObjectCleared();
     void historyLoaded(QString visitorId, QVector<BaseNotification*>* notifications);    
     void typingReceived(TypingNotification *message);
+    void redirectReceived(RedirectNotification *message);
 
 private:
     Ui::ChatControl *ui;

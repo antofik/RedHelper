@@ -30,7 +30,7 @@ signals:
     void showMainWindow();
     void loginWindowClosed();
     void updateOnlineCount();
-    void showLoginWindow();
+    void showLoginWindow(bool);
 
     void update();
 

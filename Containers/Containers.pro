@@ -17,7 +17,9 @@ SOURCES += \
     typingnotification.cpp \
     mousenotification.cpp \
     cobrowsenotification.cpp \
-    diagnostics.cpp
+    diagnostics.cpp \
+    operator.cpp \
+    redirectnotification.cpp
 
 HEADERS += containers.h \
     visitor.h \
@@ -26,7 +28,9 @@ HEADERS += containers.h \
     typingnotification.h \
     mousenotification.h \
     cobrowsenotification.h \
-    diagnostics.h
+    diagnostics.h \
+    operator.h \
+    redirectnotification.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

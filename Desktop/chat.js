@@ -7,6 +7,11 @@ function Core()
         rhChat.addTextMessage.connect(addTextMessage);
         rhChat.addInfoMessage.connect(addInfoMessage);
         rhChat.addTypingMessage.connect(addTypingMessage);
+        rhChat.redirected.connect(redirected);
+        rhChat.startRedirect.connect(startRedirect);
+        rhChat.confirmRedirect.connect(confirmRedirect);
+        rhChat.failRedirect.connect(failRedirect);
+        rhChat.seize.connect(seize);
     }
 	
 	function playSound()
@@ -36,6 +41,32 @@ function Core()
         $(window).scrollTop($(document).height());
     }
 
+    function redirected(message)
+    {
+        core.startRedirect(message);
+    }
+
+    function startRedirect(message)
+    {
+        core.startRedirect(message);
+    }
+
+    function confirmRedirect(message)
+    {
+        core.startRedirect(message);
+    }
+
+    function failRedirect(message)
+    {
+        core.startRedirect(message);
+    }
+
+    function seize(message)
+    {
+        core.startRedirect(message);
+    }
+
+
     Core.prototype.useTemplate = function(template_name, vars)
     {
         template = $('.templates #' + template_name).html();
@@ -63,6 +94,14 @@ function Core()
         block = this.getBlock(source, sender, time)
         template = this.useTemplate('message_template', {message_id:message_id, time:time, message:text});
         block.append(template);
+
+        $(window).scrollTop($(document).height());
+    }
+
+    Core.prototype.startRedirect = function(message)
+    {
+        template = this.useTemplate('redirect_template', {message_id:'', time:'', message:message});
+        $('#chat').append(template);
 
         $(window).scrollTop($(document).height());
     }

@@ -29,6 +29,7 @@ ChatControl::ChatControl(QWidget *parent) :
     connect(Core::network(), SIGNAL(historyLoaded(QString, QVector<BaseNotification*>*)), SLOT(historyLoaded(QString, QVector<BaseNotification*>*)));
     connect(Core::network(), SIGNAL(messageReceived(TextNotification*)), SLOT(messageReceived(TextNotification*)));
     connect(Core::network(), SIGNAL(typingReceived(TypingNotification*)), SLOT(typingReceived(TypingNotification*)));
+    connect(Core::network(), SIGNAL(redirectReceived(RedirectNotification*)), SLOT(redirectReceived(RedirectNotification*)));
 }
 
 ChatControl::~ChatControl()
@@ -65,15 +66,20 @@ void ChatControl::historyLoaded(QString visitorId, QVector<BaseNotification*>* n
     for(int i=0;i<notifications->length();i++)
     {
         BaseNotification* notification = notifications->at(i);
-        if (notification->inherits("TextNotification"))
+        if (auto item = dynamic_cast<TextNotification*>(notification))
         {
-            TextNotification* item = dynamic_cast<TextNotification*>(notification);
             QString source = item->IsIncoming ? "Visitor" : "Operator";
             QString displayName = item->IsIncoming ? _visitor->DisplayName() : item->OperatorDisplayName;
             emit chat->addTextMessage(source, displayName, item->Id, item->Time.toString("hh:mm"), item->Text);
             if (i%10==0) emit Core::ui()->update();
             if (ui==0) return; //chat was destroyed
         }        
+        else if (auto item = dynamic_cast<RedirectNotification*>(notification))
+        {
+            emit chat->redirected(tr("Visitor was redirected to you with message: %1").arg(item->Message));
+            if (i%10==0) emit Core::ui()->update();
+            if (ui==0) return; //chat was destroyed
+        }
     }
 }
 
@@ -87,10 +93,41 @@ void ChatControl::messageReceived(TextNotification* message)
     emit chat->addTextMessage(source, displayName, message->Id, message->Time.toString("hh:mm"), message->Text);
 }
 
+void ChatControl::startRedirect(QString name, QString message)
+{
+    emit chat->startRedirect(message);
+}
+
+void ChatControl::seize(QString message)
+{
+    _visitor->CurrentOperator = Core::network()->User;
+    emit chat->seize(message);
+}
+
 void ChatControl::typingReceived(TypingNotification* message)
 {
     if (message->Text.isEmpty()) return;
     chat->addTypingMessage(message->Text);
+}
+
+void ChatControl::redirectReceived(RedirectNotification *message)
+{
+    if (message->VisitorId != _visitor->Id) return;
+    if (message->Type == RedirectNotification::Notify)
+    {
+        _visitor->CurrentOperator = Core::network()->User;
+        emit chat->redirected(tr("Visitor was redirected to you with message: %1").arg(message->Message));
+    }
+    else if (message->Type == RedirectNotification::Ok && _visitor->isRedirecting)
+    {
+        emit chat->confirmRedirect(tr("Redirection was successful"));
+    }
+    else if (message->Type == RedirectNotification::Fail && _visitor->isRedirecting)
+    {
+        emit chat->failRedirect(tr("Redirection failed"));
+    }
+    _visitor->isRedirecting = false;
+
 }
 
 void ChatControl::javaScriptWindowObjectCleared()
@@ -103,3 +140,16 @@ QSize ChatControl::sizeHint() const
     QSize size(400,-1);
     return size;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

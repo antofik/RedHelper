@@ -21,7 +21,8 @@ SOURCES += business.cpp \
     logitem.cpp \
     diagnosticswindow.cpp \
     memorychecker.cpp \
-    winsparkleautoupdater.cpp
+    winsparkleautoupdater.cpp \
+    operatorhelper.cpp
 
 HEADERS += business.h \
     core.h \
@@ -37,7 +38,8 @@ HEADERS += business.h \
     autoupdater.h \
     SparkleAutoUpdater.h \
     CocoaInitializer.h \
-    winsparkleautoupdater.h
+    winsparkleautoupdater.h \
+    operatorhelper.h
 unix {
     target.path = /usr/lib
     INSTALLS += target

@@ -33,18 +33,23 @@ VisitorListView::VisitorListView(QWidget *parent) :
 
     ui->list->setColumnHidden(1, true);
 
-    online = new QStandardItem(tr("Online"));
+    online = new QStandardItem(tr("Chat"));
     browsing = new QStandardItem(tr("Browsing"));
     busy = new QStandardItem(tr("Busy"));
     online->setIcon(QIcon(":/Images/Visitors/icon_plus.png"));
     model->setItem(0, 0, online);
-    model->setItem(0, 1, new QStandardItem("online"));
     model->setItem(1, 0, browsing);
-    model->setItem(1, 1, new QStandardItem("browsing"));
     model->setItem(2, 0, busy);
-    model->setItem(2, 1, new QStandardItem("busy"));
+    model->setData(online->index(), 0, Qt::InitialSortOrderRole);
+    model->setData(browsing->index(), 0, Qt::InitialSortOrderRole);
+    model->setData(busy->index(), 0, Qt::InitialSortOrderRole);
+    model->setSortRole(Qt::InitialSortOrderRole);
+    ui->list->setFirstColumnSpanned(0, online->index().parent(), true);
+    ui->list->setFirstColumnSpanned(1, busy->index().parent(), true);
+    ui->list->setFirstColumnSpanned(2, browsing->index().parent(), true);
     ui->list->expandAll();
     ui->list->setEditTriggers(QTreeView::NoEditTriggers);
+    ui->list->sortByColumn(4);
 
     GroupDelegate *groupDelegate = new GroupDelegate(ui->list);
     ui->list->setItemDelegate(groupDelegate);
@@ -125,7 +130,6 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
                     online->insertRow(row, items);
                 else if (v->ChatState=="busy")
                 {
-                    qDebug() << "Adding visitor to Busy";
                     busy->insertRow(row, items);
                 }
                 else if (v->ChatState=="browse")
@@ -147,6 +151,10 @@ void VisitorListView::VisitorChanged(const QVector<Visitor*> *added, const QStri
                 rows.at(0)->parent()->removeRow(rows.at(0)->row());
             }
         }
+
+        online->setText(tr("Chat - %1").arg(online->rowCount()));
+        browsing->setText(tr("Browsing - %1").arg(browsing->rowCount()));
+        busy->setText(tr("Busy - %1").arg(busy->rowCount()));
     }
     catch(std::exception& e)
     {

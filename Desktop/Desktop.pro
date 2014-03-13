@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     settingswindow.cpp \
     groupdelegate.cpp \
     webpage.cpp \
-    application.cpp
+    application.cpp \
+    redirectwindow.cpp
 
 HEADERS  += mainwindow.h \
     mainmenu.h \
@@ -61,7 +62,8 @@ HEADERS  += mainwindow.h \
     settingswindow.h \
     groupdelegate.h \
     webpage.h \
-    application.h
+    application.h \
+    redirectwindow.h
 
 macx{
     OBJECTIVE_HEADERS += notificationcenter.h objectiveinitializer.h
@@ -103,7 +105,8 @@ FORMS += mainwindow.ui \
     menuseparator.ui \
     aboutwindow.ui \
     bugreportwindow.ui \
-    settingswindow.ui
+    settingswindow.ui \
+    redirectwindow.ui
 
 CONFIG += mobility objective_c
 MOBILITY = 

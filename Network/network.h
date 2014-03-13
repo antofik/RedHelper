@@ -5,6 +5,8 @@
 #include "QXmppClient.h"
 #include "containers.h"
 #include "notificationparser.h"
+#include "visitor.h"
+#include "redirectnotification.h"
 
 class Network : public QObject
 {
@@ -53,6 +55,8 @@ public slots:
     void goAway();
     void goOffline();
     void reconnect();
+    void loadOperators();
+    void redirectVisitorTo(Visitor* visitor, QString login, QString message);
 
 signals:
     void XmppError(QXmppStanza::Error::Condition error);
@@ -67,9 +71,11 @@ signals:
     void typingReceived(TypingNotification *message);
     void mouseReceived(MouseNotification *message);
     void cobrowseReceived(CobrowseNotification *message);
+    void redirectReceived(RedirectNotification *message);
 
     void visitorListReceived(QXmppElement *);
     void historyLoaded(QString visitorId, QVector<BaseNotification*>* notifications);
+    void operatorsLoaded(QVector<Operator*>* operators);
 
     void logMessage(QString stanza, bool isIncoming, bool isIq, bool isMessage, bool isOperatorToOperator);
 

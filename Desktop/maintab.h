@@ -7,6 +7,7 @@
 #include "visitorchatview.h"
 #include "core.h"
 #include "visitor.h"
+#include "redirectnotification.h"
 
 namespace Ui {
 class MainTab;
@@ -26,6 +27,7 @@ private slots:
     void messageReceived(TextNotification *message);
     void typingReceived(TypingNotification *message);
     void openChatByNotification(BaseNotification *message);
+    void redirectReceived(RedirectNotification *message);
 
     void activateTab(QString tabId);
     void closeTab(QString tabId);

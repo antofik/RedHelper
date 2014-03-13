@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTime>
+#include "redirectnotification.h"
 
 class Visitor : public QObject
 {
@@ -43,6 +44,9 @@ public:
     QString ViewedPages;
     QString Visits;
 
+    QString redirectingTo;
+    bool isRedirecting;
+
     //Calculated properties
     QString DisplayName(bool appendVisitor=false, bool appendHash=false);
     QString CountryFlag();
@@ -54,6 +58,8 @@ signals:
     void modified();    
 
 public slots:
+    void redirect(QString login);
+    void confirmRedirect(bool ok);
 
 private:
     QString _vid;

@@ -73,7 +73,7 @@ void OnlineStateSelector::changeAccount()
 {
     enter
     Core::network()->goOffline();
-    emit Core::ui()->showLoginWindow();
+    emit Core::ui()->showLoginWindow(false);
     leave
 }
 void OnlineStateSelector::exit()

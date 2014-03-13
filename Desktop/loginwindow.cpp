@@ -3,7 +3,7 @@
 #include <QCloseEvent>
 #include "core.h"
 
-LoginWindow::LoginWindow(QWidget *parent) :
+LoginWindow::LoginWindow(bool enableAutologin, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoginWindow)
 {
@@ -12,6 +12,10 @@ LoginWindow::LoginWindow(QWidget *parent) :
     setAttribute(Qt::WA_DeleteOnClose);
 
     connect(ui->control, SIGNAL(hideWindow()), SLOT(close()));
+
+    if (enableAutologin)
+        ui->control->autologin();
+
     leave
 }
 

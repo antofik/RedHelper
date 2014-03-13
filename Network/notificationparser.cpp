@@ -2,18 +2,19 @@
 #include <QDebug>
 #include <QDateTime>
 #include "QXmppMessage.h"
+#include "redirectnotification.h"
 
 NotificationParser::NotificationParser(QObject *parent) :
     QObject(parent)
 {
 }
 
-BaseNotification* NotificationParser::parse(QXmppElement *element)
+BaseNotification* NotificationParser::parseHistory(QXmppElement *element)
 {
     return 0;
 }
 
-QVector<BaseNotification*>* NotificationParser::parse(QXmppIq *iq)
+QVector<BaseNotification*>* NotificationParser::parseHistory(QXmppIq *iq)
 {
     QVector<BaseNotification*> *list = new QVector<BaseNotification*>();
     QXmppElement query = iq->extensions().at(0);
@@ -26,9 +27,22 @@ QVector<BaseNotification*>* NotificationParser::parse(QXmppIq *iq)
             QString text = body.value();
             if (text.startsWith(":r ")) {} //redirect
             else if (text.startsWith(":seize")) {} //seize
-            else if (text.startsWith(":notify")) {} //redirect
-            else if (text.startsWith(":fail")) {} //redirect
-            else if (text.startsWith(":ok")) {} //redirect*/
+            else if (text.startsWith(":notify redirect"))
+            {
+                RedirectNotification *item = new RedirectNotification();
+                item->Type = RedirectNotification::Notify;
+                text = text.replace(":notify redirect ", "");
+                int i = text.indexOf(' ');
+                if (i >= 0)
+                {
+                    item->Login = text.left(i);
+                    item->Message = text.right(text.length() - i - 1);
+                }
+                else item->Login = text;
+                list->append((BaseNotification*)item);
+            }
+            else if (text.startsWith(":fail")) {} //redirect failed
+            else if (text.startsWith(":ok")) {} //redirect succeded
             else if (text.startsWith("###supervising###")) {} //supervising*/
             else
             {
@@ -49,6 +63,34 @@ QVector<BaseNotification*>* NotificationParser::parse(QXmppIq *iq)
     return list;
 }
 
+QVector<Operator *> *NotificationParser::parseOperators(QXmppIq *iq)
+{
+    QVector<Operator*>* list = new QVector<Operator*>();
+    QXmppElement query = iq->extensions().at(0);
+    QXmppElement item = query.firstChildElement("operator");
+    while(!item.isNull())
+    {
+        Operator *o = new Operator();
+        o->Login = item.firstChildElement("login").value();
+        o->Name = item.firstChildElement("displayName").value();
+        o->Avatar = item.firstChildElement("avatar").value();
+        o->State = item.firstChildElement("status").value();
+        o->Description = item.firstChildElement("description").value();
+        o->IsOnDesktop = item.firstChildElement("onDesktop").value() != QString("false");
+        QStringList ds = item.firstChildElement("departments").value().split(" ");
+        foreach(QString departmentId, ds)
+        {
+            o->Departments.append(departmentId.toInt());
+        }
+
+        list->append(o);
+
+        item = item.nextSiblingElement("operator");
+    }
+    qDebug() << "Loaded" << list->count() << "operators";
+    return list;
+}
+
 BaseNotification* NotificationParser::MessageToNotification(const QXmppMessage &message)
 {
     auto content = message.attribute("content");
@@ -65,11 +107,34 @@ BaseNotification* NotificationParser::MessageToNotification(const QXmppMessage &
 
         QString text = item->Text;
         if (text.startsWith(":r ")) return nullptr; //redirect
-        if (text.startsWith(":seize ")) return nullptr; //seize
-        if (text.startsWith(":notify redirect")) return nullptr; //redirect
-        if (text.startsWith(":fail redirect")) return nullptr; //redirect
-        if (text.startsWith(":ok redirect")) return nullptr; //redirect
-        if (text.startsWith("###supervising###")) return nullptr; //supervising*/
+        else if (text.startsWith(":seize ")) return nullptr; //seize
+        else if (text.startsWith(":notify redirect"))
+        {
+            RedirectNotification *item = new RedirectNotification();
+            item->Type = RedirectNotification::Notify;
+            text = text.replace(":notify redirect ", "");
+            int i = text.indexOf(' ');
+            if (i >= 0)
+            {
+                item->Login = text.left(i);
+                item->Message = text.right(text.length() - i - 1);
+            }
+            else item->Login = text;
+            result = item;
+        }
+        else if (text.startsWith(":fail redirect"))
+        {
+            auto item = new RedirectNotification();
+            item->Type = RedirectNotification::Fail;
+            result = item;
+        }
+        else if (text.startsWith(":ok redirect"))
+        {
+            auto item = new RedirectNotification();
+            item->Type = RedirectNotification::Ok;
+            result = item;
+        }
+        else if (text.startsWith("###supervising###")) return nullptr; //supervising*/
     }
     else if (content == "partial")
     {

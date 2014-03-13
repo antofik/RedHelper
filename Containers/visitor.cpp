@@ -81,3 +81,15 @@ QString Visitor::BrowserIcon()
     if (BrowserName.contains("opera",Qt::CaseInsensitive)) return "opera";
     return BrowserName;
 }
+
+void Visitor::redirect(QString login)
+{
+    isRedirecting = true;
+    redirectingTo = login;
+}
+
+void Visitor::confirmRedirect(bool ok)
+{
+    isRedirecting = false;
+    CurrentOperator = redirectingTo;
+}

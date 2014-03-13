@@ -17,6 +17,7 @@ class LoginControl : public QWidget
 public:
     explicit LoginControl(QWidget *parent = 0);
     ~LoginControl();
+    void autologin();
 
 private slots:
     void login();

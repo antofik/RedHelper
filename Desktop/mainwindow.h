@@ -16,7 +16,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(AutoUpdater* updater, QWidget *parent = 0);
     ~MainWindow();
-    void test();
 
 protected:
     void showEvent(QShowEvent * event);
@@ -24,7 +23,7 @@ protected:
 private slots:
     void networkStateChanged();
     void loginWindowClosed();
-    void showLoginWindow();
+    void showLoginWindow(bool enableAutologin);
     void diagnostics();
 
 private:

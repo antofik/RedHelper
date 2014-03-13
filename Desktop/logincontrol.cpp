@@ -19,14 +19,6 @@ LoginControl::LoginControl(QWidget *parent) :
     ui->txtPassword->setText(Core::network()->Password);    
     ui->txtStatus->setText("");
 
-    QSettings settings;
-    ui->chkAutologin->setChecked(settings.value("autologin", false).toBool());
-
-    if (ui->chkAutologin->isChecked())
-    {
-        emit login();
-    }
-
     leave
 }
 
@@ -36,6 +28,17 @@ LoginControl::~LoginControl()
     disconnect(Core::network(), SIGNAL(stateChanged()), this, SLOT(networkStateChanged()));
     delete ui;
     leave
+}
+
+void LoginControl::autologin()
+{
+    QSettings settings;
+    ui->chkAutologin->setChecked(settings.value("autologin", false).toBool());
+
+    if (ui->chkAutologin->isChecked())
+    {
+        emit login();
+    }
 }
 
 void LoginControl::login()

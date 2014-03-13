@@ -9,6 +9,8 @@
 #include "uihelper.h"
 #include "connectionhelper.h"
 #include "diagnostics.h"
+#include "operatorhelper.h"
+#include "log.h"
 
 class VisitorUpdater;
 class VisitorHelper;
@@ -31,6 +33,7 @@ public:
     static VisitorHelper *visitors();
     static ConnectionHelper *reconnector();
     static UIHelper* ui();
+    static OperatorHelper* operators();
 
 private:
 

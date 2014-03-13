@@ -14,6 +14,10 @@ body{
     margin: 4px 4px 0px 4px;
 }
 
+#bottom-separator{
+    height: 4px;
+}
+
 .hidden{
     display: none;
 }
@@ -49,6 +53,13 @@ body{
     outline: none;
     color: #333;
     font-size: 1em;
+}
+
+.msgBlock.redirect{
+    text-align: center;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-style: italic;
 }
 
 .msgBlock.fromVisitor{

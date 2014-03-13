@@ -14,7 +14,7 @@ MainWindow::MainWindow(AutoUpdater* updater, QWidget *parent) :
     ui->setupUi(this);
     connect(Core::ui(), SIGNAL(showMainWindow()), SLOT(show()));
     connect(Core::ui(), SIGNAL(loginWindowClosed()), SLOT(loginWindowClosed()));
-    connect(Core::ui(), SIGNAL(showLoginWindow()), SLOT(showLoginWindow()));
+    connect(Core::ui(), SIGNAL(showLoginWindow(bool)), SLOT(showLoginWindow(bool)));
     connect(Core::network(), SIGNAL(stateChanged()), SLOT(networkStateChanged()));
 
     QPushButton *logButton = new QPushButton(tr("Diagnostics"));
@@ -25,7 +25,7 @@ MainWindow::MainWindow(AutoUpdater* updater, QWidget *parent) :
     indicator->setFixedWidth(24);
     ui->statusBar->addPermanentWidget(indicator);
 
-    emit Core::ui()->showLoginWindow();
+    emit Core::ui()->showLoginWindow(true);
 
     if (updater)
     {
@@ -42,14 +42,14 @@ MainWindow::~MainWindow()
     leave
 }
 
-void MainWindow::showLoginWindow()
+void MainWindow::showLoginWindow(bool enableAutologin)
 {
     enter
 #if WIN32
-    LoginWindow *loginWindow = new LoginWindow();
+    LoginWindow *loginWindow = new LoginWindow(enableAutologin);
     loginWindow->setWindowFlags(Qt::Dialog);
 #else
-    LoginWindow *loginWindow = new LoginWindow(this);
+    LoginWindow *loginWindow = new LoginWindow(enableAutologin, this);
     loginWindow->setWindowModality(Qt::WindowModal);
 #endif
     loginWindow->show();

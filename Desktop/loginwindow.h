@@ -12,7 +12,7 @@ class LoginWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoginWindow(QWidget *parent = 0);
+    explicit LoginWindow(bool enableAutologin, QWidget *parent = 0);
     ~LoginWindow();
     void closeEvent(QCloseEvent *e);
 

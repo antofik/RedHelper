@@ -11,6 +11,7 @@
 #include <QSortFilterProxyModel>
 #include "QXmppMessage.h"
 #include "containers.h"
+#include <QMenu>
 
 namespace Ui {
 class VisitorChatView;
@@ -24,16 +25,20 @@ public:
     explicit VisitorChatView(Visitor *visitor);
     ~VisitorChatView();
     Visitor* visitor();
-    //void messageReceived(QXmppMessage message);
 
 private slots:
     void sendMessage();
     void currentTagChanged(int tabId);
-
+    void seizeClicked();
+    void redirectClicked();
+    void doRedirect(QAction* action);
+    void updateOperatorList();
+    void visitorModified();
 
 private:
     Ui::VisitorChatView *ui;
     Visitor *_visitor;
+    QMenu *popupRedirect;
 
     void prepare(BaseNotification *notification);
 };
