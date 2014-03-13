@@ -48,6 +48,7 @@ void Network::Login()
     config.setUser(this->User);
     config.setPassword(this->Password);
     config.setResource("RedHelper");
+    config.setAutoReconnectionEnabled(true);
 
     QSettings settings;
     settings.setValue("user", User);
@@ -228,15 +229,18 @@ void Network::xmppMessageReceived(const QXmppMessage &message)
 void Network::xmppPresenceReceived(QXmppPresence presence)
 {
     enter
+    qDebug() << "Presence received";
     if (presence.type()==QXmppPresence::Unavailable && _state != OnlineState::Offline)
     {
         _state = OnlineState::Offline;
+        qDebug() << " - unavailable";
         emit stateChanged();
     }
     else
     {
         OnlineState newState;
         auto state = presence.availableStatusType();
+        qDebug() << " -" << state;
         if (state == QXmppPresence::DND)
             newState = OnlineState::Dnd;
         else if (state == QXmppPresence::Away)
@@ -249,6 +253,7 @@ void Network::xmppPresenceReceived(QXmppPresence presence)
             emit stateChanged();
         }
     }
+    qDebug() << "New state =" << _state;
     leave
 }
 
@@ -331,7 +336,8 @@ void Network::redirectVisitorTo(Visitor *visitor, QString login, QString message
 
 void Network::updateState()
 {
-    enter
+    enter            
+    qDebug() << "Updating state to wantedState =" << _wantedState;
     QXmppPresence presence(_wantedState == OnlineState::Offline ? QXmppPresence::Unavailable : QXmppPresence::Available);
     if (_wantedState == OnlineState::Online)
         presence.setAvailableStatusType(QXmppPresence::Online);

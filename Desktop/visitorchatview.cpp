@@ -19,6 +19,7 @@ VisitorChatView::VisitorChatView(Visitor *visitor) : QWidget(0), ui(new Ui::Visi
     connect(Core::operators(), SIGNAL(updated()), SLOT(updateOperatorList()));
 
     popupRedirect = new QMenu(ui->cmdRedirect);
+    popupRedirect->setStyleSheet("QMenu{ menu-scrollable: 1; }");
     connect(popupRedirect, SIGNAL(triggered(QAction*)), SLOT(doRedirect(QAction*)));
     updateOperatorList();
 

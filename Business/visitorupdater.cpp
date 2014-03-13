@@ -111,11 +111,6 @@ void VisitorUpdater::visitorListReceived(QXmppElement *element)
         visitor->Referrer = visitorElement.firstChildElement("referrer").value();
         QString time = visitorElement.firstChildElement("timeOnSite").value();
         visitor->TimeOnSite = QTime(0,0,0).addSecs(time.toInt());
-        if (time.toInt()>60)
-        {
-            QString t = visitor->TimeOnSite.toString();
-            qDebug() << "timeonsite" << t;
-        }
         visitor->Trigger = visitorElement.firstChildElement("trigger").value();
         visitor->ViewedPages = visitorElement.firstChildElement("viewedPages").value();
         visitor->Visits = visitorElement.firstChildElement("visits").value();
