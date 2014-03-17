@@ -161,7 +161,7 @@ void VisitorChatView::sendMessage()
     n->Text = text;
     emit ui->chat->messageReceived(n);
 
-    Core::network()->client->sendMessage(_visitor->Jid, text);
+    Core::network()->sendMessage(_visitor->Jid, text);
     leave
 }
 

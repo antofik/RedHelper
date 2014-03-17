@@ -137,6 +137,7 @@ void MainTab::messageReceived(TextNotification *message)
             Visitor *visitor = Core::visitors()->visitorById(message->VisitorId);
             NotificationCenter::instance()->showNotification(visitor->DisplayName(), message->Text);
     #endif
+            qDebug() << "message received; playing sound";
             Core::ui()->playSound();
             Core::ui()->flash();
         }
@@ -178,6 +179,7 @@ void MainTab::redirectReceived(RedirectNotification *message)
         Visitor *visitor = Core::visitors()->visitorById(message->VisitorId);
         NotificationCenter::instance()->showNotification(visitor->DisplayName(), message->Message);
     #endif
+        qDebug() << "redirect received. Playing sound";
         Core::ui()->playSound();
         Core::ui()->flash();
     }

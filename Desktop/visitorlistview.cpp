@@ -41,8 +41,8 @@ VisitorListView::VisitorListView(QWidget *parent) :
     model->setItem(1, 0, browsing);
     model->setItem(2, 0, busy);
     model->setData(online->index(), 0, Qt::InitialSortOrderRole);
-    model->setData(browsing->index(), 0, Qt::InitialSortOrderRole);
-    model->setData(busy->index(), 0, Qt::InitialSortOrderRole);
+    model->setData(browsing->index(), 1, Qt::InitialSortOrderRole);
+    model->setData(busy->index(), 2, Qt::InitialSortOrderRole);
     model->setSortRole(Qt::InitialSortOrderRole);
     ui->list->setFirstColumnSpanned(0, online->index().parent(), true);
     ui->list->setFirstColumnSpanned(1, busy->index().parent(), true);

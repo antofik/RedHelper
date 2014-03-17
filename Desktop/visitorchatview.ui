@@ -28,67 +28,87 @@
         <property name="leftMargin">
          <number>8</number>
         </property>
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item row="1" column="0" colspan="2">
          <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <widget class="QWidget" name="widget" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="cmdSeize">
+               <property name="text">
+                <string>Seize</string>
+               </property>
+               <property name="icon">
+                <iconset resource="Images.qrc">
+                 <normaloff>:/Images/Chat/seize_visitor.png</normaloff>:/Images/Chat/seize_visitor.png</iconset>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="cmdRedirect">
+               <property name="text">
+                <string>Redirect</string>
+               </property>
+               <property name="icon">
+                <iconset resource="Images.qrc">
+                 <normaloff>:/Images/d.png</normaloff>:/Images/d.png</iconset>
+               </property>
+               <property name="flat">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
             <property name="spacing">
              <number>0</number>
             </property>
             <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeType">
-               <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>0</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="cmdSeize">
-              <property name="text">
-               <string>Seize</string>
-              </property>
-              <property name="icon">
-               <iconset resource="Images.qrc">
-                <normaloff>:/Images/Chat/seize_visitor.png</normaloff>:/Images/Chat/seize_visitor.png</iconset>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="cmdRedirect">
-              <property name="text">
-               <string>Redirect</string>
-              </property>
-              <property name="icon">
-               <iconset resource="Images.qrc">
-                <normaloff>:/Images/d.png</normaloff>:/Images/d.png</iconset>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
              <widget class="MessageEditor" name="txtMessage">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
+                <verstretch>1</verstretch>
                </sizepolicy>
               </property>
               <property name="sizeIncrement">
@@ -141,7 +161,14 @@
          </layout>
         </item>
         <item row="0" column="0" colspan="2">
-         <widget class="ChatControl" name="chat" native="true"/>
+         <widget class="ChatControl" name="chat" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>10</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -172,7 +199,7 @@
        <item row="0" column="0">
         <widget class="QTabWidget" name="tabDetails">
          <property name="tabPosition">
-          <enum>QTabWidget::South</enum>
+          <enum>QTabWidget::North</enum>
          </property>
          <property name="currentIndex">
           <number>0</number>

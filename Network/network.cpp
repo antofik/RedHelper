@@ -133,7 +133,9 @@ void Network::xmppIqReceived(QXmppIq iq)
             {
                 QXmppElement *q = new QXmppElement(element);
                 MyName = q->firstChildElement("displayName").value();
-                ServerTime = QTime::fromString(q->firstChildElement("time").value(), "yyyy-MM-dd hh:mm:ss");
+                ServerTime = QDateTime::fromString(q->firstChildElement("time").value(), "yyyy-MM-dd hh:mm:ss");
+                TimeShift = ServerTime.secsTo(QDateTime::currentDateTime());
+                qDebug() << "INit: " << ServerTime << QTime::currentTime() << TimeShift;
                 ClientEmail = q->firstChildElement("clientEmail").value();
                 FirstMessage = q->firstChildElement("firstMessage").value();
                 DefaultWelcome = q->firstChildElement("defaultWelcome").value();
@@ -142,7 +144,7 @@ void Network::xmppIqReceived(QXmppIq iq)
             else if (ns == "consultant:history")
             {
                 QXmppIq *e = new QXmppIq(iq);
-                emit historyLoaded(iq.id(), parser.parseHistory(e));
+                emit historyLoaded(iq.id(), parser.parseHistory(e, TimeShift));
             }
             else if (ns == "consultant:operatorlist")
             {
@@ -195,6 +197,7 @@ void Network::xmppMessageReceived(const QXmppMessage &message)
     enter
     BaseNotification *notification = parser.MessageToNotification(message);
     if (notification==nullptr) return;
+    notification->Time = notification->Time.addSecs(TimeShift);
     if (auto item = dynamic_cast<TextNotification*>(notification))
     {
         emit messageReceived(item);
@@ -347,6 +350,16 @@ void Network::updateState()
         presence.setAvailableStatusType(QXmppPresence::DND);
     client->sendPacket(presence);
     leave
+}
+
+void Network::sendMessage(QString jid, QString message)
+{
+    QXmppMessage m("", jid, message);
+    m.setId(QUuid::createUuid().toString().replace("{","").replace("}",""));
+    m.setAttribute("content", "normal");
+    m.setAttribute("displayName", MyName);
+    m.setAttribute("time", QDateTime::currentDateTime().toString("MM/dd/yyyy hh:mm:ss"));
+    client->sendPacket(m);
 }
 
 void Network::goOnline()

@@ -106,6 +106,7 @@ void ChatControl::seize(QString message)
 
 void ChatControl::typingReceived(TypingNotification* message)
 {
+    if (message->VisitorId != _visitor->Id) return;
     if (message->Text.isEmpty()) return;
     chat->addTypingMessage(message->Text);
 }

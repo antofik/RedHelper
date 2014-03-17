@@ -14,7 +14,7 @@ class NotificationParser : public QObject
 public:
     explicit NotificationParser(QObject *parent = 0);
     BaseNotification* parseHistory(QXmppElement *element);
-    QVector<BaseNotification*>* parseHistory(QXmppIq *iq);
+    QVector<BaseNotification*>* parseHistory(QXmppIq *iq, int timeDelta);
     QVector<Operator*>* parseOperators(QXmppIq *iq);
     BaseNotification* MessageToNotification(const QXmppMessage &message);
 

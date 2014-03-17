@@ -14,7 +14,7 @@ BaseNotification* NotificationParser::parseHistory(QXmppElement *element)
     return 0;
 }
 
-QVector<BaseNotification*>* NotificationParser::parseHistory(QXmppIq *iq)
+QVector<BaseNotification*>* NotificationParser::parseHistory(QXmppIq *iq, int timeDelta)
 {
     QVector<BaseNotification*> *list = new QVector<BaseNotification*>();
     QXmppElement query = iq->extensions().at(0);
@@ -53,7 +53,7 @@ QVector<BaseNotification*>* NotificationParser::parseHistory(QXmppIq *iq)
                 n->To = item.attribute("to");
                 n->IsIncoming = n->From.contains("@visitor.");
                 n->OperatorDisplayName = item.attribute("displayName");
-                n->Time = QDateTime::fromString(item.attribute("time"), "yyyy-MM-dd HH:mm:ss");
+                n->Time = QDateTime::fromString(item.attribute("time"), "yyyy-MM-dd HH:mm:ss").addSecs(timeDelta);
                 list->append(n);
             }
         }
