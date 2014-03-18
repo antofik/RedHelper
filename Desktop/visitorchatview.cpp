@@ -127,7 +127,7 @@ void VisitorChatView::visitorModified()
         ui->txtMessage->setEnabled(true);
         ui->cmdSend->setEnabled(true);
         ui->cmdRedirect->setEnabled(false);
-        ui->cmdSeize->setEnabled(false);
+        ui->cmdSeize->setEnabled(true);
     }
     else if (_visitor->ChatState == "busy")
     {
