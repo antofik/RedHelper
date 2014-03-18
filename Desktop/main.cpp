@@ -17,7 +17,10 @@
 
 int main(int argc, char *argv[])
 {
-    Application a(argc, argv);
+#ifdef Q_OS_WIN
+        qApp->addLibraryPath("./plugins");
+#endif
+        Application a(argc, argv);
 
     try
     {
@@ -25,10 +28,6 @@ int main(int argc, char *argv[])
         QCoreApplication::setApplicationName("RedHelper Desktop Application");
         QCoreApplication::setOrganizationDomain("http://redhelper.ru");
         QCoreApplication::setOrganizationName("RedHelper");
-#ifdef Q_OS_WIN
-        qApp->addLibraryPath("./plugins");
-        //removed updater = new WinSparkleAutoUpdater("http://mfst.pro/update-win.xml");
-#endif
 #ifdef Q_OS_MAC
         qApp->setLibraryPaths(QStringList(qApp->applicationDirPath() + "/../PlugIns"));
         CocoaInitializer cocoaInitializer;

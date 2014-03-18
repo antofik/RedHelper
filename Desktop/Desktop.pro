@@ -108,7 +108,7 @@ FORMS += mainwindow.ui \
     settingswindow.ui \
     redirectwindow.ui
 
-CONFIG += mobility objective_c
+CONFIG += mobility objective_c c++11
 MOBILITY = 
 
 ##################### BUSINESS ####################
