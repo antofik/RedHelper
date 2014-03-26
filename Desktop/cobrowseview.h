@@ -8,6 +8,7 @@
 #include "cobrowseobject.h"
 #include <cobrowsenotification.h>
 #include <mousenotification.h>
+#include <QWebInspector>
 
 namespace Ui {
 class CobrowseView;
@@ -33,6 +34,7 @@ private:
     Ui::CobrowseView *ui;
     Visitor *_visitor;
     CobrowseObject *rhDesktop;
+    QWebInspector *inspector;
 
     QVariant execute(QString script);
 };
